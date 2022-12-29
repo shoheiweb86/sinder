@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: ./infra/app/Dockerfile
-      target: php81 # php81 or php80 or php74 or php73(app/Dockerfileの指定のバージョンのコメントアウトを解除してください)
+      target: php82 # php82 or php81 or php80 or php74 or php73(app/Dockerfileの指定のバージョンのコメントアウトを解除してください)
     volumes:
       - ./src:/var/www
     working_dir: /var/www
