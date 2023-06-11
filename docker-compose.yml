@@ -3,6 +3,7 @@ version: "3.9"
 services:
   # webアプリケーションのコンテナ
   app:
+    container_name: "app_container"
     build:
       context: .
       dockerfile: ./infra/app/Dockerfile
@@ -13,6 +14,7 @@ services:
 
   # webサーバーのコンテナ
   web:
+    container_name: "web_container"
     build:
       context: .
       dockerfile: ./infra/web/Dockerfile
@@ -25,6 +27,7 @@ services:
 
   # dbサーバーのコンテナ
   db:
+    container_name: "db_container"
     build:
       context: .
       dockerfile: ./infra/db/Dockerfile
