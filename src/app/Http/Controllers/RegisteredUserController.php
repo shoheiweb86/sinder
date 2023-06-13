@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 
 class RegisteredUserController extends Controller
 {
@@ -17,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+      return view('auth.register');
     }
 
     /**
@@ -44,6 +46,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        //return redirect(RouteServiceProvider::HOME);
+        return Redirect::route('dashboard');
     }
 }
