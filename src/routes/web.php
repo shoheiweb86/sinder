@@ -9,10 +9,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 // 新規登録ルート
 Route::get('/register', [RegisteredUserController::class, 'create'])
-    ->name('register.create')
     ->middleware('guest');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
