@@ -26,12 +26,17 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+
+        //リクエストをユーザーオブジェクトの属性を設定
         $request->user()->fill($request->validated());
 
+        //メールアドレスを変更した場合に、認証した時刻をnullにする
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+
+        //DBに保存
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
