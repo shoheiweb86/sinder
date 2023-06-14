@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -93,6 +93,19 @@
                 <textarea id="self_introduction" name="self_introduction" maxlength="200" rows="4" cols="50">{{ old('self_introduction', $user->self_introduction) }}</textarea>
             <x-input-error :messages="$errors->get('self_introduction')" class="mt-2" />
         </div>
+
+        <!-- アイコン -->
+        <div>
+            <x-input-label for="avatar" value="アイコン画像" />
+            <input type="file" name="avatar" id="avatar" accept="image/*">
+            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
+        </div>
+
+        @if ($user->avatar)
+            <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar">
+        @else
+            <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar">
+        @endif
 
         <!-- メールアドレス -->
         <div>
