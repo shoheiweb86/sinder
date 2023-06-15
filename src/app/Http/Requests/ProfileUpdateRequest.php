@@ -23,9 +23,9 @@ class ProfileUpdateRequest extends FormRequest
             'sex' => ['nullable', Rule::in(['男子', '女子', '秘密'])],
             'self_introduction' => ['nullable', 'string', 'max:200'],
             'avatar' => ['nullable', 'file'],
-            'line_link' => ['nullable', 'string'],
-            'twitter_link' => ['nullable', 'string'],
-            'instagram_link' => ['nullable', 'string'],
+            'line_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:line\.me\/[A-Za-z0-9_.-]+)$/i'],
+            'twitter_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/i'],
+            'instagram_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[A-Za-z0-9_]+\/*$/i'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             //'password' => ['required', 'string'],
         ];

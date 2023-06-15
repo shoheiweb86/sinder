@@ -107,6 +107,28 @@
             <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar">
         @endif
 
+        <!-- SNSリンク -->
+        <!-- LINE -->
+        <div>
+            <x-input-label for="line_link" value="LINE" />
+            <x-text-input id="line_link" class="block mt-1 w-full" type="text" name="line_link" :value="old('line_link',  $user->line_link)" autocomplete="line_link" />
+            <x-input-error :messages="$errors->get('line_link')" class="mt-2" />
+        </div>
+
+        <!-- Instagram -->
+        <div>
+            <x-input-label for="instagram_link" value="Instagram" />
+            <x-text-input id="instagram_link" class="block mt-1 w-full" type="text" name="instagram_link" :value="old('instagram_link',  $user->instagram_link)" autocomplete="instagram_link" />
+            <x-input-error :messages="$errors->get('instagram_link')" class="mt-2" />
+        </div>
+
+        <!-- Twitter -->
+        <div>
+            <x-input-label for="twitter_link" value="Twitter" />
+            <x-text-input id="twitter_link" class="block mt-1 w-full" type="text" name="twitter_link" :value="old('twitter_link',  $user->twitter_link)" autocomplete="twitter_link" />
+            <x-input-error :messages="$errors->get('twitter_link')" class="mt-2" />
+        </div>
+
         <!-- メールアドレス -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
