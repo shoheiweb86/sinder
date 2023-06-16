@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
 
 //募集
 Route::get('/seeking/create', [SeekingController::class, 'create'])->name('seeking.create');
-Route::post('/seeking', [SeekingController::class, 'store'])->name('seeking.store');
+Route::post('/seeking/store', [SeekingController::class, 'store'])->name('seeking.store');
+Route::get('/seeking/my-seekings', [SeekingController::class, 'getMySeekings'])->name('seeking.my_seekings');
 
 require __DIR__.'/auth.php';
