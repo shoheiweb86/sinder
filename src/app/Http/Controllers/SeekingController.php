@@ -36,4 +36,15 @@ class SeekingController extends Controller
 
         return redirect()->back()->with('success', 'Seeking created successfully.');
     }
+
+
+    public function getMySeekings()
+    {
+        $user = auth()->user();
+
+        // 自分の募集を取得するクエリ
+        $seekings = Seeking::where('user_id', $user->id)->get();
+
+        return view('seeking.my_seekings', compact('seekings'));
+    }
 }
