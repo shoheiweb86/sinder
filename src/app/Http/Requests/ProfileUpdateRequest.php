@@ -27,7 +27,6 @@ class ProfileUpdateRequest extends FormRequest
             'twitter_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/i'],
             'instagram_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[A-Za-z0-9_]+\/*$/i'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            //'password' => ['required', 'string'],
         ];
     }
 }
