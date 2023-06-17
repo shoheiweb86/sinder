@@ -39,4 +39,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    //リレーション
+    public function seekings()
+    {
+        return $this->hasMany(Seeking::class);
+    }
 }

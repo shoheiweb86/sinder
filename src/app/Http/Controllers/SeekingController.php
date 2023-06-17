@@ -8,6 +8,13 @@ use App\Http\Requests\SeekingRequest;
 
 class SeekingController extends Controller
 {
+    public function index()
+    {
+        $seekings = Seeking::with('user')->get();
+
+        return view('seeking.seekings', compact('seekings'));
+    }
+
     public function create()
     {
         return view('seeking.create');
