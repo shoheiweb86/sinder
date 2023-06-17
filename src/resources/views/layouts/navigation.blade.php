@@ -92,7 +92,7 @@
                   {{'自分の募集一覧'}}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('seeking.create')">
+                <x-responsive-nav-link :href="route('seeking.index')">
                   {{'募集一覧'}}
                 </x-responsive-nav-link>
 
