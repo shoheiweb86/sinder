@@ -10,10 +10,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+//プロフィールページ
+Route::get('/profile/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
+
+
+//プロフィールページ認証後
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 //募集
@@ -23,6 +28,5 @@ Route::post('/seeking/store', [SeekingController::class, 'store'])->name('seekin
 Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seeking.show');
 Route::get('/seeking/{id}/edit', [SeekingController::class, 'edit'])->name('seeking.edit');
 Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('seeking.update');
-Route::get('/seeking/my-seekings', [SeekingController::class, 'getMySeekings'])->name('seeking.my_seekings');
 
 require __DIR__.'/auth.php';

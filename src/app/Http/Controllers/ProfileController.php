@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Seeking;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +13,23 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+    public function show($user_name)
+    {
+        // スラッグを使用して該当するユーザーを検索
+        $user = User::where('name', $user_name)->first();
+    
+        if (!$user) {
+            abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
+        }
+
+        // 自分の募集を取得するクエリ
+        $seekings = Seeking::where('user_id', $user->id)->get();
+
+        // ユーザーのプロフィールページを表示するビューを返す
+        return view('profile.show', compact('user', 'seekings'));
+    }
+
     /**
      * Display the user's profile form.
      */
