@@ -12,6 +12,9 @@
         <div class="flex items-center">
           <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
           <span>{{ $seeking->user->name }}</span>
+          <span>{{ $seeking->user->grade }}</span>
+          <span>{{ $seeking->user->faculty }}</span>
+          <span>{{ $seeking->user->sex }}</span>
         </div>
         @if($canEdit)
           <a href="{{ route('seeking.edit', $seeking->id) }}" class="btn btn-primary mt-4">編集</a>
