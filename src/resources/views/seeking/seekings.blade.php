@@ -6,7 +6,9 @@
     @foreach($seekings as $seeking)
       <div class="card mb-4">
         <div class="card-header">
-          <h5 class="font-bold">{{ $seeking->title }}</h5>
+          <h5 class="font-bold">
+            <a class="underline" href="{{ route('seeking.show', $seeking->id) }}">{{ $seeking->title }}</a>
+          </h5>
         </div>
         <div class="card-body">
           <p class="mb-4">{{ $seeking->content }}</p>
