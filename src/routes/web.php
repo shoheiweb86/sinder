@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
 Route::get('/', [SeekingController::class, 'index'])->name('seeking.index');
 Route::get('/seeking/create', [SeekingController::class, 'create'])->name('seeking.create');
 Route::post('/seeking/store', [SeekingController::class, 'store'])->name('seeking.store');
+Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seeking.show');
+Route::get('/seeking/{id}/edit', [SeekingController::class, 'edit'])->name('seeking.edit');
+Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('seeking.update');
 Route::get('/seeking/my-seekings', [SeekingController::class, 'getMySeekings'])->name('seeking.my_seekings');
 
 require __DIR__.'/auth.php';
