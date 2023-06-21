@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Like;
 use App\Models\Seeking;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeekingRequest;
@@ -48,13 +49,21 @@ class SeekingController extends Controller
     public function show($id)
     {
         $seeking = Seeking::findOrFail($id);
-        $canEdit = false;
 
+        //自分の募集のみ編集可能
+        $canEdit = false;
         if (Auth::check() && $seeking->user_id === Auth::user()->id) {
             $canEdit = true;
         }
 
-        return view('seeking.show', compact('seeking', 'canEdit'));
+        //ユーザー取得 (ログインしていない時の処理怪しい！)
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        //自分は気になるを押してあるアイテムか判別
+        $my_like_check = Like::where('seeking_id', $id)->where('user_id', $user->id)->get()->count();
+
+        return view('seeking.show', compact('seeking', 'canEdit', 'user_id', 'my_like_check'));
     }
 
     public function getMySeekings()

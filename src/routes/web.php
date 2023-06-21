@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SeekingController;
+use App\Http\Controllers\LikeController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -24,5 +25,10 @@ Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seek
 Route::get('/seeking/{id}/edit', [SeekingController::class, 'edit'])->name('seeking.edit');
 Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('seeking.update');
 Route::get('/seeking/my-seekings', [SeekingController::class, 'getMySeekings'])->name('seeking.my_seekings');
+
+
+//いいねを付ける
+Route::post('/like',[LikeController::class, 'like'])->name('like');
+
 
 require __DIR__.'/auth.php';
