@@ -16,4 +16,14 @@ export default defineConfig({
       refresh: true,
     }),
   ],
+  optimizeDeps: {
+    include: ['@fortawesome/fontawesome-free'],
+  },
+  resolve: {
+    alias: {
+    vue: 'vue/dist/vue.esm-bundler.js',
+    // @@@ ↓追記
+    '$': 'jQuery',
+    },
+    },
 });

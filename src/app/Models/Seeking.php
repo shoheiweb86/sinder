@@ -12,9 +12,16 @@ class Seeking extends Model
 
     protected $fillable = ['user_id', 'title', 'content', 'image'];
 
+    //ユーザーへのリレーション
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    //気になるへのリレーション
+    public function likes()
+    {
+        return $this->hasMany(Likes::class);
     }
 }
 

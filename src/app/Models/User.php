@@ -41,9 +41,16 @@ class User extends Authenticatable
     ];
 
 
-    //リレーション
+    //募集へのリレーション
     public function seekings()
     {
         return $this->hasMany(Seeking::class);
     }
+    
+    //気になるへのリレーション
+    public function likes()
+    {
+        return $this->hasMany(Likes::class);
+    }
+
 }
