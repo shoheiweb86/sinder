@@ -16,21 +16,25 @@
           <span>{{ $seeking->user->faculty }}</span>
           <span>{{ $seeking->user->sex }}</span>
         </div>
+
+        {{-- 自分の募集は編集できる --}}
         @if($canEdit)
           <a href="{{ route('seeking.edit', $seeking->id) }}" class="btn btn-primary mt-4">編集</a>
         @endif
       </div>
     </div>
     </div>
-    <!-- Review.phpに作ったisLikedByメソッドをここで使用 -->
-    @if ($my_like_check == 0)
-      <span class="likes">
-          <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-      </span><!-- /.likes -->
-    @else
-      <span class="likes">
-          <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
-      </span><!-- /.likes -->
+    {{-- 自分の募集は気になるできない --}}
+    @if($canLike)
+        @if ($my_like_check == 0)
+            <span class="likes">
+                <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+            </span><!-- /.likes -->
+        @else
+            <span class="likes">
+                <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+            </span><!-- /.likes -->
+        @endif
     @endif
 
 

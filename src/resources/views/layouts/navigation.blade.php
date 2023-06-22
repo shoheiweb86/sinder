@@ -100,10 +100,6 @@
                   {{'募集作成'}}
                 </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('seeking.my_seekings')">
-                  {{'自分の募集一覧'}}
-                </x-responsive-nav-link>
-
                 <x-responsive-nav-link :href="route('seeking.index')">
                   {{'募集一覧'}}
                 </x-responsive-nav-link>

@@ -45,15 +45,17 @@ class SeekingController extends Controller
 
         return redirect()->back()->with('success', 'Seeking created successfully.');
     }
-
+  
     public function show($id)
     {
         $seeking = Seeking::findOrFail($id);
 
-        //自分の募集のみ編集可能
+        //自分の募集は編集可能、気になる不可能
         $canEdit = false;
+        $canLike = true;
         if (Auth::check() && $seeking->user_id === Auth::user()->id) {
             $canEdit = true;
+            $canLike = false;
         }
 
         //ユーザー取得 (ログインしていない時の処理怪しい！)
@@ -63,7 +65,7 @@ class SeekingController extends Controller
         //自分は気になるを押してあるアイテムか判別
         $my_like_check = Like::where('seeking_id', $id)->where('user_id', $user->id)->get()->count();
 
-        return view('seeking.show', compact('seeking', 'canEdit', 'user_id', 'my_like_check'));
+        return view('seeking.show', compact('seeking', 'canEdit', 'canLike', 'user_id', 'my_like_check'));
     }
 
     public function edit($id)
