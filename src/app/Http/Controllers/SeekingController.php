@@ -12,7 +12,17 @@ class SeekingController extends Controller
 {
     public function index()
     {
-        $seekings = Seeking::with('user')->get();
+      if (auth()->check()) {
+        // 自分の募集は表示しない
+        $seekings = Seeking::where('user_id', '!=', auth()->user()->id)
+            ->with(['likes' => function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            }])
+            ->with('user')
+            ->get();
+      } else {
+        $seekings = Seeking::all();
+      }
 
         return view('seeking.seekings', compact('seekings'));
     }
@@ -45,7 +55,7 @@ class SeekingController extends Controller
 
         return redirect()->back()->with('success', 'Seeking created successfully.');
     }
-  
+
     public function show($id)
     {
         $seeking = Seeking::findOrFail($id);

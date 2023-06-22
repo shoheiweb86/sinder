@@ -11,8 +11,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-//プロフィールページ
-Route::get('/profile/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
+//プロフィールページ (スラッグがeditと競合してる)
+Route::get('/profile/show/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
 
 
 //プロフィールページ認証後
