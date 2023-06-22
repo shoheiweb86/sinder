@@ -5,7 +5,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Like;
 class Seeking extends Model
 {
     use HasFactory;
@@ -21,7 +21,7 @@ class Seeking extends Model
     //気になるへのリレーション
     public function likes()
     {
-        return $this->hasMany(Likes::class);
+        return $this->hasMany(Like::class);
     }
 }
 

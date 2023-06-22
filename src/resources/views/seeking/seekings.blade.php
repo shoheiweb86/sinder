@@ -20,6 +20,56 @@
         </div>
         <hr class="my-4">
       </div>
+
+      @if ($seeking->likes->isNotEmpty())
+          <p>自分はイイネしています。</p>
+      @else
+          <p>自分はイイネしていません。</p>
+      @endif
+
+      @if ($seeking->likes->isEmpty())
+          <span class="likes">
+              <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+          </span><!-- /.likes -->
+      @else
+          <span class="likes">
+              <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+          </span><!-- /.likes -->
+      @endif
+
     @endforeach
   </div>
+
+  <script type="module">
+    $(function () {
+      let like = $('.like-toggle');
+      let likeSeekingId;
+      like.on('click', function () {
+        let $this = $(this);
+        likeSeekingId = $this.data('seeking-id');
+        $.ajax({
+          headers: {
+            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+          },
+          url: '/like',
+          method: 'POST',
+          data: {
+            'seeking_id': likeSeekingId
+          },
+          success: function () {
+            $this.toggleClass('liked');
+          },
+          error: function () {
+            console.log('通信に失敗しました。');
+          }
+        });
+      });
+    });
+  </script>
+
+<style>
+  .liked {
+  color: pink;
+  }
+</style>
 @endsection

@@ -75,7 +75,3 @@
   color: pink;
 }
 </style>
-
-<script type=”module”>
-  console.log(1111);
-</script>
