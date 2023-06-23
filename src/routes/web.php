@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SeekingController;
+use App\Http\Controllers\CommunicationController;
 use App\Http\Controllers\LikeController;
 
 Route::get('/dashboard', function () {
@@ -34,5 +35,8 @@ Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('s
 //いいねを付ける
 Route::post('/like',[LikeController::class, 'like'])->name('like');
 
+
+//コミュニケーションページ
+Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
 
 require __DIR__.'/auth.php';
