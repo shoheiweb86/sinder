@@ -9,15 +9,17 @@ class Like extends Model
 {
     use HasFactory;
 
-    protected $fillable =['user_id','seeking_id'];
+    protected $fillable = ['user_id', 'seeking_id'];
 
     //ユーザーへのリレーション
-    public function users(){
-      return $this->belongsTo('App\User');
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 
     //募集へのリレーション
-    public function ideas(){
-        return $this->belongsTo('App\Seeking');
+    public function seeking()
+    {
+        return $this->belongsTo('App\Models\Seeking');
     }
 }

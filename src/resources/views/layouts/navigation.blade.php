@@ -104,6 +104,10 @@
                   {{'募集一覧'}}
                 </x-responsive-nav-link>
 
+                <x-responsive-nav-link :href="route('communication.index')">
+                  {{'やりとり'}}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
