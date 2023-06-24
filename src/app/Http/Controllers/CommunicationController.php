@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Connection;
 use App\Models\Seeking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,8 +32,20 @@ class CommunicationController extends Controller
       }, 'likes.user'])
       ->get();
 
+      // マッチしたユーザーの情報を取得
+      $connected_users = Connection::where(function ($query) use ($userId) {
+        $query->where('user_id_1', $userId)
+            ->orWhere('user_id_2', $userId);
+      })
+      ->with(['user1' => function ($query) use ($userId) {
+          $query->where('id', '!=', $userId);
+      }, 'user2' => function ($query) use ($userId) {
+          $query->where('id', '!=', $userId);
+      }])
+      ->get();
+
       
-      return view('communication.communication', compact('seekings', 'liked_my_seekings'));
+      return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_users'));
   }
   
 }

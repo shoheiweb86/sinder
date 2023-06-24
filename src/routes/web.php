@@ -6,6 +6,8 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SeekingController;
 use App\Http\Controllers\CommunicationController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ConnectionController;
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -34,6 +36,11 @@ Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('s
 
 //いいねを付ける
 Route::post('/like',[LikeController::class, 'like'])->name('like');
+
+//マッチ処理
+Route::get('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionController::class, 'create'])
+    ->name('connection.create')
+    ->middleware('auth');
 
 
 //コミュニケーションページ
