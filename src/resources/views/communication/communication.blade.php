@@ -14,6 +14,24 @@
                         <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
                         <p>Description: {{ $seeking->content }}</p>
                     </li>
+
+                    {{-- 気になる機能 --}}
+                    @if ($seeking->likes->isNotEmpty())
+                        <p>自分は気になるしています。</p>
+                    @else
+                        <p>自分は気になるしていません。</p>
+                    @endif
+
+                    @if ($seeking->likes->isEmpty())
+                        <span class="likes">
+                            <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                        </span><!-- /.likes -->
+                    @else
+                        <span class="likes">
+                            <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                        </span><!-- /.likes -->
+                    @endif
+                
                 @endforeach
             </ul>
         @else
@@ -84,4 +102,38 @@
         @endif
 
     </div>
+
+
+    <script type="module">
+      $(function () {
+        let like = $('.like-toggle');
+        let likeSeekingId;
+        like.on('click', function () {
+          let $this = $(this);
+          likeSeekingId = $this.data('seeking-id');
+          $.ajax({
+            headers: {
+              'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+            },
+            url: '/like',
+            method: 'POST',
+            data: {
+              'seeking_id': likeSeekingId
+            },
+            success: function () {
+              $this.toggleClass('liked');
+            },
+            error: function () {
+              console.log('通信に失敗しました。');
+            }
+          });
+        });
+      });
+    </script>
+  
+  <style>
+    .liked {
+    color: pink;
+    }
+  </style>
 @endsection
