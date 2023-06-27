@@ -11,6 +11,11 @@ class CommunicationController extends Controller
 {
   public function index()
   {
+    //ログインしていない場合、ログインページにリダイレクト
+    if (!Auth::check()) {
+      return redirect()->route('login')->with('message', '他のユーザーとやりとりするには、ログインが必要です。');
+    }
+
       //ログインしているユーザーのID取得
       $userId = auth()->user()->id;
   

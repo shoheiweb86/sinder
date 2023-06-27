@@ -1,4 +1,10 @@
 <x-guest-layout>
+  @if (session('message'))
+    <div class="text-red-400 mb-2">
+        {{ session('message') }}
+    </div>
+  @endif
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
