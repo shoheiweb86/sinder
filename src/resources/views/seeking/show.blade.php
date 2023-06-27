@@ -81,10 +81,11 @@
         });
         });
     </script>
-@endsection
 
 <style>
   .liked {
   color: pink;
 }
 </style>
+
+@endsection

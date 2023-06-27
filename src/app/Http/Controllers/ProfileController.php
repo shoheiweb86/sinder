@@ -23,11 +23,32 @@ class ProfileController extends Controller
             abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
         }
 
-        // 自分の募集を取得するクエリ
-        $seekings = Seeking::where('user_id', $user->id)->get();
+        // ログインしているか
+        $logged_in = false;
+        $my_profile = false;
+
+        if(Auth::check()) {
+          $logged_in = true;
+
+          //自分のプロフィールかどうか
+          if($user->id === auth()->user()->id) {
+            $my_profile = true;
+          }
+
+          // 該当するユーザーの募集を取得するクエリ 「気になる」しているかも取得
+          $seekings = Seeking::where('user_id', $user->id)
+              ->with(['likes' => function ($query) {
+                $query->where('user_id', auth()->user()->id);
+              }])
+              ->with('user')
+              ->get();
+        } else {
+          // 該当するユーザーの募集を取得するクエリ
+          $seekings = Seeking::where('user_id', $user->id)->get();
+        }
 
         // ユーザーのプロフィールページを表示するビューを返す
-        return view('profile.show', compact('user', 'seekings'));
+        return view('profile.show', compact('user', 'seekings', 'logged_in', 'my_profile'));
     }
 
     /**
