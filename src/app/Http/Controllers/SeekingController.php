@@ -29,6 +29,11 @@ class SeekingController extends Controller
 
     public function create()
     {
+        if (!Auth::check()) {
+          return redirect()->route('login')->with('message', '投稿するにはログインが必要です。');
+        }
+      
+
         return view('seeking.create');
     }
 
