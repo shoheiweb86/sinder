@@ -12,8 +12,9 @@ class SeekingController extends Controller
 {
     public function index()
     {
+      //ログインしている場合 自分の募集は表示しない
       if (auth()->check()) {
-        // 自分の募集は表示しない
+        $canLike = true;
         $seekings = Seeking::where('user_id', '!=', auth()->user()->id)
             ->with(['likes' => function ($query) {
                 $query->where('user_id', auth()->user()->id);
@@ -21,10 +22,11 @@ class SeekingController extends Controller
             ->with('user')
             ->get();
       } else {
+        $canLike = false;
         $seekings = Seeking::all();
       }
 
-        return view('seeking.seekings', compact('seekings'));
+        return view('seeking.seekings', compact('seekings', 'canLike'));
     }
 
     public function create()
@@ -64,23 +66,26 @@ class SeekingController extends Controller
     public function show($id)
     {
         $seeking = Seeking::findOrFail($id);
+        $my_seeking = false;
+        $my_like_check = false;
+        $logged_in = false;
 
-        //自分の募集は編集可能、気になる不可能
-        $canEdit = false;
-        $canLike = true;
-        if (Auth::check() && $seeking->user_id === Auth::user()->id) {
-            $canEdit = true;
-            $canLike = false;
+        //ログインしている場合
+        if (Auth::check()) {
+          $logged_in = true;
+
+          //ユーザー取得
+          $user = Auth::user();
+          $user_id = $user->id;
+
+          //自分の募集かどうか
+          $my_seeking = ($seeking->user_id === $user_id) ? true : false;
+
+          //自分は気になるを押してある募集か判別
+          $my_like_check = (Like::where('seeking_id', $id)->where('user_id', $user->id)->count() > 0);
+
         }
-
-        //ユーザー取得 (ログインしていない時の処理怪しい！)
-        $user = Auth::user();
-        $user_id = $user->id;
-
-        //自分は気になるを押してあるアイテムか判別
-        $my_like_check = Like::where('seeking_id', $id)->where('user_id', $user->id)->get()->count();
-
-        return view('seeking.show', compact('seeking', 'canEdit', 'canLike', 'user_id', 'my_like_check'));
+        return view('seeking.show', compact('seeking', 'logged_in', 'my_seeking', 'my_like_check'));
     }
 
     public function edit($id)

@@ -7,7 +7,7 @@
       <div class="card mb-4">
         <div class="card-header">
           <h5 class="font-bold">
-            <a class="underline" href="{{ route('seeking.show', $seeking->id) }}">{{ $seeking->title }}</a>
+            <a class="" href="{{ route('seeking.show', $seeking->id) }}">{{ $seeking->title }}</a>
           </h5>
         </div>
         <div class="card-body">
@@ -18,7 +18,6 @@
             <span>{{ $seeking->user->name }}</span>
           </div>
         </div>
-        <hr class="my-4">
       </div>
 
       @if ($seeking->likes->isNotEmpty())
@@ -27,15 +26,28 @@
           <p>自分はイイネしていません。</p>
       @endif
 
-      @if ($seeking->likes->isEmpty())
+      {{-- ログインしている場合のみ気になるできる --}}
+      @if ($canLike)
+          {{-- 気になるしてるかどうか --}}
+          @if ($seeking->likes->isEmpty())
+              <span class="likes">
+                  <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+              </span><!-- /.likes -->
+          @else
+              <span class="likes">
+                  <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+              </span><!-- /.likes -->
+          @endif
+
+      @else  
           <span class="likes">
-              <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-          </span><!-- /.likes -->
-      @else
-          <span class="likes">
-              <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
-          </span><!-- /.likes -->
+              <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
+                  <i class="fas fa-heart"></i>
+              </a>
+          </span>
       @endif
+
+      <hr class="my-4">
 
     @endforeach
   </div>
