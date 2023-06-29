@@ -37,7 +37,6 @@ class User extends Authenticatable
 
     public function connections()
     {
-        return $this->belongsToMany(Connection::class, 'connection_user', 'user_id', 'connection_id');
+        return $this->hasMany(Connection::class, 'user_id_1')->orWhere('user_id_2', $this->id);
     }
-
 }

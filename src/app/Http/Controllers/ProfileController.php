@@ -15,35 +15,37 @@ class ProfileController extends Controller
 {
     public function show($user_name)
     {
+        $logged_in = false; //ログインしているか
+        $my_profile = false; //自分のプロフィールか
+        $connected_flag = false; //マッチしているか
+
         // スラッグを使用して該当するユーザーを検索
-        $user = User::where('name', $user_name)->first();
-    
-        if (!$user) {
+        $profile_user = User::where('name', $user_name)->first();
+        if (!$profile_user) {
             abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
         }
+      
 
-        if (auth()->check()) {
-          $loggedInUserId = auth()->user()->id;
-          $connectedUsers = $user->connections()->pluck('user_id')->all();
-  
-          if (in_array($loggedInUserId, $connectedUsers)) {
-              $connected_flag = true;
-          }
-      }
-        // ログインしているか
-        $logged_in = false;
-        $my_profile = false;
+         //ログインしているか
+        if (Auth::check()) {
+            $logged_in = true;
+            $logged_in_user_id =  auth()->user()->id;
 
-        if(Auth::check()) {
-          $logged_in = true;
+            //自分のプロフィールかどうか
+            if($profile_user->id === $logged_in_user_id) {
+                $my_profile = true;
+            }
 
-          //自分のプロフィールかどうか
-          if($user->id === auth()->user()->id) {
-            $my_profile = true;
-          }
+            //マッチしているか
+            $connected_users_1 = $profile_user->connections()->pluck('user_id_1')->all();
+            $connected_users_2 = $profile_user->connections()->pluck('user_id_2')->all();
 
-          // 該当するユーザーの募集を取得するクエリ 「気になる」しているかも取得
-          $seekings = Seeking::where('user_id', $user->id)
+            if (in_array($logged_in_user_id, $connected_users_1) || in_array($logged_in_user_id, $connected_users_2)) {
+                $connected_flag = true;
+            }
+
+          // プロフィールユーザーの募集を取得するクエリ 「気になる」しているかも取得
+          $seekings = Seeking::where('user_id', $profile_user->id)
               ->with(['likes' => function ($query) {
                 $query->where('user_id', auth()->user()->id);
               }])
@@ -51,11 +53,11 @@ class ProfileController extends Controller
               ->get();
         } else {
           // 該当するユーザーの募集を取得するクエリ
-          $seekings = Seeking::where('user_id', $user->id)->get();
+          $seekings = Seeking::where('user_id', $profile_user->id)->get();
         }
 
         // ユーザーのプロフィールページを表示するビューを返す
-        return view('profile.show', compact('user', 'seekings', 'logged_in', 'my_profile'));
+        return view('profile.show', compact('profile_user', 'seekings', 'logged_in', 'my_profile', 'connected_flag'));
     }
 
     /**
