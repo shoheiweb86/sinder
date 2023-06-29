@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Connection;
+
 
 class User extends Authenticatable
 {
@@ -31,5 +33,10 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function connections()
+    {
+        return $this->hasMany(Connection::class, 'user_id_1')->orWhere('user_id_2', $this->id);
     }
 }

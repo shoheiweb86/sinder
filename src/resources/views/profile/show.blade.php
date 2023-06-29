@@ -5,73 +5,72 @@
       <!-- 名前 -->
       <div>
           <x-input-label for="name" value="名前" />
-          <span class="block mt-1">{{ $user->name }}</span>
+          <span class="block mt-1">{{ $profile_user->name }}</span>
       </div>
 
       <!-- 学年 -->
       <div>
           <x-input-label for="grade" value="学年" />
-          <span class="block mt-1">{{ $user->grade }}</span>
+          <span class="block mt-1">{{ $profile_user->grade }}</span>
       </div>
 
       <!-- 学部 -->
       <div>
           <x-input-label for="faculty" value="学部" />
-          <span class="block mt-1">{{ $user->faculty }}</span>
+          <span class="block mt-1">{{ $profile_user->faculty }}</span>
       </div>
 
       <!-- 年齢 -->
       <div>
           <x-input-label for="age" value="年齢" />
-          <span class="block mt-1">{{ $user->age }}</span>
+          <span class="block mt-1">{{ $profile_user->age }}</span>
       </div>
 
       <!-- 性別 -->
       <div>
           <x-input-label for="sex" value="性別" />
-          <span class="block mt-1">{{ $user->sex }}</span>
+          <span class="block mt-1">{{ $profile_user->sex }}</span>
       </div>
 
       <!-- 自己紹介 -->
       <div>
           <x-input-label for="self_introduction" value="自己紹介" />
-          <span class="block mt-1">{{ $user->self_introduction }}</span>
+          <span class="block mt-1">{{ $profile_user->self_introduction }}</span>
       </div>
 
       <!-- アイコン -->
       <div>
           <x-input-label for="avatar" value="アイコン画像" />
-          @if ($user->avatar)
-              <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar">
+          @if ($profile_user->avatar)
+              <img src="{{ asset('storage/avatars/' . $profile_user->avatar) }}" alt="Avatar">
           @else
               <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar">
           @endif
       </div>
 
-      <!-- SNSリンク -->
-      <!-- LINE -->
-      <div>
-          <x-input-label for="line_link" value="LINE" />
-          <span class="block mt-1">{{ $user->line_link }}</span>
-      </div>
+      <!-- SNSリンク マッチしているユーザーのみ表示 -->
+      <p>SNS</p>
+      @if ($connected_flag)
+          <!-- LINE -->
+          <div>
+              <x-input-label for="line_link" value="LINE" />
+              <span class="block mt-1">{{ $profile_user->line_link }}</span>
+          </div>
 
-      <!-- Instagram -->
-      <div>
-          <x-input-label for="instagram_link" value="Instagram" />
-          <span class="block mt-1">{{ $user->instagram_link }}</span>
-      </div>
+          <!-- Instagram -->
+          <div>
+              <x-input-label for="instagram_link" value="Instagram" />
+              <span class="block mt-1">{{ $profile_user->instagram_link }}</span>
+          </div>
 
-      <!-- Twitter -->
-      <div>
-          <x-input-label for="twitter_link" value="Twitter" />
-          <span class="block mt-1">{{ $user->twitter_link }}</span>
-      </div>
-
-      <!-- メールアドレス -->
-      <div>
-          <x-input-label for="email" :value="__('Email')" />
-          <span class="block mt-1">{{ $user->email }}</span>
-      </div>
+          <!-- Twitter -->
+          <div>
+              <x-input-label for="twitter_link" value="Twitter" />
+              <span class="block mt-1">{{ $profile_user->twitter_link }}</span>
+          </div>
+      @else
+          <p>マッチしたらSNSを閲覧できます</p>
+      @endif
 
       <!-- 募集一覧 -->
       @foreach($seekings as $seeking)
