@@ -92,6 +92,11 @@ class ProfileController extends Controller
             $avatar->storeAs('public/avatars', $filename); // ファイルを保存するディレクトリを指定する
             $user->avatar = $filename;
         }
+
+        // SNSのリンク最低一つ登録されたらtrue
+        if ($user->line_link || $user->twitter_link || $user->instagram_link) {
+          $user->registered_sns_flag = true;
+        }
         
         // DBに保存
         $user->save();
