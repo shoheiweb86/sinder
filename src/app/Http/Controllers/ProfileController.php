@@ -14,21 +14,33 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
 
-    public function show($user_name)
-    {
-        // スラッグを使用して該当するユーザーを検索
-        $user = User::where('name', $user_name)->first();
-    
-        if (!$user) {
-            abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
-        }
-
-        // 自分の募集を取得するクエリ
-        $seekings = Seeking::where('user_id', $user->id)->get();
-
-        // ユーザーのプロフィールページを表示するビューを返す
-        return view('profile.show', compact('user', 'seekings'));
-    }
+  public function show($user_name)
+  {
+      // スラッグを使用して該当するユーザーを検索
+      $user = User::where('name', $user_name)->first();
+  
+      if (!$user) {
+          abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
+      }
+  
+      // 自分の募集を取得するクエリ
+      $seekings = Seeking::where('user_id', $user->id)->get();
+  
+      // 自分とプロフィールを見ようとしているユーザーがマッチしているかを判定
+      $connected_flag = false; // 初期値はfalse
+  
+      if (auth()->check()) {
+          $loggedInUserId = auth()->user()->id;
+          $connectedUsers = $user->connections()->pluck('user_id')->all();
+  
+          if (in_array($loggedInUserId, $connectedUsers)) {
+              $connected_flag = true;
+          }
+      }
+  
+      // ユーザーのプロフィールページを表示するビューを返す
+      return view('profile.show', compact('user', 'seekings', 'connected_flag'));
+  }
 
     /**
      * Display the user's profile form.

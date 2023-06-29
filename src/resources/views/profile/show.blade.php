@@ -48,30 +48,26 @@
           @endif
       </div>
 
-      <!-- SNSリンク -->
-      <!-- LINE -->
-      <div>
-          <x-input-label for="line_link" value="LINE" />
-          <span class="block mt-1">{{ $user->line_link }}</span>
-      </div>
+      <!-- SNSリンク マッチしているユーザーのみ表示 -->
+      @if ($connected_flag)
+          <!-- LINE -->
+          <div>
+              <x-input-label for="line_link" value="LINE" />
+              <span class="block mt-1">{{ $user->line_link }}</span>
+          </div>
 
-      <!-- Instagram -->
-      <div>
-          <x-input-label for="instagram_link" value="Instagram" />
-          <span class="block mt-1">{{ $user->instagram_link }}</span>
-      </div>
+          <!-- Instagram -->
+          <div>
+              <x-input-label for="instagram_link" value="Instagram" />
+              <span class="block mt-1">{{ $user->instagram_link }}</span>
+          </div>
 
-      <!-- Twitter -->
-      <div>
-          <x-input-label for="twitter_link" value="Twitter" />
-          <span class="block mt-1">{{ $user->twitter_link }}</span>
-      </div>
-
-      <!-- メールアドレス -->
-      <div>
-          <x-input-label for="email" :value="__('Email')" />
-          <span class="block mt-1">{{ $user->email }}</span>
-      </div>
+          <!-- Twitter -->
+          <div>
+              <x-input-label for="twitter_link" value="Twitter" />
+              <span class="block mt-1">{{ $user->twitter_link }}</span>
+          </div>
+      @endif
 
       <!-- 自分の募集一覧 -->
       @foreach($seekings as $seeking)
