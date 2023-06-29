@@ -11,6 +11,11 @@ class LikeController extends Controller
 {
   public function like(Request $request)
   {
+    if (!Auth::check()) {
+      return redirect()->route('login')->with('message', '気になるをするにはログインが必要です。');
+    }
+  
+
       $user_id = Auth::user()->id; //1.ログインユーザーのid取得
       $seeking_id = $request->seeking_id; //2.投稿idの取得
       $already_liked = Like::where('user_id', $user_id)->where('seeking_id', $seeking_id)->first(); //3.

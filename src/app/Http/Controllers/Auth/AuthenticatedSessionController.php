@@ -9,14 +9,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Session;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
+        //ログインしないで気になる押した場合
+        if($request->query('like_no_login')) {
+          Session::flash('message', '「気になる」をするにはログインが必要です。');
+        }
+
         return view('auth.login');
     }
 

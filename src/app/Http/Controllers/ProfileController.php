@@ -13,23 +13,16 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function show($user_name)
+    {
+        // スラッグを使用して該当するユーザーを検索
+        $user = User::where('name', $user_name)->first();
+    
+        if (!$user) {
+            abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
+        }
 
-  public function show($user_name)
-  {
-      // スラッグを使用して該当するユーザーを検索
-      $user = User::where('name', $user_name)->first();
-  
-      if (!$user) {
-          abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
-      }
-  
-      // 自分の募集を取得するクエリ
-      $seekings = Seeking::where('user_id', $user->id)->get();
-  
-      // 自分とプロフィールを見ようとしているユーザーがマッチしているかを判定
-      $connected_flag = false; // 初期値はfalse
-  
-      if (auth()->check()) {
+        if (auth()->check()) {
           $loggedInUserId = auth()->user()->id;
           $connectedUsers = $user->connections()->pluck('user_id')->all();
   
@@ -37,10 +30,33 @@ class ProfileController extends Controller
               $connected_flag = true;
           }
       }
-  
-      // ユーザーのプロフィールページを表示するビューを返す
-      return view('profile.show', compact('user', 'seekings', 'connected_flag'));
-  }
+        // ログインしているか
+        $logged_in = false;
+        $my_profile = false;
+
+        if(Auth::check()) {
+          $logged_in = true;
+
+          //自分のプロフィールかどうか
+          if($user->id === auth()->user()->id) {
+            $my_profile = true;
+          }
+
+          // 該当するユーザーの募集を取得するクエリ 「気になる」しているかも取得
+          $seekings = Seeking::where('user_id', $user->id)
+              ->with(['likes' => function ($query) {
+                $query->where('user_id', auth()->user()->id);
+              }])
+              ->with('user')
+              ->get();
+        } else {
+          // 該当するユーザーの募集を取得するクエリ
+          $seekings = Seeking::where('user_id', $user->id)->get();
+        }
+
+        // ユーザーのプロフィールページを表示するビューを返す
+        return view('profile.show', compact('user', 'seekings', 'logged_in', 'my_profile'));
+    }
 
     /**
      * Display the user's profile form.
