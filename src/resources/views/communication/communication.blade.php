@@ -16,22 +16,34 @@
                     </li>
 
                     {{-- 気になる機能 --}}
-                    @if ($seeking->likes->isNotEmpty())
-                        <p>自分は気になるしています。</p>
+                    @if ($seeking->likes->isEmpty())
+                        {{-- SNSを登録しているか --}}
+                        @if ($registered_sns_flag)
+                            <span class="likes">
+                                <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                            </span><!-- /.likes -->
+                        @else 
+                            <span class="likes">
+                              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                                  <i class="fas fa-heart"></i>
+                              </a>
+                            </span>
+                        @endif
                     @else
-                        <p>自分は気になるしていません。</p>
+                        {{-- SNSを登録しているか --}}
+                        @if ($registered_sns_flag)
+                            <span class="likes">
+                                <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                            </span><!-- /.likes -->
+                        @else
+                            <span class="likes">
+                              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                                  <i class="fas fa-heart liked"></i>
+                              </a>
+                            </span>
+                        @endif
                     @endif
 
-                    @if ($seeking->likes->isEmpty())
-                        <span class="likes">
-                            <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-                        </span><!-- /.likes -->
-                    @else
-                        <span class="likes">
-                            <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
-                        </span><!-- /.likes -->
-                    @endif
-                
                 @endforeach
             </ul>
         @else

@@ -27,16 +27,25 @@
       @endif
 
       {{-- ログインしている場合のみ気になるできる --}}
-      @if ($canLike)
-          {{-- 気になるしてるかどうか --}}
-          @if ($seeking->likes->isEmpty())
-              <span class="likes">
-                  <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-              </span><!-- /.likes -->
+      @if ($logged_in)
+          {{-- SNSを登録しているか --}}
+          @if ($registered_sns_flag)
+              {{-- 気になるしてるかどうか --}}
+              @if ($seeking->likes->isEmpty())
+                  <span class="likes">
+                      <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                  </span><!-- /.likes -->
+              @else
+                  <span class="likes">
+                      <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                  </span><!-- /.likes -->
+              @endif
           @else
               <span class="likes">
-                  <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
-              </span><!-- /.likes -->
+                <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                    <i class="fas fa-heart"></i>
+                </a>
+              </span>
           @endif
 
       @else  

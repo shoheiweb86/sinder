@@ -29,14 +29,23 @@
     @if($logged_in)
         {{-- 他人の募集の場合--}}
         @if(!$my_seeking)
-            {{-- 募集に気になるしているかどうか --}}
-            @if ($my_like_check == 0)
-                <span class="likes">
-                    <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-                </span>
+            {{-- SNSを登録しているか --}}
+            @if ($registered_sns_flag)
+                {{-- 募集に気になるしているかどうか --}}
+                @if ($my_like_check == 0)
+                    <span class="likes">
+                        <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                    </span>
+                @else
+                    <span class="likes">
+                        <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                    </span>
+                @endif
             @else
                 <span class="likes">
-                    <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                  <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                      <i class="fas fa-heart"></i>
+                  </a>
                 </span>
             @endif
         @endif

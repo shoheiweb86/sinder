@@ -1,4 +1,10 @@
 <x-app-layout>
+  @if (session('message'))
+      <div class="text-red-400 mb-2">
+          {{ session('message') }}
+      </div>
+  @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Profile') }}

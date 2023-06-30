@@ -27,7 +27,7 @@
         <!-- 学年 -->
         <div>
             <x-input-label for="grade" value="学年" />
-            <select name="grade" id="grade" required :value="old('grade',  $user->grade)">
+            <select name="grade" id="grade" :value="old('grade',  $user->grade)">
                 <option value="" disabled selected>選択してください</option>
                 <option value="学部1年生" {{ old('grade', $user->grade) === '学部1年生' ? 'selected' : '' }}>学部1年生</option>
                 <option value="学部2年生" {{ old('grade', $user->grade) === '学部2年生' ? 'selected' : '' }}>学部2年生</option>
@@ -44,7 +44,7 @@
         <!-- 学部 -->
         <div>
             <x-input-label for="faculty" value="学部" />
-            <select name="faculty" id="faculty" required>
+            <select name="faculty" id="faculty">
                 <option value="" disabled selected>選択してください</option>
                 <option value="" disabled selected>選択してください</option>
                 <option value="人文学部" {{ old('faculty', $user->faculty) === '人文学部' ? 'selected' : '' }}>人文学部</option>
@@ -70,14 +70,14 @@
         <!-- 年齢 -->
         <div>
             <x-input-label for="age" value="年齢" />
-            <input type="number" id="age" name="age" min="18" max="80" step="1" value="{{ old('age', $user->age) }}" required autofocus autocomplete="age">
+            <input type="number" id="age" name="age" min="18" max="80" step="1" value="{{ old('age', $user->age) }}" autofocus autocomplete="age">
             <x-input-error :messages="$errors->get('age')" class="mt-2" />
         </div>
 
         <!-- 性別 -->
         <div>
           <x-input-label for="sex" value="性別" />
-          <select name="sex" id="sex" required>
+          <select name="sex" id="sex">
               <option value="" disabled selected>選択してください</option>
               <option value="" disabled selected>選択してください</option>
               <option value="男子" {{ old('sex', $user->sex) === '男子' ? 'selected' : '' }}>男子</option>
