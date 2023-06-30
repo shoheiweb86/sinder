@@ -17,7 +17,9 @@ class CommunicationController extends Controller
     }
 
       //ログインしているユーザーのID取得
-      $userId = auth()->user()->id;
+      $user = Auth::user();
+      $userId = $user->id;
+      $registered_sns_flag = $user->registered_sns_flag;
   
       //自分が気になるした募集を取得
       $seekings = Seeking::whereHas('likes', function ($query) use ($userId) {
@@ -50,7 +52,7 @@ class CommunicationController extends Controller
       ->get();
 
       
-      return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_users'));
+      return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_users', 'registered_sns_flag'));
   }
   
 }

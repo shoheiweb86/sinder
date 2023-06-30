@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-
 return new class extends Migration
 {
     /**
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('line_link')->nullable();
             $table->string('twitter_link')->nullable();
             $table->string('instagram_link')->nullable();
+            $table->boolean('registered_sns_flag')->default(false);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -30,6 +31,12 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        // データを更新してフラグを立てる
+        DB::table('users')->whereNotNull('line_link')
+            ->orWhereNotNull('twitter_link')
+            ->orWhereNotNull('instagram_link')
+            ->update(['registered_sns_flag' => true]);
     }
 
     /**

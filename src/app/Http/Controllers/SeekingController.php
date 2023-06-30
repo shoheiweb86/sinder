@@ -13,8 +13,11 @@ class SeekingController extends Controller
     public function index()
     {
       //ログインしている場合 自分の募集は表示しない
+      $logged_in = false;
+
       if (auth()->check()) {
-        $canLike = true;
+        $logged_in = true;
+        $registered_sns_flag = Auth::user()->registered_sns_flag;
         $seekings = Seeking::where('user_id', '!=', auth()->user()->id)
             ->with(['likes' => function ($query) {
                 $query->where('user_id', auth()->user()->id);
@@ -22,17 +25,23 @@ class SeekingController extends Controller
             ->with('user')
             ->get();
       } else {
-        $canLike = false;
+        
         $seekings = Seeking::all();
       }
 
-        return view('seeking.seekings', compact('seekings', 'canLike'));
+        return view('seeking.seekings', compact('seekings', 'logged_in', 'registered_sns_flag'));
     }
 
     public function create()
     {
         if (!Auth::check()) {
           return redirect()->route('login')->with('message', '投稿するにはログインが必要です。');
+        }
+
+        //SNS登録していない場合リダイレクト
+        $user = Auth::user();
+        if(!$user->registered_sns_flag) {
+          return redirect()->route('profile.edit')->with('message', '投稿するには連絡を受け取れるSNSを一つ登録してください。');
         }
       
 
@@ -77,6 +86,7 @@ class SeekingController extends Controller
           //ユーザー取得
           $user = Auth::user();
           $user_id = $user->id;
+          $registered_sns_flag = $user->registered_sns_flag;
 
           //自分の募集かどうか
           $my_seeking = ($seeking->user_id === $user_id) ? true : false;
@@ -85,7 +95,7 @@ class SeekingController extends Controller
           $my_like_check = (Like::where('seeking_id', $id)->where('user_id', $user->id)->count() > 0);
 
         }
-        return view('seeking.show', compact('seeking', 'logged_in', 'my_seeking', 'my_like_check'));
+        return view('seeking.show', compact('seeking', 'logged_in', 'my_seeking', 'my_like_check', 'registered_sns_flag'));
     }
 
     public function edit($id)

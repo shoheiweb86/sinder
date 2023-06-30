@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Seeking;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,7 @@ class ProfileController extends Controller
         $logged_in = false; //ログインしているか
         $my_profile = false; //自分のプロフィールか
         $connected_flag = false; //マッチしているか
+        $registered_sns_flag = false; //SNSを登録しているか
 
         // スラッグを使用して該当するユーザーを検索
         $profile_user = User::where('name', $user_name)->first();
@@ -29,7 +31,9 @@ class ProfileController extends Controller
          //ログインしているか
         if (Auth::check()) {
             $logged_in = true;
-            $logged_in_user_id =  auth()->user()->id;
+            $user = Auth::user();
+            $registered_sns_flag = $user->registered_sns_flag;
+            $logged_in_user_id =  $user->id;
 
             //自分のプロフィールかどうか
             if($profile_user->id === $logged_in_user_id) {
@@ -57,7 +61,7 @@ class ProfileController extends Controller
         }
 
         // ユーザーのプロフィールページを表示するビューを返す
-        return view('profile.show', compact('profile_user', 'seekings', 'logged_in', 'my_profile', 'connected_flag'));
+        return view('profile.show', compact('profile_user', 'seekings', 'logged_in', 'my_profile', 'connected_flag', 'registered_sns_flag'));
     }
 
     /**
@@ -66,6 +70,11 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         $user = Auth::user();
+
+        //ログインしないで気になる押した場合
+        if($request->query('like_no_sns')) {
+            Session::flash('message', '「気になる」をするには連絡を取れるSNSを登録してください。');
+        }
         return view('profile.edit', compact('user'));
     }
 
@@ -91,6 +100,13 @@ class ProfileController extends Controller
             $filename = time() . '.' . $avatar->getClientOriginalExtension();
             $avatar->storeAs('public/avatars', $filename); // ファイルを保存するディレクトリを指定する
             $user->avatar = $filename;
+        }
+
+        // SNSのリンク最低一つ登録されたらtrue
+        if ($user->line_link || $user->twitter_link || $user->instagram_link) {
+          $user->registered_sns_flag = true;
+        } else {
+          $user->registered_sns_flag = false;
         }
         
         // DBに保存
