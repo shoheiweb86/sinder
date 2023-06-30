@@ -20,13 +20,12 @@ class ProfileUpdateRequest extends FormRequest
             'age' => ['nullable', 'integer'],
             'grade' => ['nullable', Rule::in(['学部1年生', '学部2年生', '学部3年生', '学部4年生', '学部5年生', '学部6年生', '大学院1年生', '大学院2年生'])],
             'faculty' => ['nullable', Rule::in(['人文学部', '教育学部', '法学部', '経済科学部', '理学部', '医学部医学科', '医学部保健学科', '歯学部', '工学部', '農学部', '創生学部', '教育実践学研究科', '現代社会文化研究科', '自然科学研究科', '保健学研究科', '医歯学総合研究科'])],
-            'sex' => ['nullable', Rule::in(['男子', '女子', '秘密'])],
+            'sex' => ['nullable', Rule::in(['男子', '女子'])],
             'self_introduction' => ['nullable', 'string', 'max:200'],
             'avatar' => ['nullable', 'file'],
             'line_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:line\.me\/[A-Za-z0-9_.-]+)$/i'],
             'twitter_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/i'],
             'instagram_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[A-Za-z0-9_]+\/*$/i'],
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
     }
 }

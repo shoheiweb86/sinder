@@ -46,7 +46,6 @@
             <x-input-label for="faculty" value="学部" />
             <select name="faculty" id="faculty">
                 <option value="" disabled selected>選択してください</option>
-                <option value="" disabled selected>選択してください</option>
                 <option value="人文学部" {{ old('faculty', $user->faculty) === '人文学部' ? 'selected' : '' }}>人文学部</option>
                 <option value="教育学部" {{ old('faculty', $user->faculty) === '教育学部' ? 'selected' : '' }}>教育学部</option>
                 <option value="法学部" {{ old('faculty', $user->faculty) === '法学部' ? 'selected' : '' }}>法学部</option>
@@ -79,10 +78,8 @@
           <x-input-label for="sex" value="性別" />
           <select name="sex" id="sex">
               <option value="" disabled selected>選択してください</option>
-              <option value="" disabled selected>選択してください</option>
               <option value="男子" {{ old('sex', $user->sex) === '男子' ? 'selected' : '' }}>男子</option>
               <option value="女子" {{ old('sex', $user->sex) === '女子' ? 'selected' : '' }}>女子</option>
-              <option value="秘密" {{ old('sex', $user->sex) === '秘密' ? 'selected' : '' }}>秘密</option>
           </select>
           <x-input-error :messages="$errors->get('sex')" class="mt-2" />
         </div>
@@ -130,7 +127,7 @@
         </div>
 
         <!-- メールアドレス -->
-        <div>
+        {{-- <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -152,7 +149,7 @@
                     @endif
                 </div>
             @endif
-        </div>
+        </div> --}}
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
