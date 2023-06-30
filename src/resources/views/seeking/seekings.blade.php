@@ -20,12 +20,6 @@
         </div>
       </div>
 
-      @if ($seeking->likes->isNotEmpty())
-          <p>自分はイイネしています。</p>
-      @else
-          <p>自分はイイネしていません。</p>
-      @endif
-
       {{-- ログインしている場合のみ気になるできる --}}
       @if ($logged_in)
           {{-- SNSを登録しているか --}}

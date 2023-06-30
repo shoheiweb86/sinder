@@ -20,6 +20,11 @@
         {{-- 自分の募集は編集できる --}}
         @if($my_seeking)
           <a href="{{ route('seeking.edit', $seeking->id) }}" class="btn btn-primary mt-4">編集</a>
+          <form action="{{ route('seeking.destroy', $seeking->id) }}" method="POST" class="d-inline">
+              @csrf
+              @method('DELETE')
+              <button type="submit" class="btn btn-danger mt-4" onclick="return confirm('本当に削除しますか？')">削除</button>
+          </form>
         @endif
       </div>
     </div>

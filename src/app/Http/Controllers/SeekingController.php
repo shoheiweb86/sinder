@@ -7,6 +7,7 @@ use App\Models\Seeking;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeekingRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SeekingController extends Controller
 {
@@ -14,6 +15,7 @@ class SeekingController extends Controller
     {
       //ログインしている場合 自分の募集は表示しない
       $logged_in = false;
+      $registered_sns_flag = false;
 
       if (auth()->check()) {
         $logged_in = true;
@@ -78,6 +80,7 @@ class SeekingController extends Controller
         $my_seeking = false;
         $my_like_check = false;
         $logged_in = false;
+        $registered_sns_flag = false;
 
         //ログインしている場合
         if (Auth::check()) {
@@ -123,5 +126,23 @@ class SeekingController extends Controller
         $seeking->save();
 
         return redirect()->route('seeking.show', $seeking->id);
+    }
+
+    public function destroy($id)
+    {
+        $seeking = Seeking::findOrFail($id);
+
+        // ログインユーザーが募集の所有者であるかを確認
+        if ($seeking->user_id !== auth()->user()->id) {
+            return redirect()->back()->with('error', 'You are not authorized to delete this seeking.');
+        }
+
+        // 募集の画像を削除
+        Storage::disk('public')->delete('seeking_thumbnail/' . $seeking->seeking_thumbnail);
+
+        // 募集を削除
+        $seeking->delete();
+
+        return redirect()->route('profile.show', ['user_name' => auth()->user()->name]);
     }
 }

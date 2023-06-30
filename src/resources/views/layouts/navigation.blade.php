@@ -92,10 +92,10 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                <x-responsive-nav-link :href="route('profile.show', ['user_name' => auth()->user()->name])">
+                  {{ 'プロフィール' }}
                 </x-responsive-nav-link>
-
+            
                 <x-responsive-nav-link :href="route('seeking.create')">
                   {{'募集作成'}}
                 </x-responsive-nav-link>

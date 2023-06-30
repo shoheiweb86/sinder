@@ -72,6 +72,15 @@
           <p>マッチしたらSNSを閲覧できます</p>
       @endif
 
+      <!-- プロフィール編集ボタン -->
+      @if ($logged_in && $my_profile)
+          <div>
+            <a href="{{ route('profile.edit') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              プロフィール編集
+            </a>            
+          </div>
+      @endif
+
       <!-- 募集一覧 -->
       @foreach($seekings as $seeking)
       <div class="card mb-4">

@@ -17,7 +17,6 @@ Route::get('/dashboard', function () {
 //プロフィールページ (スラッグがeditと競合してる)
 Route::get('/profile/show/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
 
-
 //プロフィールページ認証後
 Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,6 +31,7 @@ Route::post('/seeking/store', [SeekingController::class, 'store'])->name('seekin
 Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seeking.show');
 Route::get('/seeking/{id}/edit', [SeekingController::class, 'edit'])->name('seeking.edit');
 Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('seeking.update');
+Route::delete('/seeking/{id}/delete', [SeekingController::class, 'destroy'])->name('seeking.destroy');
 
 
 //いいねを付ける
