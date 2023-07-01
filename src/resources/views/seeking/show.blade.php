@@ -11,7 +11,7 @@
         <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
         <div class="flex items-center">
           <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
-          <span>{{ $seeking->user->name }}</span>
+          <p>投稿者: <a href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}" class="text-blue-500 hover:underline">{{ $seeking->user->name }}</a></p>
           <span>{{ $seeking->user->grade }}</span>
           <span>{{ $seeking->user->faculty }}</span>
           <span>{{ $seeking->user->sex }}</span>

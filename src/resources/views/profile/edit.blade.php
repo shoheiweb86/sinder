@@ -1,4 +1,8 @@
-<x-app-layout>
+@extends('layouts.layout')
+@section('title', 'プロフィール編集')
+
+@section('content')
+
   @if (session('message'))
       <div class="text-red-400 mb-2">
           {{ session('message') }}
@@ -35,4 +39,4 @@
         </div>
     </div>
 
-</x-app-layout>
+@endsection

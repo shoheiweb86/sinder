@@ -1,4 +1,5 @@
 @extends('layouts.layout')
+@section('title', '募集一覧')
 
 @section('content')
   <div class="container">
@@ -7,7 +8,7 @@
       <div class="card mb-4">
         <div class="card-header">
           <h5 class="font-bold">
-            <a class="" href="{{ route('seeking.show', $seeking->id) }}">{{ $seeking->title }}</a>
+            <a class="text-blue-500" href="{{ route('seeking.show', $seeking->id) }}">{{ $seeking->title }}</a>
           </h5>
         </div>
         <div class="card-body">
@@ -15,7 +16,7 @@
           <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
           <div class="flex items-center">
             <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
-            <span>{{ $seeking->user->name }}</span>
+            <p>投稿者: <a href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}" class="text-blue-500 hover:underline">{{ $seeking->user->name }}</a></p>
           </div>
         </div>
       </div>

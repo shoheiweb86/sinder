@@ -1,4 +1,6 @@
 @extends('layouts.layout')
+@section('title', '募集を編集')
+
 
 @section('content')
   <div class="container">

@@ -29,9 +29,9 @@ Route::get('/', [SeekingController::class, 'index'])->name('seeking.index');
 Route::get('/seeking/create', [SeekingController::class, 'create'])->name('seeking.create');
 Route::post('/seeking/store', [SeekingController::class, 'store'])->name('seeking.store');
 Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seeking.show');
-Route::get('/seeking/{id}/edit', [SeekingController::class, 'edit'])->name('seeking.edit');
-Route::put('seeking/{id}/update', [SeekingController::class, 'update'])->name('seeking.update');
-Route::delete('/seeking/{id}/delete', [SeekingController::class, 'destroy'])->name('seeking.destroy');
+Route::get('/seeking/edit/{id}', [SeekingController::class, 'edit'])->name('seeking.edit');
+Route::put('seeking/update/{id}', [SeekingController::class, 'update'])->name('seeking.update');
+Route::delete('/seeking/delete/{id}', [SeekingController::class, 'destroy'])->name('seeking.destroy');
 
 
 //いいねを付ける
