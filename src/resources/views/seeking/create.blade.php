@@ -1,4 +1,5 @@
 @extends('layouts.layout')
+@section('title', '募集を作成')
 
 @section('content')
     <!-- コンテンツの記述 -->

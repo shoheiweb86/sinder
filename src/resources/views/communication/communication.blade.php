@@ -1,8 +1,8 @@
 @extends('layouts.layout')
+@section('title', 'つながる')
 
 @section('content')
     <div class="container">
-        <h1 class="text-2xl font-bold mb-6">やりとり</h1>
 
         <h2 class="text-xl font-bold mb-4">気になった募集</h2>
         @if($seekings->count() > 0)

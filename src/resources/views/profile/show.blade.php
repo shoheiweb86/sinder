@@ -1,7 +1,16 @@
 @extends('layouts.layout')
 
 @section('content')
-  <div class="mt-6 space-y-6">
+    @if($my_profile)
+        <h1 class="font-logo text-white text-2xl tracking-tighter absolute top-4 left-3">Sinder</h1>
+    @else
+      <a href="{{ url()->previous() }}" class="absolute top-4 left-3 ">
+          <img src="{{ asset('storage/materials/arrow_left.png')}}" alt="左矢印のアイコン" class="w-5 h-5">
+      </a>
+    @endif
+
+
+  <div class="">
       <!-- 名前 -->
       <div>
           <x-input-label for="name" value="名前" />

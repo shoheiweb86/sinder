@@ -12,7 +12,16 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+              logo: [ "Arial Unicode MS", "sans-serif"],
+              title: [ "Toppan Bunkyu Midashi Gothic", "sans-serif"],
+              base: [ "Hiragino Sans", "sans-serif"],
+              accent: [ "Noto Sans JP", "sans-serif"],
+            },
+            colors: {
+              // 'カラー名': 'カラーコード'
+              'main': '#0F9565',
+              'white': '#FAFAFA',
+              'black': '#212121',
             },
         },
     },
