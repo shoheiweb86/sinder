@@ -88,6 +88,17 @@
               プロフィール編集
             </a>            
           </div>
+
+          <!-- Authentication -->
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <x-dropdown-link :href="route('logout')"
+                    onclick="event.preventDefault();
+                                this.closest('form').submit();" class="text-4xl">
+                {{ __('Log Out') }}
+            </x-dropdown-link>
+        </form>
       @endif
 
       <!-- 募集一覧 -->

@@ -1,53 +1,56 @@
-<x-guest-layout>
+@extends('layouts.layout')
+@section('title', 'ログイン')
+
+@section('content')
   @if (session('message'))
     <div class="text-red-400 mb-2">
-        {{ session('message') }}
+      {{ session('message') }}
     </div>
   @endif
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+  <h2 class="text-main font-logo font-bold tracking-tighter text-5xl text-center mt-24">Sinder</h2>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+  <form method="POST" action="{{ route('login') }}">
+    @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <!-- メールアドレス -->
+    <div>
+      <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-6 text-sm" type="text"
+        name="email" required autofocus autocomplete="email" placeholder="メールアドレスを入力してください" />
+      <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <!-- パスワード -->
+    <div>
+      <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="password"
+        name="password" required autofocus autocomplete="password" placeholder="パスワードを設定してください" />
+      <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+    <!-- ログインボタン -->
+    <div class="text-center">
+      <button class="bg-white rounded-lg py-4 px-8 mt-6 font-bold w-11/12">ログインする</button>
+    </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    <div class="flex items-center justify-center mt-4">
+      @if (Route::has('password.request'))
+        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          href="{{ route('password.request') }}">
+          パスワードを忘れた場合
+        </a>
+      @endif
+    </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+    <!-- 新規登録ボタン -->
+    <div class="block text-center mt-36">
+      <a href="{{route('register')}}" class="block bg-main text-white rounded-lg py-3 px-8 mt-6 font-bold w-11/12 mx-auto">新規登録してSinderをはじめる</a>
+    </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+    <!-- ログインせずに見る -->
+    <div class="text-center mt-2">
+      <a href="{{route('seeking.index')}}" class="text-main underline" >ログインせずにSinderを見てみる</a>
+    </div>
 
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+  </form>
+
+@endsection

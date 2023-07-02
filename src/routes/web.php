@@ -9,11 +9,6 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ConnectionController;
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
 //プロフィールページ (スラッグがeditと競合してる)
 Route::get('/profile/show/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
 
