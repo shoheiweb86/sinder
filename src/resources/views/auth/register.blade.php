@@ -1,52 +1,47 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.layout')
+@section('title', '新規登録')
+
+@section('content')
+  <h2 class="text-main font-logo font-bold tracking-tighter text-5xl text-center mt-24">Sinder</h2>
+
+  <form method="POST" action="{{ route('register') }}">
+    @csrf
 
     <!-- 名前 -->
     <div>
-      <x-input-label for="name" value="名前" />
-      <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+      <input id="name" class="block px-4 py-3 border-none w-full placeholder-gray mt-6 text-sm" type="text"
+        name="name" required autofocus autocomplete="name" placeholder="名前またはニックネーム（あとから変更可能）" />
       <x-input-error :messages="$errors->get('name')" class="mt-2" />
     </div>
 
-        <!-- メールアドレス -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <!-- メールアドレス -->
+    <div>
+      <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="text"
+        name="email" required autofocus autocomplete="email" placeholder="メールアドレスを入力してください" />
+      <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    </div>
 
-        <!-- パスワード -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <!-- パスワード -->
+    <div>
+      <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="password"
+        name="password" required autofocus autocomplete="password" placeholder="パスワードを設定してください" />
+      <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+    <!-- パスワード確認 -->
+    <div>
+      <input id="password_confirmation" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="password_confirmation"
+        name="password_confirmation" required autofocus autocomplete="password_confirmation" placeholder="上記パスワード確認のため、もう一度入力してください" />
+      <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+    </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- パスワード確認 -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    <P class="text-sm text-center mt-28 flex justify-center items-center">あなたは新潟大学の生徒ですか<span class="text-xs text-main ml-">必須</span></P>
+    <div class="flex justify-center items-center mt-1">
+      <input type="checkbox" id="myCheckbox" name="myCheckbox" class="text-main rounded-full p-2 focus:border-main focus:ring-main bg-bg">
+      <label for="myCheckbox" class="ml-2">はい、そうです</label>
+    </div>
+    <div class="text-center">
+      <button class="bg-gray register-button text-white rounded-lg py-4 px-8 mt-6 font-bold w-11/12">登録してSinderをはじめる</button>
+    </div>
+  </form>
+@endsection
