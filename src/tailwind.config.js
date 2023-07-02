@@ -21,7 +21,10 @@ export default {
               // 'カラー名': 'カラーコード'
               'main': '#0F9565',
               'white': '#FAFAFA',
+              'white-90': 'rgba(255, 255, 255, 0.9)',
               'black': '#212121',
+              'gray': '#CCCCCC',
+              'bg': '#E9E9E9',
             },
         },
     },

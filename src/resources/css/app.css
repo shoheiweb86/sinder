@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* オリジナルCSS */
+
+.arrow-bottom {
+  display: inline-block;
+  vertical-align: middle;
+  color: #CCC;
+  line-height: 1;
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateY(-25%) rotate(135deg);
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  z-index: 10;
+}
+
+select {
+  background-image: none;
+}
