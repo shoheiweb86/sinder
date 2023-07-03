@@ -23,6 +23,7 @@ export default {
               'white': '#FAFAFA',
               'white-90': 'rgba(255, 255, 255, 0.9)',
               'black': '#212121',
+              'dark-gray': '#666666',
               'gray': '#CCCCCC',
               'bg': '#E9E9E9',
             },
