@@ -16,7 +16,7 @@
 
     </head>
     <body class="antialiased font-base bg-bg">
-        <div class="min-h-screen pb-12">
+        <div class="min-h-screen pb-20">
 
             @if (Request::routeIs('seeking.create') || Request::routeIs('seeking.edit'))
                 @include('layouts.header', ['cancel_button' => true])

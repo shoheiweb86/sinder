@@ -9,18 +9,22 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
-
-//新規登録フォームチェック
 $(document).ready(function() {
   // フォームの入力状態をチェックして背景色を変更する関数
-  function checkFormLogin() {
-    var name = $('#name').val();
-    var email = $('#email').val();
-    var password = $('#password').val();
-    var passwordConfirmation = $('#password_confirmation').val();
-    var checkboxChecked = $('#myCheckbox').prop('checked');
+  function checkForm() {
+    var allFieldsFilled = true;
 
-    if (name !== '' && email !== '' && password !== '' && passwordConfirmation !== '' && checkboxChecked) {
+    // 必須項目が全て入力されているかチェックする
+    $('.js-required-form').each(function() {
+      if ($(this).val() === '') {
+        allFieldsFilled = false;
+        return false; // ループを抜ける
+      }
+    });
+
+    var checkboxChecked = $('.js-required-check').prop('checked');
+
+    if (allFieldsFilled && (typeof checkboxChecked === 'undefined' || checkboxChecked)) {
       $('.register-button').addClass('bg-main').removeClass('bg-gray');
     } else {
       $('.register-button').addClass('bg-gray').removeClass('bg-main');
@@ -28,10 +32,32 @@ $(document).ready(function() {
   }
 
   // フォームの入力状態が変更されたときに背景色を変更する
-  $('#name, #email, #password, #password_confirmation, #myCheckbox').on('input change', function() {
-    checkFormLogin();
+  $('.js-required-form, .js-required-check').on('input change', function() {
+    checkForm();
   });
 
   // ページ読み込み時にも背景色をチェックする
-  checkFormLogin();
+  checkForm();
+});
+
+
+$(document).ready(function() {
+  // チェックボックスの状態を監視してテキストのクラスを変更する関数
+  function updateTextClass() {
+    var my_checkbox_checked = $('#my_checkbox').prop('checked');
+
+    if (my_checkbox_checked) {
+      $('.js-check-box').addClass('text-main');
+    } else {
+      $('.js-check-box').removeClass('text-main');
+    }
+  }
+
+  // チェックボックスの状態が変更されたときにテキストのクラスを更新する
+  $('#my_checkbox').on('change', function() {
+    updateTextClass();
+  });
+
+  // ページ読み込み時にもテキストのクラスをチェックする
+  updateTextClass();
 });
