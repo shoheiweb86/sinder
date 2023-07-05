@@ -25,10 +25,11 @@ class SeekingController extends Controller
                 $query->where('user_id', auth()->user()->id);
             }])
             ->with('user')
+            ->orderBy('created_at', 'desc') 
             ->get();
       } else {
-        
-        $seekings = Seeking::all();
+          $seekings = Seeking::orderBy('created_at', 'desc') 
+              ->get();
       }
 
         return view('seeking.seekings', compact('seekings', 'logged_in', 'registered_sns_flag'));
