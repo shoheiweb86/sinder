@@ -1,4 +1,4 @@
-<div class="flex justify-between py-2 px-10 fixed bottom-0 w-full bg-white-90">
+<div class="flex justify-between py-2 px-10 fixed bottom-0 w-full bg-white-90 z-50">
     <a href="{{route('seeking.index')}}">
         @if (Request::is('/'))
           <img src="{{ asset('storage/materials/home_active.png')}}" alt="ホームのアイコン" class="w-8 h-8">

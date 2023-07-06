@@ -26,6 +26,7 @@ export default {
               'dark-gray': '#666666',
               'gray': '#CCCCCC',
               'bg': '#E9E9E9',
+              'heart': '#EB545D',
             },
         },
     },

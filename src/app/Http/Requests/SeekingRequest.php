@@ -16,7 +16,7 @@ class SeekingRequest extends FormRequest
         return [
             'title' => 'required|max:30',
             'content' => 'required|max:200',
-            'seeking_thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'seeking_thumbnail' => 'required|file|max:10240', // 10MB制限の例
         ];
     }
 }

@@ -31,25 +31,25 @@
                 @if ($registered_sns_flag)
                   {{-- 気になるしてるかどうか --}}
                   @if ($seeking->likes->isEmpty())
-                    <span class="likes absolute top-2 right-5">
-                      <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                    <span class="likes absolute top-2 right-2">
+                      <i class="fas fa-heart text-bg fa-2x like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
                     </span><!-- /.likes -->
                   @else
-                    <span class="likes absolute top-2 right-5">
-                      <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                    <span class="likes absolute top-2 right-2">
+                      <i class="fas fa-heart text-bg fa-2x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
                     </span><!-- /.likes -->
                   @endif
                 @else
-                  <span class="likes absolute top-2 right-5">
+                  <span class="likes absolute top-2 right-2">
                     <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                      <i class="fas fa-heart"></i>
+                      <i class="fas fa-heart text-bg fa-2x"></i>
                     </div>
                   </span>
                 @endif
               @else
-                <span class="likes absolute top-2 right-5">
+                <span class="likes absolute top-2 right-2">
                   <div href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart text-bg fa-2x"></i>
                   </div>
                 </span>
               @endif
@@ -82,25 +82,25 @@
                 @if ($registered_sns_flag)
                   {{-- 気になるしてるかどうか --}}
                   @if ($seeking->likes->isEmpty())
-                    <span class="likes absolute top-2 right-5">
-                      <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                    <span class="likes absolute top-2 right-2">
+                      <i class="fas fa-heart text-bg fa-2x like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
                     </span><!-- /.likes -->
                   @else
-                    <span class="likes absolute top-2 right-5">
-                      <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                    <span class="likes absolute top-2 right-2">
+                      <i class="fas fa-heart text-bg fa-2x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
                     </span><!-- /.likes -->
                   @endif
                 @else
-                  <span class="likes absolute top-2 right-5">
+                  <span class="likes absolute top-2 right-2">
                     <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                      <i class="fas fa-heart"></i>
+                      <i class="fas fa-heart text-bg fa-2x"></i>
                     </div>
                   </span>
                 @endif
               @else
-                <span class="likes absolute top-2 right-5">
+                <span class="likes absolute top-2 right-2">
                   <div href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
-                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart text-bg fa-2x"></i>
                   </div>
                 </span>
               @endif
@@ -153,7 +153,7 @@
 
   <style>
     .liked {
-      color: pink;
+      color: #EB545D;
     }
   </style>
 @endsection
