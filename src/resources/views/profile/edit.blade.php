@@ -56,14 +56,14 @@
         <select name="grade" id="grade" class="js-select w-full border-none px-4 relative py-3 text-sm"
           :value="old('grade', $user - > grade)">
           <option value="" disabled selected>学年</option>
-          <option value="学部1年生" {{ old('grade', $user->grade) === '学部1年生' ? 'selected' : '' }}>学部1年生</option>
-          <option value="学部2年生" {{ old('grade', $user->grade) === '学部2年生' ? 'selected' : '' }}>学部2年生</option>
-          <option value="学部3年生" {{ old('grade', $user->grade) === '学部3年生' ? 'selected' : '' }}>学部3年生</option>
-          <option value="学部4年生" {{ old('grade', $user->grade) === '学部4年生' ? 'selected' : '' }}>学部4年生</option>
-          <option value="学部5年生" {{ old('grade', $user->grade) === '学部5年生' ? 'selected' : '' }}>学部5年生</option>
-          <option value="学部6年生" {{ old('grade', $user->grade) === '学部6年生' ? 'selected' : '' }}>学部6年生</option>
-          <option value="大学院1年生" {{ old('grade', $user->grade) === '大学院1年生' ? 'selected' : '' }}>大学院1年生</option>
-          <option value="大学院2年生" {{ old('grade', $user->grade) === '大学院2年生' ? 'selected' : '' }}>大学院2年生</option>
+          <option value="1年生" {{ old('grade', $user->grade) === '1年生' ? 'selected' : '' }}>1年生</option>
+          <option value="2年生" {{ old('grade', $user->grade) === '2年生' ? 'selected' : '' }}>2年生</option>
+          <option value="3年生" {{ old('grade', $user->grade) === '3年生' ? 'selected' : '' }}>3年生</option>
+          <option value="4年生" {{ old('grade', $user->grade) === '4年生' ? 'selected' : '' }}>4年生</option>
+          <option value="5年生" {{ old('grade', $user->grade) === '5年生' ? 'selected' : '' }}>5年生</option>
+          <option value="6年生" {{ old('grade', $user->grade) === '6年生' ? 'selected' : '' }}>6年生</option>
+          <option value="院1年生" {{ old('grade', $user->grade) === '院1年生' ? 'selected' : '' }}>院1年生</option>
+          <option value="院2年生" {{ old('grade', $user->grade) === '院2年生' ? 'selected' : '' }}>院2年生</option>
         </select>
         <x-input-error :messages="$errors->get('grade')" class="mt-2" />
       </div>
@@ -106,8 +106,8 @@
         <span class="arrow-bottom"></span>
         <select name="sex" id="sex" class="js-select text-sm w-full border-none px-4 placeholder-gray py-3">
           <option value="" disabled selected>性別</option>
-          <option value="男子" {{ old('sex', $user->sex) === '男子' ? 'selected' : '' }}>男子</option>
-          <option value="女子" {{ old('sex', $user->sex) === '女子' ? 'selected' : '' }}>女子</option>
+          <option value="男性" {{ old('sex', $user->sex) === '男性' ? 'selected' : '' }}>男性</option>
+          <option value="女性" {{ old('sex', $user->sex) === '女性' ? 'selected' : '' }}>女性</option>
         </select>
         <x-input-error :messages="$errors->get('sex')" class="mt-2" />
       </div>
