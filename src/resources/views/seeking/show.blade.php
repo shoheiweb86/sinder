@@ -54,10 +54,18 @@
       <p class="mt-2 text-sm">{{ $seeking->content }}</p>
       <p class="text-xs text-dark-gray mt-2">{{ $seeking->formatted_created_at }}</p>
       <ul class="flex mt-3">
-        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ">{{ $seeking->user->sex }}</li>
-        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->grade }}</li>
-        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->age }}歳</li>
-        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->faculty }}</li>
+        @if (isset($profile_user->sex))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl">{{ $profile_user->sex }}</li>
+        @endif
+        @if (isset($profile_user->grade))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->grade }}</li>
+        @endif
+        @if (isset($profile_user->age))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->age }}歳</li>
+        @endif
+        @if (isset($profile_user->faculty))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->faculty }}</li>
+        @endif
       </ul>
 
       {{-- 自分の募集は編集できる --}}
