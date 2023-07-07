@@ -27,6 +27,14 @@ select {
   background-image: none;
 }
 
+.show-1-lines {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .show-2-lines {
   display: -webkit-box;
   -webkit-line-clamp: 2;

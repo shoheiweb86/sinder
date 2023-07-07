@@ -248,9 +248,9 @@
       });
   </script>
 
-      <style>
-        .liked {
-          color: pink;
-        }
-      </style>
-    @endsection
+    <style>
+      .liked {
+        color: pink;
+      }
+    </style>
+  @endsection

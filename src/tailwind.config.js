@@ -20,6 +20,7 @@ export default {
             colors: {
               // 'カラー名': 'カラーコード'
               'main': '#0F9565',
+              'vivid': '#EB545D',
               'white': '#FAFAFA',
               'white-90': 'rgba(255, 255, 255, 0.9)',
               'black': '#212121',

@@ -61,3 +61,31 @@ $(document).ready(function() {
   // ページ読み込み時にもテキストのクラスをチェックする
   updateTextClass();
 });
+
+//カテゴリーアクティブ処理
+$(function () {
+  $('.js-category').on('click', function () {
+    $('.category-active').removeClass('category-active');
+    $(this).addClass('category-active');
+  });
+
+  $('.like-toggle').on('click', function () {
+    $(this).toggleClass('liked');
+  });
+});
+
+//やり取りページカテゴリー表示切り替え
+$(document).ready(function() {
+  // 初期表示設定
+  $(".js-liked-seeking").show();
+  $(".js-liked-my-seeking, .js-connected-user").hide();
+
+  // クリックイベント
+  $(".js-category").click(function() {
+      var target = $(this).data('target'); // data-target属性を取得
+
+      // 全部非表示にしてから、選択されたカテゴリだけ表示
+      $(".js-liked-seeking, .js-liked-my-seeking, .js-connected-user").hide();
+      $("." + target).show();
+  });
+});

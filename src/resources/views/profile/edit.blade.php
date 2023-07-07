@@ -122,7 +122,7 @@
       <!-- LINE -->
       <div class="mt-4">
         <input id="line_link" class="block text-sm w-full border-none px-4 placeholder-gray py-3" type="text"
-          name="line_link" value="{{old('line_link', $user ->line_link)}}" autocomplete="line_link"
+          name="line_link" value="{{ old('line_link', $user->line_link) }}" autocomplete="line_link"
           placeholder="LINEのリンクを入力する" />
         <x-input-error :messages="$errors->get('line_link')" class="mt-2" />
       </div>
@@ -130,7 +130,7 @@
       <!-- Instagram -->
       <div class="mt-2">
         <input id="instagram_link" class="block text-sm w-full border-none px-4 placeholder-gray py-3" type="text"
-          name="instagram_link" value="{{old('instagram_link', $user ->instagram_link)}}" autocomplete="instagram_link"
+          name="instagram_link" value="{{old('instagram_link', $user->instagram_link) }}" autocomplete="instagram_link"
           placeholder="Instagramのリンクを入力する" />
         <x-input-error :messages="$errors->get('instagram_link')" class="mt-2" />
       </div>
@@ -138,7 +138,7 @@
       <!-- Twitter -->
       <div class="mt-2">
         <input id="twitter_link" class="block text-sm w-full border-none px-4 placeholder-gray py-3" type="text"
-          name="twitter_link" value="{{old('twitter_link', $user -> twitter_link)}}" autocomplete="twitter_link"
+          name="twitter_link" value="{{ old('twitter_link', $user->twitter_link) }}" autocomplete="twitter_link"
           placeholder="Twitterのリンクを入力する" />
         <x-input-error :messages="$errors->get('twitter_link')" class="mt-2" />
       </div>

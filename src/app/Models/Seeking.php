@@ -24,5 +24,11 @@ class Seeking extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    // Connectionへのリレーション
+    public function connections()
+    {
+        return $this->hasMany(Connection::class, 'seeking_id');
+    }
 }
 

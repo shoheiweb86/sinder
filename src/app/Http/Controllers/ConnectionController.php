@@ -26,7 +26,8 @@ class ConnectionController extends Controller
 
         $connection = new Connection();
         $connection->user_id_1 = auth()->user()->id; // 募集を投稿したユーザーのID
-        $connection->user_id_2 = $liked_user_id; // 気になるユーザーのID
+        $connection->user_id_2 = $liked_user_id; // 気になるしたユーザーのID
+        $connection->seeking_id = $seeking_id; // 募集のID
         $connection->connection_date = Carbon::now(); // 現在の時刻を格納
         $connection->save();
 
