@@ -39,8 +39,8 @@ class CommunicationController extends Controller
       }, 'likes.user'])
       ->get();
 
-      // マッチしたユーザーの情報を取得
-      $connected_users = Connection::where(function ($query) use ($userId) {
+      // マッチしたユーザーの情報を取得 
+     /*  $connected_users = Connection::where(function ($query) use ($userId) {
         $query->where('user_id_1', $userId)
             ->orWhere('user_id_2', $userId);
       })
@@ -48,11 +48,36 @@ class CommunicationController extends Controller
           $query->where('id', '!=', $userId);
       }, 'user2' => function ($query) use ($userId) {
           $query->where('id', '!=', $userId);
-      }])
-      ->get();
+      }, 'seeking'])
+      ->get(); */
 
+
+      /* $connected_seekings = Seeking::whereHas('connection', function ($query) use ($userId) {
+        $query->where('user_id_1', $userId)
+            ->orWhere('user_id_2', $userId);
+      })
+      ->with(['connection.user1', 'connection.user2'])
+      ->get(); */
+
+      $connected_seekings = Seeking::whereHas('connection', function ($query) use ($userId) {
+        $query->where('user_id_1', $userId)
+            ->orWhere('user_id_2', $userId);
+      })
+      ->with(['connection.user1', 'connection.user2'])
+      ->get();
       
-      return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_users', 'registered_sns_flag'));
+      $connected_users = collect();
+      foreach ($connected_seekings as $connected_seeking) {
+          if ($connected_seeking->connection && $connected_seeking->connection->user1) {
+              $connected_users->push($connected_seeking->connection->user1);
+          }
+          if ($connected_seeking->connection && $connected_seeking->connection->user2) {
+              $connected_users->push($connected_seeking->connection->user2);
+          }
+      }
+    
+      
+      return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_seekings', 'registered_sns_flag'));
   }
   
 }

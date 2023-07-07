@@ -112,18 +112,6 @@
   </div>
 
   <script type="module">
-      //カテゴリーアクティブ処理
-      $(function () {
-        $('.js-category').on('click', function () {
-          $('.category-active').removeClass('category-active');
-          $(this).addClass('category-active');
-        });
-
-        $('.like-toggle').on('click', function () {
-          $(this).toggleClass('liked');
-        });
-      });
-
       //気になる処理
     $(function () {
       let like = $('.like-toggle');

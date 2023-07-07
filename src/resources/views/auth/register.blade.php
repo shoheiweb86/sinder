@@ -30,7 +30,7 @@
 
     <!-- パスワード確認 -->
     <div>
-      <input id="password_confirmation" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="password_confirmation"
+      <input id="password_confirmation" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="password"
         name="password_confirmation" required autofocus autocomplete="password_confirmation" placeholder="上記パスワード確認のため、もう一度入力してください" />
       <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
     </div>
@@ -38,7 +38,7 @@
     <!--  新大生チェック -->
     <P class="text-sm text-center mt-28 flex justify-center items-center">あなたは新潟大学の生徒ですか<span class="text-xs text-main ml-">必須</span></P>
     <div class="flex justify-center items-center mt-1">
-      <input type="checkbox" id="myCheckbox" name="myCheckbox" class="text-main rounded-full p-2 focus:border-main focus:ring-main bg-bg js-required-check">
+      <input type="checkbox" id="myCheckbox" name="myCheckbox" class="text-main rounded-full p-2 focus:border-main focus:ring-main bg-bg js-required-check" required>
       <label for="myCheckbox" class="ml-2">はい、そうです</label>
     </div>
 

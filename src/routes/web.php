@@ -33,7 +33,7 @@ Route::delete('/seeking/delete/{id}', [SeekingController::class, 'destroy'])->na
 Route::post('/like',[LikeController::class, 'like'])->name('like');
 
 //マッチ処理
-Route::get('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionController::class, 'create'])
+Route::post('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionController::class, 'create'])
     ->name('connection.create')
     ->middleware('auth');
 
