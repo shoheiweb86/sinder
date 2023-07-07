@@ -39,44 +39,35 @@ class CommunicationController extends Controller
       }, 'likes.user'])
       ->get();
 
-      // マッチしたユーザーの情報を取得 
-     /*  $connected_users = Connection::where(function ($query) use ($userId) {
+
+      //マッチしているユーザーを募集に紐づけて取得
+      $connected_seekings = Seeking::whereHas('connections', function ($query) use ($userId) {
         $query->where('user_id_1', $userId)
             ->orWhere('user_id_2', $userId);
       })
-      ->with(['user1' => function ($query) use ($userId) {
-          $query->where('id', '!=', $userId);
-      }, 'user2' => function ($query) use ($userId) {
-          $query->where('id', '!=', $userId);
-      }, 'seeking'])
-      ->get(); */
-
-
-      /* $connected_seekings = Seeking::whereHas('connection', function ($query) use ($userId) {
-        $query->where('user_id_1', $userId)
-            ->orWhere('user_id_2', $userId);
-      })
-      ->with(['connection.user1', 'connection.user2'])
-      ->get(); */
-
-      $connected_seekings = Seeking::whereHas('connection', function ($query) use ($userId) {
-        $query->where('user_id_1', $userId)
-            ->orWhere('user_id_2', $userId);
-      })
-      ->with(['connection.user1', 'connection.user2'])
+      ->with([
+          'connections.user1' => function ($query) use ($userId) {
+              $query->where('id', '!=', $userId);
+          },
+          'connections.user2' => function ($query) use ($userId) {
+              $query->where('id', '!=', $userId);
+          }
+      ])
       ->get();
       
-      $connected_users = collect();
       foreach ($connected_seekings as $connected_seeking) {
-          if ($connected_seeking->connection && $connected_seeking->connection->user1) {
-              $connected_users->push($connected_seeking->connection->user1);
-          }
-          if ($connected_seeking->connection && $connected_seeking->connection->user2) {
-              $connected_users->push($connected_seeking->connection->user2);
-          }
+        $connected_users = collect();
+        foreach ($connected_seeking->connections as $connection) {
+            if ($connection->user1) {
+                $connected_users->push($connection->user1);
+            }
+            if ($connection->user2) {
+                $connected_users->push($connection->user2);
+            }
+        }
+        $connected_seeking->connected_users = $connected_users;
       }
     
-      
       return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_seekings', 'registered_sns_flag'));
   }
   

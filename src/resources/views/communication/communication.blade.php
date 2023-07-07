@@ -182,8 +182,8 @@
             <li class="rounded-lg bg-white mt-4 overflow-hidden">
               <div class="flex border-b border-1 border-solid border-gray">
                 <div class="rounded-tl-lg rounded-tr-lg w-24 h-24 flex-shrink-0">
-                  <img src="{{ asset('storage/seeking_thumbnail/' . $connected_seeking->seeking_thumbnail) }}"
-                    alt="募集画像" class="w-24 h-24 object-cover object-center rounded-tl-lg">
+                  <img src="{{ asset('storage/seeking_thumbnail/' . $connected_seeking->seeking_thumbnail) }}" alt="募集画像"
+                    class="w-24 h-24 object-cover object-center rounded-tl-lg">
                 </div>
                 <div class="py-2 px-4">
                   <h2 class="text-sm font-bold show-1-lines">{{ $connected_seeking->title }}</h2>
@@ -192,39 +192,22 @@
                 </div>
               </div>
 
-              @if ($connected_seeking->connection && $connected_seeking->connection->user1)
+              @foreach ($connected_seeking->connected_users as $connected_user)
                 <div
                   class="flex justify-between items-center py-2 px-4 border-b border-1 border-solid border-gray bg-main">
                   <div class="flex items-center">
-                    <img src="{{ asset('storage/avatars/' . $connected_seeking->connection->user1->avatar) }}"
-                      alt="ユーザーアイコン" class="w-9 h-9 rounded-full mr-2">
-                    <a href="{{ route('profile.show', ['user_name' => $connected_seeking->connection->user1->name]) }}"
-                      class="text-xs font-bold text-white">{{ $connected_seeking->connection->user1->name }}
+                    <img src="{{ asset('storage/avatars/' . $connected_user->avatar) }}" alt="ユーザーアイコン"
+                      class="w-9 h-9 rounded-full mr-2">
+                    <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
+                      class="text-xs font-bold text-white">{{ $connected_user->name }}
                     </a>
                   </div>
-                  <a href="{{ route('profile.show', ['user_name' => $connected_seeking->connection->user1->name]) }}"
+                  <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
                     class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold">
                     SNSで連絡する
                   </a>
                 </div>
-              @elseif($connected_seeking->connection && $connected_seeking->connection->user2)
-                <div
-                  class="flex justify-between items-center py-2 px-4 border-b border-1 border-solid border-gray bg-main">
-                  <div class="flex items-center">
-                    <img src="{{ asset('storage/avatars/' . $connected_seeking->connection->user2->avatar) }}"
-                      alt="ユーザーアイコン" class="w-9 h-9 rounded-full mr-2">
-                    <a href="{{ route('profile.show', ['user_name' => $connected_seeking->connection->user2->name]) }}"
-                      class="text-xs font-bold text-white">{{ $connected_seeking->connection->user2->name }}
-                    </a>
-                  </div>
-                  <div href="{{ route('profile.show', ['user_name' => $connected_seeking->connection->user2->name]) }}"
-                    class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold">
-                    SNSで連絡する
-                  </div>
-                </div>
-              @else
-                <p>No user found.</p>
-              @endif
+              @endforeach
             </li>
           @endforeach
         </ul>
@@ -232,6 +215,7 @@
         <p>No connections found.</p>
       @endif
     </div>
+
   </div>
 
 

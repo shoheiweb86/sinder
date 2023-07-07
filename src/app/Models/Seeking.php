@@ -26,9 +26,9 @@ class Seeking extends Model
     }
 
     // Connectionへのリレーション
-    public function connection()
+    public function connections()
     {
-        return $this->hasOne(Connection::class, 'seeking_id');
+        return $this->hasMany(Connection::class, 'seeking_id');
     }
 }
 
