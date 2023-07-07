@@ -17,14 +17,14 @@
       <li data-target="js-connected-user" class="ml-4 py-2 js-category">マッチ済み</li>
     </ul>
 
-    {{-- 気になるした募集 --}}
+    {{-- 気になった募集 --}}
     <div class="js-liked-seeking">
       @if ($seekings->count() > 0)
         <div class="px-3 py-2 grid grid-cols-2 gap-2">
           <div class="left">
             @foreach ($seekings as $index => $seeking)
               @if ($index % 2 === 0)
-                <a class="block rounded-lg relative mt-2">
+                <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
                     <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
                       class="rounded-tl-lg rounded-tr-lg">
@@ -44,12 +44,12 @@
                       {{-- SNSを登録しているか --}}
                       @if ($registered_sns_flag)
                         <span class="likes absolute top-2 right-5">
-                          <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                          <i class="fas fa-heart fa-2x like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
                         </span><!-- /.likes -->
                       @else
                         <span class="likes absolute top-2 right-5">
                           <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                            <i class="fas fa-heart"></i>
+                            <i class="fas fa-heart fa-2x"></i>
                           </div>
                         </span>
                       @endif
@@ -57,12 +57,12 @@
                       {{-- SNSを登録しているか --}}
                       @if ($registered_sns_flag)
                         <span class="likes absolute top-2 right-5">
-                          <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                          <i class="fas fa-heart fa-2x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
                         </span><!-- /.likes -->
                       @else
                         <span class="likes absolute top-2 right-5">
                           <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                            <i class="fas fa-heart liked"></i>
+                            <i class="fas fa-heart fa-2x liked"></i>
                           </div>
                         </span>
                       @endif
@@ -75,7 +75,7 @@
           <div class="right">
             @foreach ($seekings as $index => $seeking)
               @if ($index % 2 !== 0)
-                <a class="block rounded-lg relative mt-2">
+                <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
                     <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
                       class="rounded-tl-lg rounded-tr-lg">
@@ -95,12 +95,12 @@
                       {{-- SNSを登録しているか --}}
                       @if ($registered_sns_flag)
                         <span class="likes absolute top-2 right-5">
-                          <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                          <i class="fas fa-heart fa-2x like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
                         </span><!-- /.likes -->
                       @else
                         <span class="likes absolute top-2 right-5">
                           <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                            <i class="fas fa-heart"></i>
+                            <i class="fas fa-heart fa-2x"></i>
                           </div>
                         </span>
                       @endif
@@ -108,12 +108,12 @@
                       {{-- SNSを登録しているか --}}
                       @if ($registered_sns_flag)
                         <span class="likes absolute top-2 right-5">
-                          <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                          <i class="fas fa-heart fa-2x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
                         </span><!-- /.likes -->
                       @else
                         <span class="likes absolute top-2 right-5">
                           <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                            <i class="fas fa-heart liked"></i>
+                            <i class="fas fa-heart fa-2x liked"></i>
                           </div>
                         </span>
                       @endif
@@ -248,7 +248,7 @@
 
   <style>
     .liked {
-      color: pink;
+      color: #EB545D;
     }
   </style>
 @endsection
