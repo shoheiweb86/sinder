@@ -1,173 +1,211 @@
 @extends('layouts.layout')
 
 @section('content')
-    @if($my_profile)
-        <h1 class="font-logo text-white text-2xl tracking-tighter absolute top-4 left-3">Sinder</h1>
+  @if ($my_profile)
+    <h1 class="font-logo text-white text-2xl tracking-tighter absolute top-4 left-3">Sinder</h1>
+  @else
+    <a href="{{ url()->previous() }}" class="absolute top-4 left-3 ">
+      <img src="{{ asset('storage/materials/arrow_left.png') }}" alt="左矢印のアイコン" class="w-5 h-5">
+    </a>
+  @endif
+
+  <div class="w-full relative">
+    @if ($profile_user->avatar)
+      <img src="{{ asset('storage/avatars/' . $profile_user->avatar) }}" alt="アイコン画像"
+        class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
     @else
-      <a href="{{ url()->previous() }}" class="absolute top-4 left-3 ">
-          <img src="{{ asset('storage/materials/arrow_left.png')}}" alt="左矢印のアイコン" class="w-5 h-5">
-      </a>
+      <img src="{{ asset('storage/avatars/default-avatar.png') }}" alt="Default Avatar">
     @endif
 
+    <div class="p-4 bg-white rounded-2xl -m-1 z-10 relative">
+      <h2 class="font-bold mt-4">{{ $profile_user->name }}</h2>
+      <p class="mt-2 text-sm">{{ $profile_user->self_introduction }}</p>
+      <ul class="flex mt-3">
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ">{{ $profile_user->sex }}</li>
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->grade }}</li>
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->age }}歳</li>
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->faculty }}</li>
+      </ul>
 
-  <div class="">
-      <!-- 名前 -->
-      <div>
-          <x-input-label for="name" value="名前" />
-          <span class="block mt-1">{{ $profile_user->name }}</span>
-      </div>
-
-      <!-- 学年 -->
-      <div>
-          <x-input-label for="grade" value="学年" />
-          <span class="block mt-1">{{ $profile_user->grade }}</span>
-      </div>
-
-      <!-- 学部 -->
-      <div>
-          <x-input-label for="faculty" value="学部" />
-          <span class="block mt-1">{{ $profile_user->faculty }}</span>
-      </div>
-
-      <!-- 年齢 -->
-      <div>
-          <x-input-label for="age" value="年齢" />
-          <span class="block mt-1">{{ $profile_user->age }}</span>
-      </div>
-
-      <!-- 性別 -->
-      <div>
-          <x-input-label for="sex" value="性別" />
-          <span class="block mt-1">{{ $profile_user->sex }}</span>
-      </div>
-
-      <!-- 自己紹介 -->
-      <div>
-          <x-input-label for="self_introduction" value="自己紹介" />
-          <span class="block mt-1">{{ $profile_user->self_introduction }}</span>
-      </div>
-
-      <!-- アイコン -->
-      <div>
-          <x-input-label for="avatar" value="アイコン画像" />
-          @if ($profile_user->avatar)
-              <img src="{{ asset('storage/avatars/' . $profile_user->avatar) }}" alt="Avatar">
-          @else
-              <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar">
-          @endif
-      </div>
+      {{-- 自分の募集は編集できる --}}
+      @if ($logged_in && $my_profile)
+        <div>
+          <a href="{{ route('profile.edit') }}"
+            class="block text-center bg-dark-gray hover:bg-dark-gray text-white rounded-lg py-4 font-bold w-full mt-4 mx-auto">
+            プロフィールを編集する
+          </a>
+        </div>
+      @endif
+    </div>
+    <div class="">
 
       <!-- SNSリンク マッチしているユーザーのみ表示 -->
-      <p>SNS</p>
       @if ($connected_flag)
-          <!-- LINE -->
-          <div>
-              <x-input-label for="line_link" value="LINE" />
-              <span class="block mt-1">{{ $profile_user->line_link }}</span>
-          </div>
-
-          <!-- Instagram -->
-          <div>
-              <x-input-label for="instagram_link" value="Instagram" />
-              <span class="block mt-1">{{ $profile_user->instagram_link }}</span>
-          </div>
-
-          <!-- Twitter -->
-          <div>
-              <x-input-label for="twitter_link" value="Twitter" />
-              <span class="block mt-1">{{ $profile_user->twitter_link }}</span>
-          </div>
-      @else
-          <p>マッチしたらSNSを閲覧できます</p>
-      @endif
-
-      <!-- プロフィール編集ボタン -->
-      @if ($logged_in && $my_profile)
-          <div>
-            <a href="{{ route('profile.edit') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              プロフィール編集
-            </a>            
-          </div>
-
-          <!-- Authentication -->
-          <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();" class="text-4xl">
-                {{ __('Log Out') }}
-            </x-dropdown-link>
-        </form>
-      @endif
-
-      <!-- 募集一覧 -->
-      @foreach($seekings as $seeking)
-      <div class="card mb-4">
-          <div class="card-header">
-              <h5 class="font-bold">
-                  <a class="underline" href="{{ route('seeking.show', $seeking->id) }}">{{ $seeking->title }}</a>
-              </h5>
-          </div>
-          <div class="card-body">
-              <p class="mb-4">{{ $seeking->content }}</p>
-              <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
-              <div class="flex items-center">
-                  <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
-                  <span>{{ $seeking->user->name }}</span>
-              </div>
-          </div>
-
-          {{-- ログインしているかどうか --}}
-          @if($logged_in)
-              {{-- 他人の募集の場合--}}
-              @if(!$my_profile)
-                  {{-- 募集に気になるしているかどうか --}}
-                  @if ($seeking->likes->isEmpty())
-                      {{-- SNSを登録しているか --}}
-                      @if ($registered_sns_flag)
-                          <span class="likes">
-                              <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-                          </span><!-- /.likes -->
-                      @else 
-                          <span class="likes">
-                            <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                                <i class="fas fa-heart"></i>
-                            </a>
-                          </span>
-                      @endif
-                  @else
-                      {{-- SNSを登録しているか --}}
-                      @if ($registered_sns_flag)
-                          <span class="likes">
-                              <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
-                          </span><!-- /.likes -->
-                      @else
-                          <span class="likes">
-                            <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                                <i class="fas fa-heart liked"></i>
-                            </a>
-                          </span>
-                      @endif
-                  @endif
-              @endif
-          @else
-              {{-- ログインページに遷移 --}}
-              <span class="likes">
-                  <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
-                      <i class="fas fa-heart"></i>
-                  </a>
-              </span>
+        <!-- LINE -->
+        <div class="p-4 bg-white mt-4">
+          @if ($profile_user->line_link)
+            <a href="{{ $profile_user->line_link }}"
+              class="block bg-line text-white w-full rounded-xl py-4 text-center font-bold font-accent">LINEで連絡する</a>
           @endif
+          @if ($profile_user->twitter_link)
+            <a href="{{ $profile_user->twitter_link }}"
+              class="block bg-twitter text-white w-full rounded-xl py-4 text-center font-bold font-accent mt-2">Twitterで連絡する</a>
+          @endif
+          @if ($profile_user->instagram_link)
+            <a href="{{ $profile_user->instagram_link }}"
+              class="block text-white w-full rounded-xl py-4 text-center font-bold font-accent mt-2 bg-gradient-to-r from-instagram-purple via-instagram-red to-instagram-yellow">Instagramで連絡する</a>
+          @endif
+        </div>
+      @else
+        <img src="{{ asset('storage/materials/sns_lock.png') }}" alt="マッチ成立後SNSが解放されます" class="mt-4">
+      @endif
 
+      <!-- ログアウトボタン -->
+      {{-- <form method="POST" action="{{ route('logout') }}">
+          @csrf
 
-          <hr class="my-4">
+          <x-dropdown-link :href="route('logout')"
+            onclick="event.preventDefault();
+                                this.closest('form').submit();"
+            class="text-4xl">
+            {{ __('Log Out') }}
+          </x-dropdown-link>
+        </form> --}}
+
+      <p class="bg-white py-2 px-4 mt-4 text-sm font-bold text-center">
+        掲載中の募集一覧
+      </p>
+      <div class="px-3 py-1 grid grid-cols-2 gap-2">
+        <div class="left">
+          @foreach ($seekings as $index => $seeking)
+            @if ($index % 2 === 0)
+              <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
+                <div class="">
+                  <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+                    class="rounded-tl-lg rounded-tr-lg">
+                </div>
+                <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
+                  <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
+                  <p class="show-2-lines text-xs mt-2">{{ $seeking->content }}</p>
+                  <div class="flex items-center mt-4">
+                    <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+                      class="w-8 h-8 rounded-full mr-2">
+                    <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
+                      class="hover:underline text-xs">{{ $seeking->user->name }}</div>
+                  </div>
+                  {{-- ログインしているかどうか --}}
+                  @if ($logged_in)
+                    {{-- 他人の募集の場合 --}}
+                    @if (!$my_profile)
+                      {{-- 募集に気になるしているかどうか --}}
+                      @if ($seeking->likes->isEmpty())
+                        {{-- SNSを登録しているか --}}
+                        @if ($registered_sns_flag)
+                          <span class="likes">
+                            <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                          </span><!-- /.likes -->
+                        @else
+                          <span class="likes">
+                            <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                              <i class="fas fa-heart"></i>
+                            </a>
+                          </span>
+                        @endif
+                      @else
+                        {{-- SNSを登録しているか --}}
+                        @if ($registered_sns_flag)
+                          <span class="likes">
+                            <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                          </span><!-- /.likes -->
+                        @else
+                          <span class="likes">
+                            <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                              <i class="fas fa-heart liked"></i>
+                            </a>
+                          </span>
+                        @endif
+                      @endif
+                    @endif
+                  @else
+                    {{-- ログインページに遷移 --}}
+                    <span class="likes">
+                      <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
+                        <i class="fas fa-heart"></i>
+                      </a>
+                    </span>
+                  @endif
+                </div>
+              </a>
+            @endif
+          @endforeach
+        </div>
+
+        <div class="right">
+          @foreach ($seekings as $index => $seeking)
+            @if ($index % 2 !== 0)
+              <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
+                <div class="">
+                  <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+                    class="rounded-tl-lg rounded-tr-lg">
+                </div>
+                <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
+                  <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
+                  <p class="show-2-lines text-xs mt-2">{{ $seeking->content }}</p>
+                  <div class="flex items-center mt-4">
+                    <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+                      class="w-8 h-8 rounded-full mr-2">
+                    <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
+                      class="hover:underline text-xs">{{ $seeking->user->name }}</div>
+                  </div>
+                  {{-- ログインしているかどうか --}}
+                  @if ($logged_in)
+                    {{-- 他人の募集の場合 --}}
+                    @if (!$my_profile)
+                      {{-- 募集に気になるしているかどうか --}}
+                      @if ($seeking->likes->isEmpty())
+                        {{-- SNSを登録しているか --}}
+                        @if ($registered_sns_flag)
+                          <span class="likes">
+                            <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                          </span><!-- /.likes -->
+                        @else
+                          <span class="likes">
+                            <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                              <i class="fas fa-heart"></i>
+                            </a>
+                          </span>
+                        @endif
+                      @else
+                        {{-- SNSを登録しているか --}}
+                        @if ($registered_sns_flag)
+                          <span class="likes">
+                            <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                          </span><!-- /.likes -->
+                        @else
+                          <span class="likes">
+                            <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                              <i class="fas fa-heart liked"></i>
+                            </a>
+                          </span>
+                        @endif
+                      @endif
+                    @endif
+                  @else
+                    {{-- ログインページに遷移 --}}
+                    <span class="likes">
+                      <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
+                        <i class="fas fa-heart"></i>
+                      </a>
+                    </span>
+                  @endif
+                </div>
+              </a>
+            @endif
+          @endforeach
+        </div>
       </div>
-  @endforeach
-  </div>
 
-
-  <script type="module">
+    <script type="module">
 
     $(function () {
       let like = $('.like-toggle'); //like-toggleのついたiタグを取得し代入。
@@ -198,9 +236,9 @@
       });
   </script>
 
-  <style>
-  .liked {
-  color: pink;
-  }
-  </style>
-@endsection
+    <style>
+      .liked {
+        color: pink;
+      }
+    </style>
+  @endsection
