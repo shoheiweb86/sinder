@@ -2,70 +2,78 @@
 
 @section('content')
   <div class="container">
-    <div class="card mb-4">
-      <div class="card-header">
-        <h5 class="font-bold">{{ $seeking->title }}</h5>
-      </div>
-      <div class="card-body">
-        <p class="mb-4">{{ $seeking->content }}</p>
-        <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
-        <div class="flex items-center">
-          <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
-          <p>投稿者: <a href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}" class="text-blue-500 hover:underline">{{ $seeking->user->name }}</a></p>
-          <span>{{ $seeking->user->grade }}</span>
-          <span>{{ $seeking->user->faculty }}</span>
-          <span>{{ $seeking->user->sex }}</span>
-        </div>
-
-        {{-- 自分の募集は編集できる --}}
-        @if($my_seeking)
-          <a href="{{ route('seeking.edit', $seeking->id) }}" class="btn btn-primary mt-4">編集</a>
-          <form action="{{ route('seeking.destroy', $seeking->id) }}" method="POST" class="d-inline">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="btn btn-danger mt-4" onclick="return confirm('本当に削除しますか？')">削除</button>
-          </form>
-        @endif
-      </div>
-    </div>
-    </div>
-
-    {{-- ログインしているかどうか --}}
-    @if($logged_in)
-        {{-- 他人の募集の場合--}}
-        @if(!$my_seeking)
-            {{-- SNSを登録しているか --}}
-            @if ($registered_sns_flag)
-                {{-- 募集に気になるしているかどうか --}}
-                @if ($my_like_check == 0)
-                    <span class="likes">
-                        <i class="fas fa-heart like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
-                    </span>
-                @else
-                    <span class="likes">
-                        <i class="fas fa-heart heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
-                    </span>
-                @endif
+    <div class="w-full relative">
+      <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
+      {{-- ログインしているかどうか --}}
+      @if ($logged_in)
+        {{-- 他人の募集の場合 --}}
+        @if (!$my_seeking)
+          {{-- SNSを登録しているか --}}
+          @if ($registered_sns_flag)
+            {{-- 募集に気になるしているかどうか --}}
+            @if ($my_like_check == 0)
+              <span class="likes absolute bottom-3 right-3">
+                <i class="fas fa-heart  text-gray fa-3x like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+                <p class="text-white text-sm font-bold">気になる</p>
+              </span>
             @else
-                <span class="likes">
-                  <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
-                      <i class="fas fa-heart"></i>
-                  </a>
-                </span>
+              <span class="likes absolute bottom-3 right-3">
+                <i class="fas fa-heart  text-gray fa-3x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                <p class="text-white text-sm font-bold">気になる</p>
+              </span>
             @endif
+          @else
+            <span class="likes absolute bottom-3 right-3">
+              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                <p class="text-white text-sm font-bold">気になる</p>
+                <i class="fas fa-heart  text-gray fa-3x"></i>
+              </a>
+            </span>
+          @endif
         @endif
-
-    @else
+      @else
         {{-- ログインページに遷移 --}}
-        <span class="likes">
-            <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
-                <i class="fas fa-heart"></i>
-            </a>
+        <span class="likes absolute bottom-3 right-3">
+          <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
+            <p class="text-white text-sm font-bold">気になる</p>
+            <i class="fas fa-heart  text-gray fa-3x"></i>
+          </a>
         </span>
-    @endif
+      @endif
+    </div>
+    <div class="p-4 bg-white rounded-2xl -m-1 z-10 relative">
+      <div class="flex items-center">
+        <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+          class="w-8 h-8 rounded-full mr-2">
+        <a href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
+          class="text-dark-gray text-sm font-bold">
+          {{ $seeking->user->name }}
+        </a>
+      </div>
+      <h2 class="font-bold mt-4">{{ $seeking->title }}</h2>
+      <p class="mt-2 text-sm">{{ $seeking->content }}</p>
+      <p class="text-xs text-dark-gray mt-2">{{ $seeking->formatted_created_at }}</p>
+      <ul class="flex mt-3">
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ">{{ $seeking->user->sex }}</li>
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->grade }}</li>
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->age }}歳</li>
+        <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->faculty }}</li>
+      </ul>
+
+      {{-- 自分の募集は編集できる --}}
+      @if ($my_seeking)
+        <div>
+          <a href="{{ route('seeking.edit', $seeking->id) }}"
+            class="block text-center bg-dark-gray hover:bg-dark-gray text-white rounded-lg py-4 font-bold w-full mt-4 mx-auto">募集を編集する</a>
+        </div>
+      @endif
+    </div>
+
+  </div>
 
 
-    <script type="module">
+
+  <script type="module">
 
       $(function () {
         let like = $('.like-toggle'); //like-toggleのついたiタグを取得し代入。
@@ -96,10 +104,10 @@
         });
     </script>
 
-<style>
-  .liked {
-  color: pink;
-}
-</style>
+  <style>
+    .liked {
+      color: #EB545D;
+    }
+  </style>
 
 @endsection

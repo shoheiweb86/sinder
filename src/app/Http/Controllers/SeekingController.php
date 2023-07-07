@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SeekingRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class SeekingController extends Controller
 {
@@ -25,10 +26,11 @@ class SeekingController extends Controller
                 $query->where('user_id', auth()->user()->id);
             }])
             ->with('user')
+            ->orderBy('created_at', 'desc') 
             ->get();
       } else {
-        
-        $seekings = Seeking::all();
+          $seekings = Seeking::orderBy('created_at', 'desc') 
+              ->get();
       }
 
         return view('seeking.seekings', compact('seekings', 'logged_in', 'registered_sns_flag'));
@@ -96,6 +98,9 @@ class SeekingController extends Controller
 
           //自分は気になるを押してある募集か判別
           $my_like_check = (Like::where('seeking_id', $id)->where('user_id', $user->id)->count() > 0);
+
+          // created_atを相対時間表記に変換する
+          $seeking->formatted_created_at = $seeking->created_at->diffForHumans();
 
         }
         return view('seeking.show', compact('seeking', 'logged_in', 'my_seeking', 'my_like_check', 'registered_sns_flag'));

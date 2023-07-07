@@ -13,7 +13,7 @@
         <label for="seeking_thumbnail" class="block relative bg-white w-48 h-64 ml-4 mt-4 rounded-2xl">
           <span class="absolute top-1/2 left-1/2 -translate-y-2/4 -translate-x-1/2 w-10 h-10"><img
               src="{{ asset('storage/materials/cross.png') }}" alt=""></span>
-          <input type="file" name="seeking_thumbnail" id="seeking_thumbnail" accept="image/*" class="hidden js-required-form">
+              <input type="file" name="seeking_thumbnail" id="seeking_thumbnail" accept="image/heic,image/*" class="hidden js-required-form">
         </label>
         <x-input-error :messages="$errors->get('seeking_thumbnail')" class="mt-2" />
       </div>
