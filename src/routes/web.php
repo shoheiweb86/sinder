@@ -37,6 +37,11 @@ Route::post('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionContro
     ->name('connection.create')
     ->middleware('auth');
 
+Route::delete('/connection/{connection_id}', [ConnectionController::class, 'delete'])
+    ->name('connection.delete')
+    ->middleware('auth');
+
+
 
 //コミュニケーションページ
 Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');

@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('likes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            //紐づくユーザーが削除（退会等）されたらいいねも削除
-            $table->integer('user_id')->references('id')->on('users')->onDelete('cascade');
-            //紐づくアイテムが削除されたらいいねも削除
-            $table->integer('seeking_id')->references('id')->on('seekings')->onDelete('cascade');
+            $table->engine = 'InnoDB';
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('seeking_id');
+            $table->foreign('seeking_id')->references('id')->on('seekings')->onDelete('cascade');
             $table->timestamps();
         });
     }

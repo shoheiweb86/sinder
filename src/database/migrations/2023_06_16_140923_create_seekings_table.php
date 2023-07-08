@@ -9,6 +9,7 @@ class CreateSeekingsTable extends Migration
     public function up()
     {
         Schema::create('seekings', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('title', 30);
@@ -16,7 +17,6 @@ class CreateSeekingsTable extends Migration
             $table->string('seeking_thumbnail');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
