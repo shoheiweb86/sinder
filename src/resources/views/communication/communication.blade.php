@@ -129,7 +129,7 @@
       @endif
     </div>
 
-    {{-- 気になるされた募集 --}}
+    {{-- 気になられた募集 --}}
     <div class="js-liked-my-seeking">
       @if ($liked_my_seekings->count() > 0)
         <ul class="px-3 py-2">
@@ -142,7 +142,7 @@
                 </div>
                 <div class="py-2 px-4">
                   <h2 class="text-sm font-bold mb-2">{{ $liked_seeking->title }}</h2>
-                  <p class="text-xs">{{ $liked_seeking->content }}</p>
+                  <p class="text-xs show-3-lines">{{ $liked_seeking->content }}</p>
                 </div>
               </div>
 
