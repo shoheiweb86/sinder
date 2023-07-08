@@ -41,7 +41,7 @@
     <!--  削除ボタン -->
     <div class="text-center mt-4">
       <form action="{{ route('seeking.destroy', $seeking->id) }}" method="POST"
-        onsubmit="return confirm('本当に削除しますか？');">
+        onsubmit="return confirm('募集を削除すると、この募集でマッチしたユーザーとはマッチが解消されます。');">
         @csrf
         @method('DELETE')
         <button type="submit"

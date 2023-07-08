@@ -35,4 +35,13 @@ class ConnectionController extends Controller
 
         return redirect()->back()->with('success', 'マッチングしました！');
     }
+
+    public function delete($connection_id)
+    {
+        $connection = Connection::findOrFail($connection_id);
+        
+        $connection->delete();
+        
+        return redirect()->back()->with('success', 'マッチ解除しました！');
+    }
 }

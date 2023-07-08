@@ -54,17 +54,17 @@
       <p class="mt-2 text-sm">{{ $seeking->content }}</p>
       <p class="text-xs text-dark-gray mt-2">{{ $seeking->formatted_created_at }}</p>
       <ul class="flex mt-3">
-        @if (isset($profile_user->sex))
-          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl">{{ $profile_user->sex }}</li>
+        @if (isset($seeking->user->sex))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl">{{ $seeking->user->sex }}</li>
         @endif
-        @if (isset($profile_user->grade))
-          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->grade }}</li>
+        @if (isset($seeking->user->grade))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->grade }}</li>
         @endif
-        @if (isset($profile_user->age))
-          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->age }}歳</li>
+        @if (isset($seeking->user->age))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->age }}歳</li>
         @endif
-        @if (isset($profile_user->faculty))
-          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $profile_user->faculty }}</li>
+        @if (isset($seeking->user->faculty))
+          <li class="text-main bg-bg text-xs font-bold py-1 px-3 rounded-3xl ml-2">{{ $seeking->user->faculty }}</li>
         @endif
       </ul>
 

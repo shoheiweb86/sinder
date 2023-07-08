@@ -57,7 +57,8 @@
                       {{-- SNSを登録しているか --}}
                       @if ($registered_sns_flag)
                         <span class="likes absolute top-2 right-5">
-                          <i class="fas fa-heart fa-2x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                          <i class="fas fa-heart fa-2x heart like-toggle liked"
+                            data-seeking-id="{{ $seeking->id }}"></i>
                         </span><!-- /.likes -->
                       @else
                         <span class="likes absolute top-2 right-5">
@@ -108,7 +109,8 @@
                       {{-- SNSを登録しているか --}}
                       @if ($registered_sns_flag)
                         <span class="likes absolute top-2 right-5">
-                          <i class="fas fa-heart fa-2x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+                          <i class="fas fa-heart fa-2x heart like-toggle liked"
+                            data-seeking-id="{{ $seeking->id }}"></i>
                         </span><!-- /.likes -->
                       @else
                         <span class="likes absolute top-2 right-5">
@@ -125,14 +127,14 @@
           </div>
         </div>
       @else
-        <p>気になった募集はありません。</p>
+        <p class="mt-4 text-center">現在、気になった募集はありません。</p>
       @endif
     </div>
 
     {{-- 気になられた募集 --}}
     <div class="js-liked-my-seeking">
       @if ($liked_my_seekings->count() > 0)
-        <ul class="px-3 py-2">
+        <ul class="px-3 pb-2">
           @foreach ($liked_my_seekings as $liked_seeking)
             <li class="rounded-lg bg-white mt-4">
               <div class="flex border-b border-1 border-solid border-gray">
@@ -170,20 +172,20 @@
           @endforeach
         </ul>
       @else
-        <p>No seekings found.</p>
+        <p class="mt-4 text-center">現在、気になられた募集はありません。</p>
       @endif
     </div>
 
     {{-- マッチ済み --}}
     <div class="js-connected-user">
       @if ($connected_seekings->count() > 0)
-        <ul class="px-3 py-2">
+        <ul class="px-3 pb-2">
           @foreach ($connected_seekings as $connected_seeking)
             <li class="rounded-lg bg-white mt-4 overflow-hidden">
               <div class="flex border-b border-1 border-solid border-gray">
                 <div class="rounded-tl-lg rounded-tr-lg w-24 h-24 flex-shrink-0">
-                  <img src="{{ asset('storage/seeking_thumbnail/' . $connected_seeking->seeking_thumbnail) }}" alt="募集画像"
-                    class="w-24 h-24 object-cover object-center rounded-tl-lg">
+                  <img src="{{ asset('storage/seeking_thumbnail/' . $connected_seeking->seeking_thumbnail) }}"
+                    alt="募集画像" class="w-24 h-24 object-cover object-center rounded-tl-lg">
                 </div>
                 <div class="py-2 px-4">
                   <h2 class="text-sm font-bold show-1-lines">{{ $connected_seeking->title }}</h2>
@@ -193,26 +195,37 @@
               </div>
 
               @foreach ($connected_seeking->connected_users as $connected_user)
-                <div
-                  class="flex justify-between items-center py-2 px-4 border-b border-1 border-solid border-gray bg-main">
-                  <div class="flex items-center">
-                    <img src="{{ asset('storage/avatars/' . $connected_user->avatar) }}" alt="ユーザーアイコン"
-                      class="w-9 h-9 rounded-full mr-2">
-                    <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
-                      class="text-xs font-bold text-white">{{ $connected_user->name }}
-                    </a>
+                @foreach ($connected_seeking->connections as $connection)
+                  <div
+                    class="flex justify-between items-center py-2 px-2 border-b border-1 border-solid border-gray bg-main">
+                    <div class="flex items-center">
+                      <img src="{{ asset('storage/avatars/' . $connected_user->avatar) }}" alt="ユーザーアイコン"
+                        class="w-9 h-9 rounded-full mr-2">
+                      <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
+                        class="text-xs font-bold text-white">{{ $connected_user->name }}
+                      </a>
+                    </div>
+                    <div class="flex items-center">
+                      <form action="{{ route('connection.delete', ['connection_id' => $connection->id]) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-gray rounded-full text-white text-xs py-1 px-2">
+                          マッチ解除
+                        </button>
+                      </form>
+                      <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
+                        class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold ml-2">
+                        SNSで連絡する
+                      </a>
+                    </div>
                   </div>
-                  <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
-                    class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold">
-                    SNSで連絡する
-                  </a>
-                </div>
+                @endforeach
               @endforeach
             </li>
           @endforeach
         </ul>
       @else
-        <p>No connections found.</p>
+        <p class="mt-4 text-center">現在、マッチしている人はいません。</p>
       @endif
     </div>
 
