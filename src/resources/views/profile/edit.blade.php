@@ -20,19 +20,29 @@
 
       <!-- アイコン -->
       <div>
-        <label for="avatar" class="block relative bg-white w-48 h-64 ml-4 mt-4 rounded-2xl">
-          <span class="absolute top-1/2 left-1/2 -translate-y-2/4 -translate-x-1/2 w-10 h-10"><img
-              src="{{ asset('storage/materials/cross.png') }}" alt=""></span>
+        <label for="avatar"
+          class="block relative bg-white w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 ml-4 mt-4 rounded-2xl">
+          @if ($user->avatar)
+            <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="ユーザーアイコン"
+              class="rounded-2xl  w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative" id="avatar-preview"
+            >
+          @else
+            <img src="{{ asset('storage/avatars/default-avatar.png') }}" alt="デフォルトのユーザーアイコン"
+              class="rounded-2xl  w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative" id="avatar-preview"
+            >
+          @endif
+
+            <button class="absolute z-20 top-0 right-0 w-9 h-9 rounded-full bg-black bg-opacity-40 text-white"
+              id="js-clear-button">
+              ✕
+            </button>
+            <span class="absolute top-1/2 left-1/2 -translate-y-2/4 -translate-x-1/2 w-10 h-10">
+              <img src="{{ asset('storage/materials/cross.png') }}" alt="十字アイコン">
+            </span>
           <input type="file" name="avatar" id="avatar" accept="image/*" class="hidden">
         </label>
         <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
       </div>
-
-      @if ($user->avatar)
-        <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar">
-      @else
-        <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar">
-      @endif
 
       <!-- 名前 -->
       <div>
@@ -130,8 +140,8 @@
       <!-- Instagram -->
       <div class="mt-2">
         <input id="instagram_link" class="block text-sm w-full border-none px-4 placeholder-gray py-3" type="text"
-          name="instagram_link" value="{{old('instagram_link', $user->instagram_link) }}" autocomplete="instagram_link"
-          placeholder="Instagramのリンクを入力する" />
+          name="instagram_link" value="{{ old('instagram_link', $user->instagram_link) }}"
+          autocomplete="instagram_link" placeholder="Instagramのリンクを入力する" />
         <x-input-error :messages="$errors->get('instagram_link')" class="mt-2" />
       </div>
 
@@ -163,25 +173,77 @@
   {{-- selectの初期の文字をグレーにする --}}
   <script type="module">
   $(function () {
-  // 'js-select'クラスが付いている要素を全て取得
-  const select = $(".js-select");
-  // text-grayyクラスを付与
-  select.addClass("text-gray");
+    // 'js-select'クラスが付いている要素を全て取得
+    const select = $(".js-select");
+    // text-grayyクラスを付与
+    select.addClass("text-gray");
 
-  // selectのoptionを切り替え時
-  select.on("change", function () {
-    // option選択時
-    if ($(this).val() !== "") {
-      // text-grayクラスを削除
-      $(this).removeClass("text-gray");
-    } 
-    // placeholder選択時
-    else {
-      // text-grayクラスを付与
-      $(this).addClass("text-gray");
+    // selectのoptionを切り替え時
+    select.on("change", function () {
+      // option選択時
+      if ($(this).val() !== "") {
+        // text-grayクラスを削除
+        $(this).removeClass("text-gray");
+      } 
+      // placeholder選択時
+      else {
+        // text-grayクラスを付与
+        $(this).addClass("text-gray");
+      }
+    });
+  });
+
+  $(document).ready(function() {
+  function showPreviewAndButton() {
+    $('#avatar-preview').show();
+    $('#js-clear-button').show();
+  }
+
+  function hidePreviewAndButton() {
+    $('#avatar-preview').hide();
+    $('#js-clear-button').hide();
+  }
+
+  // 画像が読み込まれた後に実行される処理
+  function handleImageLoad() {
+    if ($('#avatar-preview').attr('src') !== "{{ asset('default-avatar.png') }}") {
+      showPreviewAndButton();
+    } else {
+      hidePreviewAndButton();
+    }
+  }
+
+  $('#avatar').change(function(e) {
+    var file = e.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#avatar-preview').attr('src', e.target.result);
+        showPreviewAndButton();
+      }
+      reader.readAsDataURL(file);
+    } else {
+      hidePreviewAndButton();
     }
   });
+
+  // 画像読み込み完了時に処理を実行
+  $('#avatar-preview').on('load', handleImageLoad);
+
+  if ($('#avatar-preview').attr('src') !== "{{ asset('default-avatar.png') }}") {
+    showPreviewAndButton();
+  } else {
+    hidePreviewAndButton();
+  }
+
+  $('#js-clear-button').click(function(e) {
+    e.preventDefault();
+    $('#avatar').val(null);
+    $('#avatar-preview').attr('src', "{{ asset('default-avatar.png') }}");
+    hidePreviewAndButton();
+  });
 });
+
 </script>
 
 @endsection
