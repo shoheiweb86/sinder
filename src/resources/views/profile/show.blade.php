@@ -94,7 +94,7 @@
                 <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
                     <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
-                      class="rounded-tl-lg rounded-tr-lg">
+                      class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
                   </div>
                   <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
                     <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
@@ -158,7 +158,7 @@
                 <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
                     <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
-                      class="rounded-tl-lg rounded-tr-lg">
+                      class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover aspect-w-3 aspect-h-4">
                   </div>
                   <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
                     <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
