@@ -84,7 +84,8 @@
     $('#js-clear-button').click(function(e) {
       e.preventDefault();
       $('#seeking_thumbnail').val(null);
-      showDefaultThumbnail();gi
+      $('#seeking_thumbnail-preview').hide();
+      $('#js-clear-button').hide();
       hideThumbnailError(); // バツボタンを押した際にエラーメッセージを非表示にする
     });
   
@@ -99,7 +100,5 @@
       $('.js-required-form').siblings('.input-error').hide(); // エラーメッセージを非表示にする
     }
   </script>
-
-
 
 @endsection

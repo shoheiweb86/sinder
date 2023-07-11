@@ -142,7 +142,9 @@ class SeekingController extends Controller
         }
 
         // 募集の画像を削除
-        Storage::disk('public')->delete('seeking_thumbnail/' . $seeking->seeking_thumbnail);
+        if ($seeking->seeking_thumbnail !== 'default-thumbnail.png') {
+            Storage::disk('public')->delete('seeking_thumbnail/' . $seeking->seeking_thumbnail);
+        }
 
         // 募集を削除
         $seeking->delete();
