@@ -48,10 +48,9 @@
     </div>
     <div class="">
 
-      <!-- SNSリンク マッチしているユーザーのみ表示 -->
-      @if ($connected_flag)
-        <!-- LINE -->
-        <div class="p-4 bg-white mt-4">
+      <!-- SNSリンク マイプロフィールの表示 -->
+      @if ($my_profile)
+        <div class="px-4 py-2 bg-white mt-4">
           @if ($profile_user->line_link)
             <a href="{{ $profile_user->line_link }}"
               class="block bg-line text-white w-full rounded-xl py-4 text-center font-bold font-accent">LINEで連絡する</a>
@@ -64,11 +63,34 @@
             <a href="{{ $profile_user->instagram_link }}"
               class="block text-white w-full rounded-xl py-4 text-center font-bold font-accent mt-2 bg-gradient-to-r from-instagram-purple via-instagram-red to-instagram-yellow">Instagramで連絡する</a>
           @endif
+          @if (empty($profile_user->line_link) && empty($profile_user->twitter_link) && empty($profile_user->instagram_link))
+              <p class="text-sm text-center">※SNSが登録されていません。<br>全ての機能を開放するには、<br>マッチ後に連絡を取れるSNSを登録してください。</p>
+          @endif
         </div>
-      @else
-        <img src="{{ asset('storage/materials/sns_lock.png') }}" alt="マッチ成立後SNSが解放されます" class="mt-4">
+
       @endif
 
+      <!-- SNSリンク マッチしているユーザーのみ表示 -->
+      @if (!$my_profile)
+        @if ($connected_flag)
+          <div class="px-4 py-2 bg-white mt-4">
+            @if ($profile_user->line_link)
+              <a href="{{ $profile_user->line_link }}"
+                class="block bg-line text-white w-full rounded-xl py-4 text-center font-bold font-accent">LINEで連絡する</a>
+            @endif
+            @if ($profile_user->twitter_link)
+              <a href="{{ $profile_user->twitter_link }}"
+                class="block bg-twitter text-white w-full rounded-xl py-4 text-center font-bold font-accent mt-2">Twitterで連絡する</a>
+            @endif
+            @if ($profile_user->instagram_link)
+              <a href="{{ $profile_user->instagram_link }}"
+                class="block text-white w-full rounded-xl py-4 text-center font-bold font-accent mt-2 bg-gradient-to-r from-instagram-purple via-instagram-red to-instagram-yellow">Instagramで連絡する</a>
+            @endif
+          </div>
+        @else
+          <img src="{{ asset('storage/materials/sns_lock.png') }}" alt="マッチ成立後SNSが解放されます" class="mt-4">
+        @endif
+      @endif
       <!-- ログアウトボタン -->
       {{-- <form method="POST" action="{{ route('logout') }}">
           @csrf
