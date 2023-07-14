@@ -137,7 +137,7 @@
         <ul class="px-3 pb-2">
           @foreach ($liked_my_seekings as $liked_seeking)
             <li class="rounded-lg bg-white mt-4">
-              <div class="flex border-b border-1 border-solid border-gray">
+              <a class="flex border-b border-1 border-solid border-gray" href="{{ route('seeking.show', $liked_seeking->id) }}">
                 <div class="rounded-tl-lg rounded-tr-lg w-24 h-24 flex-shrink-0">
                   <img src="{{ asset('storage/seeking_thumbnail/' . $liked_seeking->seeking_thumbnail) }}" alt="募集画像"
                     class="w-24 h-24 object-cover object-center rounded-tl-lg">
@@ -146,7 +146,7 @@
                   <h2 class="text-sm font-bold mb-2">{{ $liked_seeking->title }}</h2>
                   <p class="text-xs show-3-lines">{{ $liked_seeking->content }}</p>
                 </div>
-              </div>
+              </a>
 
               <div class="">
                 @foreach ($liked_seeking->likes as $like)
@@ -182,7 +182,7 @@
         <ul class="px-3 pb-2">
           @foreach ($connected_seekings as $connected_seeking)
             <li class="rounded-lg bg-white mt-4 overflow-hidden">
-              <div class="flex border-b border-1 border-solid border-gray">
+              <div class="flex border-b border-1 border-solid border-gray" href="{{ route('seeking.show', $connected_seeking->id) }}">
                 <div class="rounded-tl-lg rounded-tr-lg w-24 h-24 flex-shrink-0">
                   <img src="{{ asset('storage/seeking_thumbnail/' . $connected_seeking->seeking_thumbnail) }}"
                     alt="募集画像" class="w-24 h-24 object-cover object-center rounded-tl-lg">
@@ -195,32 +195,36 @@
               </div>
 
               @foreach ($connected_seeking->connected_users as $connected_user)
-                @foreach ($connected_seeking->connections as $connection)
-                  <div
-                    class="flex justify-between items-center py-2 px-2 border-b border-1 border-solid border-gray bg-main">
-                    <div class="flex items-center">
-                      <img src="{{ asset('storage/avatars/' . $connected_user->avatar) }}" alt="ユーザーアイコン"
-                        class="w-9 h-9 rounded-full mr-2">
-                      <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
-                        class="text-xs font-bold text-white">{{ $connected_user->name }}
-                      </a>
-                    </div>
-                    <div class="flex items-center">
-                      <form action="{{ route('connection.delete', ['connection_id' => $connection->id]) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-gray rounded-full text-white text-xs py-1 px-2">
-                          マッチ解除
-                        </button>
-                      </form>
-                      <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
-                        class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold ml-2">
-                        SNSで連絡する
-                      </a>
-                    </div>
+                <div
+                  class="flex justify-between items-center py-2 px-2 border-b border-1 border-solid border-gray bg-main">
+                  <div class="flex items-center">
+                    <img src="{{ asset('storage/avatars/' . $connected_user->avatar) }}" alt="ユーザーアイコン"
+                      class="w-9 h-9 rounded-full mr-2">
+                    <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
+                      class="text-xs font-bold text-white">{{ $connected_user->name }}
+                    </a>
                   </div>
-                @endforeach
+                  <div class="flex items-center">
+                    @foreach ($connected_seeking->connections as $connection)
+                      @if ($connection->user1_id === $connected_user->id || $connection->user2_id === $connected_user->id)
+                        <form action="{{ route('connection.delete', ['connection_id' => $connection->id]) }}"
+                          method="POST">
+                          @csrf
+                          @method('DELETE')
+                          <button type="submit" class="bg-gray rounded-full text-white text-xs py-1 px-2">
+                            マッチ解除
+                          </button>
+                        </form>
+                      @endif
+                    @endforeach
+                    <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
+                      class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold ml-2">
+                      SNSで連絡する
+                    </a>
+                  </div>
+                </div>
               @endforeach
+
             </li>
           @endforeach
         </ul>

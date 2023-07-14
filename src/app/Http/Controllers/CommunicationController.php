@@ -40,34 +40,30 @@ class CommunicationController extends Controller
       ->get();
 
 
-      //マッチしているユーザーを募集に紐づけて取得
+      // マッチしているユーザーを募集に紐づけて取得
       $connected_seekings = Seeking::whereHas('connections', function ($query) use ($userId) {
-        $query->where('user_id_1', $userId)
-            ->orWhere('user_id_2', $userId);
+        $query->where(function ($q) use ($userId) {
+            $q->where('user_id_1', $userId)
+                ->orWhere('user_id_2', $userId);
+        });
       })
-      ->with([
-          'connections.user1' => function ($query) use ($userId) {
-              $query->where('id', '!=', $userId);
-          },
-          'connections.user2' => function ($query) use ($userId) {
-              $query->where('id', '!=', $userId);
-          }
-      ])
+      ->with('connections')
       ->get();
-      
+
       foreach ($connected_seekings as $connected_seeking) {
         $connected_users = collect();
+
         foreach ($connected_seeking->connections as $connection) {
-            if ($connection->user1) {
+            if ($connection->user1->id != $userId && $connection->user2->id == $userId) {
                 $connected_users->push($connection->user1);
             }
-            if ($connection->user2) {
+            if ($connection->user2->id != $userId && $connection->user1->id == $userId) {
                 $connected_users->push($connection->user2);
             }
-        }
+          }
         $connected_seeking->connected_users = $connected_users;
       }
-    
+
       return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_seekings', 'registered_sns_flag'));
   }
   
