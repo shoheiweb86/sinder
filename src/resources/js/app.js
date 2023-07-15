@@ -89,3 +89,19 @@ $(document).ready(function() {
       $("." + target).show();
   });
 });
+
+//やり取りページカテゴリー表示切り替え
+$(document).ready(function() {
+  // 初期表示設定
+  $(".js-all-seeking").show();
+  $(".js-man-seeking, .js-woman-seeking").hide();
+
+  // クリックイベント
+  $(".js-category").click(function() {
+      var target = $(this).data('target'); // data-target属性を取得
+
+      // 全部非表示にしてから、選択されたカテゴリだけ表示
+      $(".js-all-seeking, .js-man-seeking, .js-woman-seeking").hide();
+      $("." + target).show();
+  });
+});
