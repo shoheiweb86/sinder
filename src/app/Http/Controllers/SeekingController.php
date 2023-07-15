@@ -14,26 +14,44 @@ class SeekingController extends Controller
 {
     public function index()
     {
-      //ログインしている場合 自分の募集は表示しない
-      $logged_in = false;
-      $registered_sns_flag = false;
-
-      if (auth()->check()) {
-        $logged_in = true;
-        $registered_sns_flag = Auth::user()->registered_sns_flag;
-        $seekings = Seeking::where('user_id', '!=', auth()->user()->id)
-            ->with(['likes' => function ($query) {
-                $query->where('user_id', auth()->user()->id);
-            }])
-            ->with('user')
-            ->orderBy('created_at', 'desc') 
-            ->get();
-      } else {
-          $seekings = Seeking::orderBy('created_at', 'desc') 
-              ->get();
-      }
-
-        return view('seeking.seekings', compact('seekings', 'logged_in', 'registered_sns_flag'));
+        $logged_in = false;
+        $registered_sns_flag = false;
+        $man_seekings = [];
+        $woman_seekings = [];
+    
+        if (auth()->check()) {
+            $logged_in = true;
+            $registered_sns_flag = Auth::user()->registered_sns_flag;
+    
+            $seekings = Seeking::where('user_id', '!=', auth()->user()->id)
+                ->with(['likes' => function ($query) {
+                    $query->where('user_id', auth()->user()->id);
+                }])
+                ->with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
+    
+            $man_seekings = $seekings->filter(function ($seeking) {
+                return $seeking->user->sex === '男性';
+            });
+    
+            $woman_seekings = $seekings->filter(function ($seeking) {
+                return $seeking->user->sex === '女性';
+            });
+        } else {
+            $seekings = Seeking::orderBy('created_at', 'desc')
+                ->get();
+    
+            $man_seekings = $seekings->filter(function ($seeking) {
+                return $seeking->user->sex === '男性';
+            });
+    
+            $woman_seekings = $seekings->filter(function ($seeking) {
+                return $seeking->user->sex === '女性';
+            });
+        }
+    
+        return view('seeking.seekings', compact('seekings', 'man_seekings', 'woman_seekings', 'logged_in', 'registered_sns_flag'));
     }
 
     public function create()
