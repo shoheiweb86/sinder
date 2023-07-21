@@ -77,20 +77,23 @@ class SeekingController extends Controller
         $seeking->title = $request->title;
         $seeking->content = $request->content;
 
-        // ファイルが送信された場合、DBに保存する
+        // ファイルが送信された場合、S3に保存する
         if ($request->hasFile('seeking_thumbnail')) {
             $seeking_thumbnail = $request->file('seeking_thumbnail');
             $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
-            $seeking_thumbnail->storeAs('public/seeking_thumbnail', $filename); // ファイルを保存するディレクトリを指定する
+
+            // ファイルをS3にアップロード
+            Storage::disk('s3')->put('seeking_thumbnail/' . $filename, file_get_contents($seeking_thumbnail));
+
+            // S3上の画像URLを保存
             $seeking->seeking_thumbnail = $filename;
         } else {
-          $seeking->seeking_thumbnail = 'default-thumbnail.png';
+            $seeking->seeking_thumbnail = 'default-thumbnail.png';
         }
-
 
         $seeking->save();
 
-        return redirect()->back()->with('success', 'Seeking created successfully.');
+        return redirect()->back()->with('success', '募集が作成されました！');
     }
 
     public function show($id)
