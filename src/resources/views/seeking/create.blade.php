@@ -7,6 +7,11 @@
       {{ session('message') }}
     </div>
   @endif
+  @if (session('success'))
+    <div class="text-red-400 mb-2">
+      {{ session('success') }}
+    </div>
+  @endif
   <!-- コンテンツの記述 -->
   <form action="{{ route('seeking.store') }}" method="POST" enctype="multipart/form-data" class="max-w-md mx-auto">
     @csrf

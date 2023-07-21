@@ -1,5 +1,6 @@
 {
     "require": {
-        "laravel/ui": "^4.2"
+        "laravel/ui": "^4.2",
+        "league/flysystem-aws-s3-v3": "^3.15"
     }
 }
