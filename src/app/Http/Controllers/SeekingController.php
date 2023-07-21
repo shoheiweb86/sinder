@@ -6,9 +6,9 @@ use App\Models\Like;
 use App\Models\Seeking;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeekingRequest;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
 
 class SeekingController extends Controller
 {
@@ -82,8 +82,13 @@ class SeekingController extends Controller
             $seeking_thumbnail = $request->file('seeking_thumbnail');
             $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
 
-            // ファイルをS3にアップロード
-            Storage::disk('s3')->put('seeking_thumbnail/' . $filename, file_get_contents($seeking_thumbnail));
+            try {
+                // アップロード処理のコード
+                Storage::disk('s3')->put('/seeking_thumbnail/' . $filename, file_get_contents($seeking_thumbnail));
+            } catch (Exception $e) {
+                error_log('アップロードエラー: ' . $e->getMessage());
+            }
+          
 
             // S3上の画像URLを保存
             $seeking->seeking_thumbnail = $filename;
