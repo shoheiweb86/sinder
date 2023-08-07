@@ -3,7 +3,7 @@
 @section('content')
   <div class="container">
     <div class="w-full relative">
-      <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
+      <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
       {{-- ログインしているかどうか --}}
       @if ($logged_in)
         {{-- 他人の募集の場合 --}}
