@@ -11,7 +11,7 @@
 
   <div class="w-full relative">
     @if ($profile_user->avatar)
-      <img src="{{ asset('storage/avatars/' . $profile_user->avatar) }}" alt="アイコン画像"
+      <img src="{{ Storage::disk('s3')->url('avatars/' . $profile_user->avatar) }}" alt="アイコン画像"
         class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
     @else
       <img src="{{ asset('storage/avatars/default-avatar.png') }}" alt="Default Avatar">
