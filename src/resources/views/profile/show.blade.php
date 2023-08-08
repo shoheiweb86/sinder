@@ -10,13 +10,9 @@
   @endif
 
   <div class="w-full relative">
-    @if ($profile_user->avatar)
-      <img src="{{ asset('storage/avatars/' . $profile_user->avatar) }}" alt="アイコン画像"
-        class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
-    @else
-      <img src="{{ asset('storage/avatars/default-avatar.png') }}" alt="Default Avatar">
-    @endif
-
+    <img src="{{ Storage::disk('s3')->url('avatars/' . $profile_user->avatar) }}" alt="アイコン画像"
+      class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
+      
     <div class="p-4 bg-white rounded-2xl -m-1 z-10 relative">
       <h2 class="font-bold">{{ $profile_user->name }}</h2>
       <p class="mt-2 text-sm">{{ $profile_user->self_introduction }}</p>
@@ -115,7 +111,7 @@
               @if ($index % 2 === 0)
                 <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
-                    <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
                       class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
                   </div>
                   <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
@@ -179,8 +175,8 @@
               @if ($index % 2 !== 0)
                 <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
-                    <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
-                      class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover aspect-w-3 aspect-h-4">
+                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+                      class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
                   </div>
                   <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
                     <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>

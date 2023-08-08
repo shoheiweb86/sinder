@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('faculty', ['人文学部', '教育学部', '法学部', '経済科学部', '理学部', '医学部医学科', '医学部保健学科', '歯学部', '工学部', '農学部', '創生学部', '教育実践学研究科', '現代社会文化研究科', '自然科学研究科', '保健学研究科', '医歯学総合研究科'])->nullable();
             $table->enum('sex', ['男性', '女性'])->nullable();;
             $table->string('self_introduction', 200)->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default('default-avatar.png');
             $table->string('line_link')->nullable();
             $table->string('twitter_link')->nullable();
             $table->string('instagram_link')->nullable();
