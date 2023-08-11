@@ -22,16 +22,9 @@
       <div>
         <label for="avatar"
           class="block relative bg-white w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 ml-4 mt-4 rounded-2xl">
-          @if ($user->avatar)
-            <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="ユーザーアイコン"
+            <img src="{{ Storage::disk('s3')->url('avatar/' . $user->avatar) }}" alt="ユーザーアイコン"
               class="rounded-2xl  w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative" id="avatar-preview"
             >
-          @else
-            <img src="{{ asset('storage/avatars/default-avatar.png') }}" alt="デフォルトのユーザーアイコン"
-              class="rounded-2xl  w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative" id="avatar-preview"
-            >
-          @endif
-
             <button class="absolute z-20 top-0 right-0 w-9 h-9 rounded-full bg-black bg-opacity-40 text-white"
               id="js-clear-button">
               ✕
