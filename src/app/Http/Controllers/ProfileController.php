@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+use Exception;
 
 class ProfileController extends Controller
 {
@@ -94,12 +96,22 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
 
-        // ファイルが送信された場合、DBに保存する
+        // ファイルが送信された場合、S3に保存する
         if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
-            $avatar->storeAs('public/avatars', $filename); // ファイルを保存するディレクトリを指定する
-            $user->avatar = $filename;
+          $avatar = $request->file('avatar');
+          $filename = time() . '.' . $avatar->getClientOriginalExtension();
+
+          try {
+              // アップロード処理のコード
+              Storage::disk('s3')->put('/avatar/' . $filename, file_get_contents($avatar));
+          } catch (Exception $e) {
+              error_log('アップロードエラー: ' . $e->getMessage());
+          }
+
+          // S3上の画像URLを保存
+          $user->avatar = $filename;
+        } else {
+            $user->avatar = 'default-avatar.png';
         }
 
         // SNSのリンク最低一つ登録されたらtrue
@@ -115,9 +127,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
+    //ユーザー削除（実装していない）
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

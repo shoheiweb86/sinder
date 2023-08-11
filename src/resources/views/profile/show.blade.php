@@ -10,7 +10,7 @@
   @endif
 
   <div class="w-full relative">
-    <img src="{{ Storage::disk('s3')->url('avatars/' . $profile_user->avatar) }}" alt="アイコン画像"
+    <img src="{{ Storage::disk('s3')->url('avatar/' . $profile_user->avatar) }}" alt="アイコン画像"
       class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
       
     <div class="p-4 bg-white rounded-2xl -m-1 z-10 relative">
