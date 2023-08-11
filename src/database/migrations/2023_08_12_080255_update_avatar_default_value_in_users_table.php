@@ -9,13 +9,13 @@ class UpdateAvatarDefaultValueInUsersTable extends Migration
 {
     public function up()
     {
+        // avatar 列が NULL の場合、デフォルトの値を挿入
+        DB::table('users')->whereNull('avatar')->update(['avatar' => 'default-avatar.png']);
+
         Schema::table('users', function (Blueprint $table) {
             // 既存の avatar 列の既定値を変更する
             $table->string('avatar')->default('default-avatar.png')->change();
         });
-
-        // avatar 列が NULL の場合、デフォルトの値を挿入
-        DB::table('users')->whereNull('avatar')->update(['avatar' => 'default-avatar.png']);
     }
 
     public function down()
