@@ -43,7 +43,7 @@
     </div>
     <div class="p-4 bg-white rounded-2xl -m-1 z-10 relative">
       <div class="flex items-center">
-        <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+        <img src="{{ Storage::disk('s3')->url('avatar/' .$seeking->user->avatar) }}" alt="アイコン画像"
           class="w-8 h-8 rounded-full mr-2">
         <a href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
           class="text-dark-gray text-sm font-bold">

@@ -98,11 +98,7 @@
             <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
         </div>
 
-        @if ($user->avatar)
-            <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar">
-        @else
-            <img src="{{ asset('default-avatar.png') }}" alt="Default Avatar">
-        @endif
+        <img src="{{ Storage::disk('s3')->url('avatar/' . $user->avatar) }}" alt="アイコン画像">
 
         <!-- SNSリンク -->
         <!-- LINE -->

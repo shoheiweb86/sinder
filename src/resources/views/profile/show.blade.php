@@ -118,7 +118,7 @@
                     <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
                     <p class="show-2-lines text-xs mt-2">{{ $seeking->content }}</p>
                     <div class="flex items-center mt-4">
-                      <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+                      <img src="{{ Storage::disk('s3')->url('avatar/' .$seeking->user->avatar) }}" alt="アイコン画像"
                         class="w-8 h-8 rounded-full mr-2">
                       <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
                         class="hover:underline text-xs">{{ $seeking->user->name }}</div>
@@ -182,7 +182,7 @@
                     <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
                     <p class="show-2-lines text-xs mt-2">{{ $seeking->content }}</p>
                     <div class="flex items-center mt-4">
-                      <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+                      <img src="{{ Storage::disk('s3')->url('avatar/' .$seeking->user->avatar) }}" alt="アイコン画像"
                         class="w-8 h-8 rounded-full mr-2">
                       <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
                         class="hover:underline text-xs">{{ $seeking->user->name }}</div>
