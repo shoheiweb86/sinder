@@ -12,9 +12,9 @@
                 </div>
                 <div class="card-body">
                     <p class="mb-4">{{ $seeking->content }}</p>
-                    <img src="{{ asset('storage/seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
+                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
                     <div class="flex items-center">
-                        <img src="{{ asset('storage/avatars/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
+                        <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
                         <span>{{ $seeking->user->name }}</span>
                     </div>
                 </div>

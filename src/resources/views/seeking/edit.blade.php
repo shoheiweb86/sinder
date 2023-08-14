@@ -12,9 +12,9 @@
       <div>
         <label for="seeking_thumbnail"
           class="block relative bg-white w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 ml-4 mt-4 rounded-2xl">
-          <img src="{{ asset('storage/seeking_thumbnail/default-thumbnail.png') }}" alt="デフォルトのサムネイル"
-            class="rounded-2xl w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative"
-            id="seeking_thumbnail-preview">
+            <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/default-thumbnail.png') }}" alt="アイコン画像"
+              class="rounded-2xl w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative"
+              id="seeking_thumbnail-preview">
           <button class="absolute z-20 top-0 right-0 w-9 h-9 rounded-full bg-black bg-opacity-40 text-white"
             id="js-clear-button" type="button">
             ✕
@@ -63,7 +63,7 @@
   <script type="module">
     $(document).ready(function() {
       if ('{{ $seeking->seeking_thumbnail }}') {
-        showUploadedThumbnail('{{ asset('storage/seeking_thumbnail/'.$seeking->seeking_thumbnail) }}');
+        showUploadedThumbnail('{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}');
       } else {
         showDefaultThumbnail();
       }
@@ -94,7 +94,7 @@
     });
   
     function showDefaultThumbnail() {
-      $('#seeking_thumbnail-preview').attr('src', "{{ asset('storage/seeking_thumbnail/default-thumbnail.png') }}");
+      $('#seeking_thumbnail-preview').attr('src', "{{ Storage::disk('s3')->url('seeking_thumbnail/default-thumbnail.png') }}");
       $('#seeking_thumbnail-preview').show(); // 画像プレビューを表示する
       $('#js-clear-button').show(); // バツボタンを表示する
     }

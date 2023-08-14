@@ -20,7 +20,7 @@
     <div>
       <label for="seeking_thumbnail"
         class="block relative bg-white w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 ml-4 mt-4 rounded-2xl">
-        <img src="{{ asset('storage/seeking_thumbnail/default-thumbnail.png') }}" alt="デフォルトのサムネイル"
+        <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/default-thumbnail.png') }}" alt="アイコン画像"
           class="rounded-2xl w-[200px] h-[267px] object-cover aspect-w-3 aspect-h-4 z-10 relative"
           id="seeking_thumbnail-preview">
         <button class="absolute z-20 top-0 right-0 w-9 h-9 rounded-full bg-black bg-opacity-40 text-white"
