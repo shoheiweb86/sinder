@@ -8,6 +8,7 @@
 
         <!-- Favicon -->
         <link rel="icon" type="image/x-icon" href="{{ asset('storage/materials/favicon.ico') }}">
+        <link rel="apple-touch-icon" type="image/png" href="{{ asset('storage/materials/apple-touch-icon.png') }}">
 
         <title>{{ config('app.name', 'Sinder') }}</title>
 
