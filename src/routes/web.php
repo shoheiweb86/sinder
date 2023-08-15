@@ -46,9 +46,4 @@ Route::delete('/connection/{connection_id}', [ConnectionController::class, 'dele
 //コミュニケーションページ
 Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
 
-if (config('app.env') === 'production' or config('app.env') === 'staging') {
-  // asset()やurl()がhttpsで生成される
-  URL::forceScheme('https');
-}
-
 require __DIR__.'/auth.php';
