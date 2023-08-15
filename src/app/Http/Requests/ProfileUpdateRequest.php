@@ -23,9 +23,9 @@ class ProfileUpdateRequest extends FormRequest
             'sex' => ['nullable', Rule::in(['男性', '女性'])],
             'self_introduction' => ['nullable', 'string', 'max:200'],
             'avatar' => ['nullable', 'file'],
-            'line_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:line\.me\/[A-Za-z0-9_.-]+)$/i'],
-            'twitter_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?twitter\.com\/[A-Za-z0-9_]+\/?$/i'],
-            'instagram_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[A-Za-z0-9_]+\/*$/i'],
+            'line_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:line\.me\/[A-Za-z0-9_.-]+)(?:\/.*)?$/i'],
+            'twitter_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?x\.com\/[A-Za-z0-9_]+\/?(?:\?.*)?$/i'],
+            'instagram_link' => ['nullable', 'regex:/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[A-Za-z0-9_]+\/?(\?igshid=.+)?$/i']
         ];
     }
 }
