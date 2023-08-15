@@ -7,7 +7,7 @@ use App\Http\Controllers\SeekingController;
 use App\Http\Controllers\CommunicationController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ConnectionController;
-
+use PharIo\Manifest\Url;
 
 //プロフィールページ (スラッグがeditと競合してる)
 Route::get('/profile/show/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
@@ -45,5 +45,10 @@ Route::delete('/connection/{connection_id}', [ConnectionController::class, 'dele
 
 //コミュニケーションページ
 Route::get('/communication', [CommunicationController::class, 'index'])->name('communication.index');
+
+if (config('app.env') === 'production' or config('app.env') === 'staging') {
+  // asset()やurl()がhttpsで生成される
+  URL::forceScheme('https');
+}
 
 require __DIR__.'/auth.php';
