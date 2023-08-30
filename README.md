@@ -1,3 +1,9 @@
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d9b865d3-c511-4a9e-8133-e02e7f26fbd1">
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d72c4e06-5fcf-480e-8e36-f9cbcf53a0a9">
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/21f020b3-deaf-450b-9af9-fbae7c1e7949">
+
+
+
 ## Sinder(シンダー)の提供する価値
 新大生が求めている新大生をマッチングさせ、良い出会いの機会を提供する<br>
 新大生に大学生活を充実させてほしい！！
