@@ -41,3 +41,17 @@ https://sinder.jp/
 ## アプリケーションのイメージ
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/9150ef69-e93b-471a-9d0e-ec9981ab3a7f">
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/a4e6c8d8-95bd-413d-bfea-eed1885f2783">
+
+<br>
+
+## 使用技術
+
+| Category          | Technology Stack                                     |
+| ----------------- | --------------------------------------------------   |
+| Frontend          | JavaScript, jQuery                                   |
+| Backend           | Laravel                                              |
+| Infrastructure    | Amazon Web Services                                  |
+| Database          | MySQL                                                |
+| Environment setup | Docker                                               |
+| Design            | Figma                                                |
+| etc.              | Git, GitHub                                          |
