@@ -50,8 +50,20 @@ https://sinder.jp/
 | ----------------- | --------------------------------------------------   |
 | Frontend          | JavaScript, jQuery                                   |
 | Backend           | Laravel                                              |
-| Infrastructure    | Amazon Web Services                                  |
+| Infrastructure    | EC2, RDS, S3, Route53                                |
 | Database          | MySQL                                                |
 | Environment setup | Docker                                               |
 | Design            | Figma                                                |
 | etc.              | Git, GitHub                                          |
+
+<br>
+
+## 工夫した点
+
+<br>
+
+## 今後の展望
+- フェーズ1：新しい税制に対応した請求書を、Web上で作成・発行できるアプリケーションを開発する。
+- フェーズ2：発注書・見積書・納品書を、Web上で作成・発行できる機能を追加する。
+- フェーズ3：お金や取引に関するデータをWeb上で確認できる機能を追加する。
+- フェーズ4：取引に関するデータを、会計ソフトに効率的に取り込める機能を追加する。
