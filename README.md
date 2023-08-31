@@ -39,5 +39,5 @@ https://sinder.jp/
 <br>
 
 ## アプリケーションのイメージ
-<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/a4e6c8d8-95bd-413d-bfea-eed1885f2783">
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/9150ef69-e93b-471a-9d0e-ec9981ab3a7f">
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/a4e6c8d8-95bd-413d-bfea-eed1885f2783">
