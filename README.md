@@ -1,9 +1,3 @@
-<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d9b865d3-c511-4a9e-8133-e02e7f26fbd1">
-<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d72c4e06-5fcf-480e-8e36-f9cbcf53a0a9">
-<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/21f020b3-deaf-450b-9af9-fbae7c1e7949">
-
-
-
 ## Sinder(シンダー)の提供する価値
 新大生が求めている新大生をマッチングさせ、良い出会いの機会を提供する<br>
 新大生に大学生活を充実させてほしい！！
@@ -40,7 +34,19 @@ https://sinder.jp/
 
 ## アプリケーションのイメージ
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/9150ef69-e93b-471a-9d0e-ec9981ab3a7f">
+<br>
+掲載されている募集に「気になる」をする流れ
+<br>
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/a4e6c8d8-95bd-413d-bfea-eed1885f2783">
+<br>
+「気になる」されたユーザーがマッチングをして、SNSを閲覧できるようになる流れ
+
+<br>
+
+## 機能一覧
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d9b865d3-c511-4a9e-8133-e02e7f26fbd1">
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d72c4e06-5fcf-480e-8e36-f9cbcf53a0a9">
+<img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/21f020b3-deaf-450b-9af9-fbae7c1e7949">
 
 <br>
 
