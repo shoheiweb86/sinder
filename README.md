@@ -42,6 +42,7 @@ https://sinder.jp/
 
 ##### ↓「気になる」されたユーザーがマッチングをして、SNSを閲覧できるようになる流れ
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/a4e6c8d8-95bd-413d-bfea-eed1885f2783">
+<br>
 
 <br>
 
@@ -49,6 +50,7 @@ https://sinder.jp/
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d9b865d3-c511-4a9e-8133-e02e7f26fbd1">
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d72c4e06-5fcf-480e-8e36-f9cbcf53a0a9">
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/21f020b3-deaf-450b-9af9-fbae7c1e7949">
+<br>
 
 <br>
 
