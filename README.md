@@ -46,6 +46,7 @@ https://sinder.jp/
 
 <br>
 
+<!-- 
 ## 機能一覧
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d9b865d3-c511-4a9e-8133-e02e7f26fbd1">
 <img width="300px" src="https://github.com/shoheiweb86/sinder/assets/82988094/d72c4e06-5fcf-480e-8e36-f9cbcf53a0a9">
@@ -53,6 +54,8 @@ https://sinder.jp/
 <br>
 
 <br>
+
+-->
 
 ## 使用技術
 
