@@ -61,7 +61,7 @@ https://sinder.jp/
 
 | Category          | Technology Stack                                     |
 | ----------------- | --------------------------------------------------   |
-| Frontend          | Blade, jQuery                                        |
+| Frontend          | Blade, jQuery,TailwindCSS                            |
 | Backend           | Laravel                                              |
 | Infrastructure    | EC2, RDS, S3, Route53                                |
 | Database          | MySQL                                                |
