@@ -32,7 +32,7 @@
             @endif
         </a>
     @else
-        <a href="{{route('register')}}">
+        <a href="{{route('login')}}">
           <img src="{{ asset('storage/materials/profile.png')}}" alt="プロフィールのアイコン" class="w-8 h-8">
         </a>
     @endif

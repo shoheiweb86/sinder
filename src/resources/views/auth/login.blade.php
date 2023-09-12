@@ -42,8 +42,8 @@
     </div>
 
     <!-- 新規登録ボタン -->
-    <div class="block text-center mt-36">
-      <a href="{{route('register')}}" class="block bg-main text-white rounded-lg py-3 px-8 mt-6 font-bold w-11/12 mx-auto">新規登録してSinderをはじめる</a>
+    <div class="block text-center mt-16">
+      <a href="{{route('register')}}" class="block bg-main text-white rounded-lg py-3 px-8 font-bold w-11/12 mx-auto">新規登録してSinderをはじめる</a>
     </div>
 
     <!-- ログインせずに見る -->
