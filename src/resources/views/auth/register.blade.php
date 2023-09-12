@@ -36,7 +36,7 @@
     </div>
 
     <!--  新大生チェック -->
-    <P class="text-sm text-center mt-28 flex justify-center items-center">あなたは新潟大学の生徒ですか<span class="text-xs text-main ml-">必須</span></P>
+    <P class="text-sm text-center mt-8 flex justify-center items-center">あなたは新潟大学の生徒ですか<span class="text-xs text-main ml-">必須</span></P>
     <div class="flex justify-center items-center mt-1">
       <input type="checkbox" id="myCheckbox" name="myCheckbox" class="text-main rounded-full p-2 focus:border-main focus:ring-main bg-bg js-required-check" required>
       <label for="myCheckbox" class="ml-2">はい、そうです</label>
