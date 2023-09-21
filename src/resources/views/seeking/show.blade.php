@@ -3,7 +3,7 @@
 @section('content')
   <div class="container">
     <div class="w-full relative">
-      <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
+      <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像" class="w-full h-auto max-h-[520px] aspect-w-3 aspect-h-4 object-cover">
       {{-- ログインしているかどうか --}}
       @if ($logged_in)
         {{-- 他人の募集の場合 --}}

@@ -12,9 +12,9 @@
                 </div>
                 <div class="card-body">
                     <p class="mb-4">{{ $seeking->content }}</p>
-                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像" class="mb-4">
+                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像" class="mb-4">
                     <div class="flex items-center">
-                        <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="ユーザーアイコン" class="w-8 h-8 rounded-full mr-2">
+                        <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー" class="w-8 h-8 rounded-full mr-2">
                         <span>{{ $seeking->user->name }}</span>
                     </div>
                 </div>

@@ -13,14 +13,14 @@
         @if ($index % 2 === 0)
           <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
             <div class="">
-              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
                 class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
             </div>
             <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
               <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
               <p class="show-2-lines text-xs mt-2">{{ $seeking->content }}</p>
               <div class="flex items-center mt-4">
-                <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+                <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー"
                   class="w-8 h-8 rounded-full mr-2">
                 <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
                   class="hover:underline text-xs">{{ $seeking->user->name }}</div>
@@ -64,14 +64,14 @@
         @if ($index % 2 !== 0)
           <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
             <div class="">
-              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
               class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
             </div>
             <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
               <h2 class="font-bold text-sm">{{ $seeking->title }}</h2>
               <p class="show-2-lines text-xs mt-2">{{ $seeking->content }}</p>
               <div class="flex items-center mt-4">
-                <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="ユーザーアイコン"
+                <img src="{{ Storage::disk('s3')->url('avatar/' . $seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー"
                   class="w-8 h-8 rounded-full mr-2">
                 <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
                   class="hover:underline text-xs">{{ $seeking->user->name }}</div>
@@ -116,14 +116,14 @@
         @if ($index % 2 === 0)
           <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $man_seeking->id) }}">
             <div class="">
-              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $man_seeking->seeking_thumbnail) }}" alt="募集画像"
+              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $man_seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
                 class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
             </div>
             <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
               <h2 class="font-bold text-sm">{{ $man_seeking->title }}</h2>
               <p class="show-2-lines text-xs mt-2">{{ $man_seeking->content }}</p>
               <div class="flex items-center mt-4">
-                <img src="{{ Storage::disk('s3')->url('avatar/' . $man_seeking->user->avatar) }}" alt="ユーザーアイコン"
+                <img src="{{ Storage::disk('s3')->url('avatar/' . $man_seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー"
                   class="w-8 h-8 rounded-full mr-2">
                 <div href="{{ route('profile.show', ['user_name' => $man_seeking->user->name]) }}"
                   class="hover:underline text-xs">{{ $man_seeking->user->name }}</div>
@@ -167,14 +167,14 @@
         @if ($index % 2 !== 0)
           <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $man_seeking->id) }}">
             <div class="">
-              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $man_seeking->seeking_thumbnail) }}" alt="募集画像"
+              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $man_seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
               class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
             </div>
             <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
               <h2 class="font-bold text-sm">{{ $man_seeking->title }}</h2>
               <p class="show-2-lines text-xs mt-2">{{ $man_seeking->content }}</p>
               <div class="flex items-center mt-4">
-                <img src="{{ Storage::disk('s3')->url('avatar/' . $man_seeking->user->avatar) }}" alt="ユーザーアイコン"
+                <img src="{{ Storage::disk('s3')->url('avatar/' . $man_seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー"
                   class="w-8 h-8 rounded-full mr-2">
                 <div href="{{ route('profile.show', ['user_name' => $man_seeking->user->name]) }}"
                   class="hover:underline text-xs">{{ $man_seeking->user->name }}</div>
@@ -219,14 +219,14 @@
         @if ($index % 2 === 0)
           <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $woman_seeking->id) }}">
             <div class="">
-              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $woman_seeking->seeking_thumbnail) }}" alt="募集画像"
+              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $woman_seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
                 class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
             </div>
             <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
               <h2 class="font-bold text-sm">{{ $woman_seeking->title }}</h2>
               <p class="show-2-lines text-xs mt-2">{{ $woman_seeking->content }}</p>
               <div class="flex items-center mt-4">
-                <img src="{{ Storage::disk('s3')->url('avatar/' . $woman_seeking->user->avatar) }}" alt="ユーザーアイコン"
+                <img src="{{ Storage::disk('s3')->url('avatar/' . $woman_seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー"
                   class="w-8 h-8 rounded-full mr-2">
                 <div href="{{ route('profile.show', ['user_name' => $woman_seeking->user->name]) }}"
                   class="hover:underline text-xs">{{ $woman_seeking->user->name }}</div>
@@ -270,14 +270,14 @@
         @if ($index % 2 !== 0)
           <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $woman_seeking->id) }}">
             <div class="">
-              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $woman_seeking->seeking_thumbnail) }}" alt="募集画像"
+              <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $woman_seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
                 class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
             </div>
             <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
               <h2 class="font-bold text-sm">{{ $woman_seeking->title }}</h2>
               <p class="show-2-lines text-xs mt-2">{{ $woman_seeking->content }}</p>
               <div class="flex items-center mt-4">
-                <img src="{{ Storage::disk('s3')->url('avatar/' . $woman_seeking->user->avatar) }}" alt="ユーザーアイコン"
+                <img src="{{ Storage::disk('s3')->url('avatar/' . $woman_seeking->user->avatar) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー"
                   class="w-8 h-8 rounded-full mr-2">
                 <div href="{{ route('profile.show', ['user_name' => $woman_seeking->user->name]) }}"
                   class="hover:underline text-xs">{{ $woman_seeking->user->name }}</div>
