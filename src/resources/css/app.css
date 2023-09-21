@@ -4,6 +4,9 @@
 
 
 /* オリジナルCSS */
+ol {
+  list-style: decimal;
+}
 
 .arrow-bottom {
   display: inline-block;

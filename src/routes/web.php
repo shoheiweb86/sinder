@@ -7,6 +7,8 @@ use App\Http\Controllers\SeekingController;
 use App\Http\Controllers\CommunicationController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ConnectionController;
+use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\PrivacyPolicyController;
 use PharIo\Manifest\Url;
 
 //プロフィールページ (スラッグがeditと競合してる)
@@ -28,6 +30,10 @@ Route::get('/seeking/edit/{id}', [SeekingController::class, 'edit'])->name('seek
 Route::put('seeking/update/{id}', [SeekingController::class, 'update'])->name('seeking.update');
 Route::delete('/seeking/delete/{id}', [SeekingController::class, 'destroy'])->name('seeking.destroy');
 
+
+//利用規約・プライバシーポリシー
+Route::get('/policy', [PolicyController::class, 'index'])->name('policy.index');
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
 
 //いいねを付ける
 Route::post('/like',[LikeController::class, 'like'])->name('like');

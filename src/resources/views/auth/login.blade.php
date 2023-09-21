@@ -34,7 +34,7 @@
 
     <div class="flex items-center justify-center mt-4">
       @if (Route::has('password.request'))
-        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
           href="{{ route('password.request') }}">
           パスワードを忘れた場合
         </a>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- 新規登録ボタン -->
-    <div class="block text-center mt-16">
+    <div class="block text-center mt-10">
       <a href="{{route('register')}}" class="block bg-main text-white rounded-lg py-3 px-8 font-bold w-11/12 mx-auto">新規登録してSinderをはじめる</a>
     </div>
 
@@ -50,6 +50,23 @@
     <div class="text-center mt-2">
       <a href="{{route('seeking.index')}}" class="text-main underline" >ログインせずにSinderを見てみる</a>
     </div>
+    
+    
+    <!-- 利用規約・プライバシーポリシー -->
+    <div class="flex items-center justify-between mt-4 w-4/5 mr-auto ml-auto">
+      <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
+        href="{{ route('policy.index') }}">
+        利用規約
+      </a>
+      <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
+        href="{{ route('privacy-policy.index') }}">
+        プライバシーポリシー
+      </a>
+      <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
+        href="https://forms.gle/a6aN5RcvoJPEFPSt8" target="_blank">
+        お問い合わせ
+      </a>
+  </div>
 
   </form>
 
