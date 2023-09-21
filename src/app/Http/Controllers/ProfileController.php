@@ -103,6 +103,7 @@ class ProfileController extends Controller
 
             // Intervention Imageを使用して画像を圧縮
             $image = Image::make($avatar)
+                ->orientate()
                 ->resize(750, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
