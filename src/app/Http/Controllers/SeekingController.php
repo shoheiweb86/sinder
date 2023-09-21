@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SeekingRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
 class SeekingController extends Controller
@@ -72,34 +73,37 @@ class SeekingController extends Controller
 
     public function store(SeekingRequest $request)
     {
-        $seeking = new Seeking;
-        $seeking->user_id = auth()->user()->id;
-        $seeking->title = $request->title;
-        $seeking->content = $request->content;
+      $seeking = new Seeking;
+      $seeking->user_id = auth()->user()->id;
+      $seeking->title = $request->title;
+      $seeking->content = $request->content;
 
-        // ファイルが送信された場合、S3に保存する
-        if ($request->hasFile('seeking_thumbnail')) {
-            $seeking_thumbnail = $request->file('seeking_thumbnail');
-            $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
+      if ($request->hasFile('seeking_thumbnail')) {
+          $seeking_thumbnail = $request->file('seeking_thumbnail');
+          $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
 
-            try {
-                // アップロード処理のコード
-                Storage::disk('s3')->put('/seeking_thumbnail/' . $filename, file_get_contents($seeking_thumbnail));
-            } catch (Exception $e) {
-                error_log('アップロードエラー: ' . $e->getMessage());
-            }
+          // Intervention Imageを使用して画像を圧縮する
+          $image = Image::make($seeking_thumbnail)->resize(750, null, function ($constraint) {
+              $constraint->aspectRatio();
+              $constraint->upsize();
+          })->stream(); // 圧縮した画像のデータを取得
+
+          try {
+              // 画像をS3にアップロード
+              Storage::disk('s3')->put('/seeking_thumbnail/' . $filename, (string) $image);
+          } catch (Exception $e) {
+              error_log('アップロードエラー: ' . $e->getMessage());
+          }
           
+          $seeking->seeking_thumbnail = $filename;
+      } else {
+          $seeking->seeking_thumbnail = 'default-thumbnail.png';
+      }
 
-            // S3上の画像URLを保存
-            $seeking->seeking_thumbnail = $filename;
-        } else {
-            $seeking->seeking_thumbnail = 'default-thumbnail.png';
-        }
+      $seeking->save();
 
-        $seeking->save();
-
-        return redirect()->back()->with('success', '募集が作成されました！');
-    }
+      return redirect()->back()->with('success', '募集が作成されました！');
+      }
 
     public function show($id)
     {

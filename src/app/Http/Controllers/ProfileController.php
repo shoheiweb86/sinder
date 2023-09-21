@@ -10,8 +10,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Exception;
 
 class ProfileController extends Controller
@@ -98,29 +98,37 @@ class ProfileController extends Controller
 
         // ファイルが送信された場合、S3に保存する
         if ($request->hasFile('avatar')) {
-          $avatar = $request->file('avatar');
-          $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
 
-          try {
-              // アップロード処理のコード
-              Storage::disk('s3')->put('/avatar/' . $filename, file_get_contents($avatar));
-          } catch (Exception $e) {
-              error_log('アップロードエラー: ' . $e->getMessage());
-          }
+            // Intervention Imageを使用して画像を圧縮
+            $image = Image::make($avatar)
+                ->resize(750, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->stream();  // 圧縮した画像のデータを取得
 
-          // S3上の画像URLを保存
-          $user->avatar = $filename;
+            try {
+                // 画像をS3にアップロード
+                Storage::disk('s3')->put('/avatar/' . $filename, (string) $image);
+            } catch (Exception $e) {
+                error_log('アップロードエラー: ' . $e->getMessage());
+            }
+
+            // S3上の画像URLを保存
+            $user->avatar = $filename;
         } else {
             $user->avatar = 'default-avatar.png';
         }
 
         // SNSのリンク最低一つ登録されたらtrue
         if ($user->line_link || $user->twitter_link || $user->instagram_link) {
-          $user->registered_sns_flag = true;
+            $user->registered_sns_flag = true;
         } else {
-          $user->registered_sns_flag = false;
+            $user->registered_sns_flag = false;
         }
-        
+
         // DBに保存
         $user->save();
 
