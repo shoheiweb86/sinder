@@ -53,7 +53,7 @@
     
     
     <!-- 利用規約・プライバシーポリシー -->
-    <div class="flex items-center justify-between mt-4 w-2/3 mr-auto ml-auto">
+    <div class="flex items-center justify-between mt-4 w-4/5 mr-auto ml-auto">
       <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
         href="{{ route('policy.index') }}">
         利用規約
@@ -61,6 +61,10 @@
       <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
         href="{{ route('privacy-policy.index') }}">
         プライバシーポリシー
+      </a>
+      <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md"
+        href="https://forms.gle/a6aN5RcvoJPEFPSt8" target="_blank">
+        お問い合わせ
       </a>
   </div>
 
