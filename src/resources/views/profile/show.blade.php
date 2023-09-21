@@ -111,7 +111,7 @@
               @if ($index % 2 === 0)
                 <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
-                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
                       class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
                   </div>
                   <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
@@ -175,7 +175,7 @@
               @if ($index % 2 !== 0)
                 <a class="block rounded-lg relative mt-2" href="{{ route('seeking.show', $seeking->id) }}">
                   <div class="">
-                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="募集画像"
+                    <img src="{{ Storage::disk('s3')->url('seeking_thumbnail/' . $seeking->seeking_thumbnail) }}" alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderの募集画像"
                       class="rounded-tl-lg rounded-tr-lg w-full min-h-[200px] object-cover">
                   </div>
                   <div class="bg-white p-2 rounded-bl-lg rounded-br-lg">
