@@ -83,10 +83,12 @@ class SeekingController extends Controller
           $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
 
           // Intervention Imageを使用して画像を圧縮する
-          $image = Image::make($seeking_thumbnail)->resize(750, null, function ($constraint) {
-              $constraint->aspectRatio();
-              $constraint->upsize();
-          })->stream(); // 圧縮した画像のデータを取得
+          $image = Image::make($seeking_thumbnail)
+            ->orientate()
+            ->resize(750, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->stream(); // 圧縮した画像のデータを取得
 
           try {
               // 画像をS3にアップロード
