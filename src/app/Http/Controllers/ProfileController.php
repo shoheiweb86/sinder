@@ -56,10 +56,13 @@ class ProfileController extends Controller
                 $query->where('user_id', auth()->user()->id);
               }])
               ->with('user')
+              ->orderBy('created_at', 'desc')
               ->get();
         } else {
           // 該当するユーザーの募集を取得するクエリ
-          $seekings = Seeking::where('user_id', $profile_user->id)->get();
+          $seekings = Seeking::where('user_id', $profile_user->id
+              ->orderBy('created_at', 'desc'))
+              ->get();
         }
 
         // ユーザーのプロフィールページを表示するビューを返す
