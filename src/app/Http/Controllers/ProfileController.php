@@ -102,7 +102,7 @@ class ProfileController extends Controller
         // ファイルが送信された場合、S3に保存する
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $filename = time() . '.webp';
 
             // Intervention Imageを使用して画像を圧縮
             $image = Image::make($avatar)
@@ -111,6 +111,7 @@ class ProfileController extends Controller
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })
+                ->encode('webp')  // WebP形式に変換
                 ->stream();  // 圧縮した画像のデータを取得
 
             try {
