@@ -12,19 +12,19 @@
           @if ($registered_sns_flag)
             {{-- 募集に気になるしているかどうか --}}
             @if ($my_like_check == 0)
-              <span class="likes absolute bottom-3 right-3">
-                <i class="fas fa-heart  text-gray fa-3x like-toggle" data-seeking-id="{{ $seeking->id }}"></i>
+              <span class="likes absolute bottom-3 right-3 like-toggle"  data-seeking-id="{{ $seeking->id }}">
+                <i class="fas fa-heart  text-gray fa-3x twitter-like"></i>
                 <p class="text-white text-sm font-bold">気になる</p>
               </span>
             @else
-              <span class="likes absolute bottom-3 right-3">
-                <i class="fas fa-heart  text-gray fa-3x heart like-toggle liked" data-seeking-id="{{ $seeking->id }}"></i>
+              <span class="likes absolute bottom-3 right-3 like-toggle" data-seeking-id="{{ $seeking->id }}">
+                <i class="fas fa-heart  text-gray fa-3x heart liked twitter-like"></i>
                 <p class="text-white text-sm font-bold">気になる</p>
               </span>
             @endif
           @else
-            <span class="likes absolute bottom-3 right-3">
-              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+            <span class="likes absolute bottom-3 right-3 like-toggle">
+              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}">
                 <p class="text-white text-sm font-bold">気になる</p>
                 <i class="fas fa-heart  text-gray fa-3x"></i>
               </a>
@@ -83,39 +83,62 @@
 
   <script type="module">
 
-      $(function () {
-        let like = $('.like-toggle'); //like-toggleのついたiタグを取得し代入。
-        let likeSeekingId; //変数を宣言（なんでここで？）
-        like.on('click', function () { //onはイベントハンドラー
-          let $this = $(this); //this=イベントの発火した要素＝iタグを代入
-          likeSeekingId = $this.data('seeking-id'); //iタグに仕込んだdata-seekingw-idの値を取得
-          //ajax処理スタート
+  $(function () {
+      let like = $('.like-toggle'); 
+      let likeSeekingId; 
+      like.on('click', function () { 
+          let $this = $(this);
+          likeSeekingId = $this.data('seeking-id'); 
           $.ajax({
-            headers: { //HTTPヘッダ情報をヘッダ名と値のマップで記述
-              'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-            },  //↑name属性がcsrf-tokenのmetaタグのcontent属性の値を取得
-            url: '/like', //通信先アドレスで、このURLをあとでルートで設定します
-            method: 'POST', //HTTPメソッドの種別を指定します。1.9.0以前の場合はtype:を使用。
-            data: { //サーバーに送信するデータ
-              'seeking_id': likeSeekingId //いいねされた投稿のidを送る
-            },
+              headers: {
+                  'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+              },  
+              url: '/like', 
+              method: 'POST', 
+              data: {
+                  'seeking_id': likeSeekingId 
+              },
           })
-          //通信成功した時の処理
           .done(function () {
-            $this.toggleClass('liked'); //likedクラスのON/OFF切り替え。
+              let heartIcon = $this.find('.twitter-like');
+              if(heartIcon.hasClass('liked')){
+                  heartIcon.removeClass('liked');
+              } else {
+                  heartIcon.addClass('liked');
+              }
           })
-          //通信失敗した時の処理
+
           .fail(function () {
-            console.log('fail'); 
+              console.log('fail'); 
           });
-        });
-        });
+      });
+});
+
     </script>
 
   <style>
     .liked {
       color: #EB545D;
     }
+
+    @keyframes heartBounce {
+      0%, 100% {
+          transform: scale(1);
+      }
+      50% {
+          transform: scale(1.3);
+      }
+    }
+
+    i.twitter-like {
+        transition: transform 0.25s, color 0.25s; 
+    }
+
+    svg.liked {
+        color: #EB545D;
+        animation: heartBounce 0.5s;
+    }
+
   </style>
 
 @endsection
