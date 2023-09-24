@@ -80,7 +80,7 @@ class SeekingController extends Controller
 
       if ($request->hasFile('seeking_thumbnail')) {
           $seeking_thumbnail = $request->file('seeking_thumbnail');
-          $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
+          $filename = time() . '.webp';
 
           // Intervention Imageを使用して画像を圧縮する
           $image = Image::make($seeking_thumbnail)
@@ -88,7 +88,9 @@ class SeekingController extends Controller
             ->resize(750, null, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
-            })->stream(); // 圧縮した画像のデータを取得
+            })
+            ->encode('webp')  // WebP形式に変換
+            ->stream(); // 圧縮した画像のデータを取得
 
           try {
               // 画像をS3にアップロード
@@ -151,11 +153,27 @@ class SeekingController extends Controller
         $seeking->title = $request->input('title');
         $seeking->content = $request->input('content');
 
-        // ファイルが送信された場合、DBに保存する
         if ($request->hasFile('seeking_thumbnail')) {
             $seeking_thumbnail = $request->file('seeking_thumbnail');
-            $filename = time() . '.' . $seeking_thumbnail->getClientOriginalExtension();
-            $seeking_thumbnail->storeAs('public/seeking_thumbnail', $filename); // ファイルを保存するディレクトリを指定する
+            $filename = time() . '.webp';
+
+            // Intervention Imageを使用して画像を圧縮する
+            $image = Image::make($seeking_thumbnail)
+                ->orientate()
+                ->resize(750, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->encode('webp')  // WebP形式に変換
+                ->stream(); // 圧縮した画像のデータを取得
+
+            try {
+                // 画像をS3にアップロード
+                Storage::disk('s3')->put('/seeking_thumbnail/' . $filename, (string) $image);
+            } catch (Exception $e) {
+                error_log('アップロードエラー: ' . $e->getMessage());
+            }
+            
             $seeking->seeking_thumbnail = $filename;
         }
 
