@@ -16,16 +16,16 @@
     <!-- 学籍番号を入力 jsでドメインを追加してる -->
     <div>
       <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-6 text-sm" type="text"
-        name="email" required autofocus placeholder="学籍番号を入力してください" />
+        name="email" required placeholder="学籍番号を小文字で入力してください" />
         @if ($errors->has('email'))
-          <p class="text-sm text-vivid">正しい学籍番号を入力してください。</p>
+          <p class="text-sm text-vivid">正しい学籍番号(小文字)を入力してください。</p>
         @endif
     </div>
 
     <!-- パスワード -->
     <div>
       <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="password"
-        name="password" required autofocus autocomplete="password" placeholder="パスワードを入力してください" />
+        name="password" required autocomplete="password" placeholder="パスワードを入力してください" />
       <x-input-error :messages="$errors->get('password')" class="mt-2" />
     </div>
 

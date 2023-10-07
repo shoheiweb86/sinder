@@ -10,14 +10,14 @@
     <!-- 名前 -->
     <div>
       <input id="name" class="block px-4 py-3 border-none w-full placeholder-gray mt-6 text-sm js-required-form" type="text"
-        name="name" required autofocus autocomplete="name" placeholder="名前またはニックネーム（あとから変更可能）" />
+        name="name" required autocomplete="name" placeholder="名前またはニックネーム（あとから変更可能）" />
       <x-input-error :messages="$errors->get('name')" class="mt-2" />
     </div>
 
     <!-- 学籍番号を入力 jsでドメインを追加してる -->
     <div>
       <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="text"
-        name="email" required autofocus placeholder="学籍番号を入力してください" />
+        name="email" required placeholder="学籍番号を小文字で入力してください" />
         @if ($errors->has('email'))
           <p class="text-sm text-vivid">その学籍番号は既に登録されています。</p>
         @endif
@@ -26,14 +26,14 @@
     <!-- パスワード -->
     <div>
       <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="password"
-        name="password" required autofocus autocomplete="password" placeholder="パスワードを設定してください" />
+        name="password" required autocomplete="password" placeholder="パスワードを設定してください" />
       <x-input-error :messages="$errors->get('password')" class="mt-2" />
     </div>
 
     <!-- パスワード確認 -->
     <div>
       <input id="password_confirmation" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="password"
-        name="password_confirmation" required autofocus autocomplete="password_confirmation" placeholder="上記パスワード確認のため、もう一度入力してください" />
+        name="password_confirmation" required autocomplete="password_confirmation" placeholder="上記パスワード確認のため、もう一度入力してください" />
       <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
     </div>
 
