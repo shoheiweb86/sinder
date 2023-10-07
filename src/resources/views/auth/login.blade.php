@@ -17,7 +17,9 @@
     <div>
       <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-6 text-sm" type="text"
         name="email" required autofocus placeholder="学籍番号を入力してください" />
-      <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        @if ($errors->has('email'))
+          <p class="text-sm text-vivid">正しい学籍番号を入力してください。</p>
+        @endif
     </div>
 
     <!-- パスワード -->
