@@ -42,7 +42,7 @@
 <a href="{{ $url }}" class="button">アカウントを有効にして、Sinderに戻る</a>
 
 <p>ご不明な点は下記のフォームよりお問い合わせください。</p>
-<p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdUREB-SiESkcSvyt4ctKjP9wNdCrqF3YprEX-nf-VRdChJ9g/viewform">Sinderお問合せフォーム</a></p>
+<p><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdUREB-SiESkcSvyt4ctKjP9wNdCrqF3YprEX-nf-VRdChJ9g/viewform">Sinderお問合せフォーム</a></p>
 
 {{ config('app.name') }}</p>
 
