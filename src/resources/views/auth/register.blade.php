@@ -14,10 +14,10 @@
       <x-input-error :messages="$errors->get('name')" class="mt-2" />
     </div>
 
-    <!-- メールアドレス -->
+    <!-- 学籍番号を入力 jsでドメインを追加してる -->
     <div>
       <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="text"
-        name="email" required autofocus autocomplete="email" placeholder="メールアドレスを入力してください" />
+        name="email" required autofocus placeholder="学籍番号を入力してください" />
       <x-input-error :messages="$errors->get('email')" class="mt-2" />
     </div>
 
@@ -47,4 +47,35 @@
       <button class="bg-gray register-button text-white rounded-lg py-4 px-8 mt-6 font-bold w-11/12">登録してSinderをはじめる</button>
     </div>
   </form>
+
+  <script type="module">
+    $(document).ready(function() {
+        $('form').submit(function(e) {
+            // フォーム送信を一時的に停止
+            e.preventDefault();
+
+            // メールアドレス入力欄の値を取得し、ドメインを追加
+            var email = $('#email').val();
+            var fullEmail = email + '@mail.cc.niigata-u.ac.jp';
+
+            // フォームをコピーして、ユーザーが見えない場所に仮のフォームを作成
+            var $formClone = $(this).clone();
+            $formClone.css({
+                display: 'none',
+                position: 'absolute',
+                top: 0,
+                left: 0
+            });
+
+            // クローンしたフォームのメールアドレスを全てのメールアドレスに更新
+            $formClone.find('#email').val(fullEmail);
+
+            // bodyタグの最後にクローンを追加
+            $('body').append($formClone);
+
+            // クローンしたフォームを送信
+            $formClone.submit();
+        });
+    });
+  </script>
 @endsection

@@ -60,8 +60,8 @@ class ProfileController extends Controller
               ->get();
         } else {
           // 該当するユーザーの募集を取得するクエリ
-          $seekings = Seeking::where('user_id', $profile_user->id
-              ->orderBy('created_at', 'desc'))
+          $seekings = Seeking::where('user_id', $profile_user->id)
+              ->orderBy('created_at', 'desc')
               ->get();
         }
 
