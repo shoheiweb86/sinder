@@ -26,7 +26,9 @@
     <div>
       <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="password"
         name="password" required autocomplete="password" placeholder="パスワードを入力してください" />
-      <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        @if ($errors->has('password'))
+          <p class="text-sm text-vivid">正しい学籍番号(小文字)を入力してください。</p>
+        @endif
     </div>
 
     <!-- ログインボタン -->
