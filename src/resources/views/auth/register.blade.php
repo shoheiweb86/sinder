@@ -26,7 +26,7 @@
     <!-- パスワード -->
     <div>
       <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm js-required-form" type="password"
-        name="password" required autocomplete="password" placeholder="パスワードを設定してください" />
+        name="password" required autocomplete="password" placeholder="8文字以上のパスワードを設定してください" />
       <x-input-error :messages="$errors->get('password')" class="mt-2" />
     </div>
 
