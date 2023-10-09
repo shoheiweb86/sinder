@@ -12,13 +12,12 @@
 
   <form method="POST" action="{{ route('login') }}">
     @csrf
-
     <!-- 学籍番号を入力 jsでドメインを追加してる -->
     <div>
       <input id="email" class="block px-4 py-3 border-none w-full placeholder-gray mt-6 text-sm" type="text"
         name="email" required placeholder="学籍番号を小文字で入力してください" />
         @if ($errors->has('email'))
-          <p class="text-sm text-vivid">正しい学籍番号(小文字)を入力してください。</p>
+          <p class="text-sm text-vivid">{{$errors->first('email')}}</p>
         @endif
     </div>
 
@@ -27,7 +26,7 @@
       <input id="password" class="block px-4 py-3 border-none w-full placeholder-gray mt-2 text-sm" type="password"
         name="password" required autocomplete="password" placeholder="パスワードを入力してください" />
         @if ($errors->has('password'))
-          <p class="text-sm text-vivid">正しい学籍番号(小文字)を入力してください。</p>
+          <p class="text-sm text-vivid">{{$errors->first('password')}}</p>
         @endif
     </div>
 
