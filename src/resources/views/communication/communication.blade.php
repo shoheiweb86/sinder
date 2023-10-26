@@ -154,14 +154,14 @@
                 @foreach ($liked_seeking->likes as $like)
                   <div class="flex justify-between items-center py-2 px-4 border-b border-1 border-solid border-gray">
                     <div class="flex items-center">
-                      <img src="{{ Storage::disk('s3')->url('avatar/' . $like->user->avatar) }}"
+                      <img src="{{ Storage::disk('s3')->url('avatar/' . $like->likes_to_users->avatar) }}"
                         alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー" class="w-9 h-9 rounded-full mr-2">
-                      <a href="{{ route('profile.show', ['user_name' => $like->user->name]) }}"
-                        class="text-xs font-bold">{{ $like->user->name }}
+                      <a href="{{ route('profile.show', ['user_name' => $like->likes_to_users->name]) }}"
+                        class="text-xs font-bold">{{ $like->likes_to_users->name }}
                       </a>
                     </div>
                     <form
-                      action="{{ route('connection.create', ['seeking_id' => $liked_seeking->id, 'liked_user_id' => $like->user->id]) }}"
+                      action="{{ route('connection.create', ['seeking_id' => $liked_seeking->id, 'liked_user_id' => $like->likes_to_users->id]) }}"
                       method="POST">
                       @csrf
                       <button type="submit"

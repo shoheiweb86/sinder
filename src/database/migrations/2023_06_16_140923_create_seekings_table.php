@@ -9,14 +9,12 @@ class CreateSeekingsTable extends Migration
     public function up()
     {
         Schema::create('seekings', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained('users');
             $table->string('title', 30);
             $table->string('content', 200);
             $table->string('seeking_thumbnail');
             $table->timestamps();
-
         });
     }
 

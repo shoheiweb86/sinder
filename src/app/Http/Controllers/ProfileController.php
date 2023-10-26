@@ -25,6 +25,7 @@ class ProfileController extends Controller
 
         // スラッグを使用して該当するユーザーを検索
         $profile_user = User::where('name', $user_name)->first();
+        $profile_user_id = $profile_user->id;
         if (!$profile_user) {
             abort(404); // ユーザーが見つからない場合は404エラーを返すなどの処理を行う
         }
@@ -38,29 +39,40 @@ class ProfileController extends Controller
             $logged_in_user_id =  $user->id;
 
             //自分のプロフィールかどうか
-            if($profile_user->id === $logged_in_user_id) {
+            if($profile_user_id === $logged_in_user_id) {
                 $my_profile = true;
             }
+            //マッチが成立しているレコードから、
+            //like_from_user_idとlike_to_user_idを配列で取得する
+            $connected_like_from_users_id = $profile_user->likes_from_users()
+                  ->where('connected_flag', 1)
+                  ->pluck('like_from_user_id')
+                  ->all();
+            $connected_like_to_users_id = $profile_user->likes_to_users()
+                    ->where('connected_flag', 1)
+                    ->pluck('like_to_user_id')
+                    ->all();
 
-            //マッチしているか
-            $connected_users_1 = $profile_user->connections()->pluck('user_id_1')->all();
-            $connected_users_2 = $profile_user->connections()->pluck('user_id_2')->all();
-
-            if (in_array($logged_in_user_id, $connected_users_1) || in_array($logged_in_user_id, $connected_users_2)) {
+            //ログインユーザーのidが、マッチしているユーザーのidと一致した場合flag立てる
+            if (in_array($logged_in_user_id, $connected_like_from_users_id) 
+                || in_array($logged_in_user_id, $connected_like_to_users_id)) {
                 $connected_flag = true;
             }
 
           // プロフィールユーザーの募集を取得するクエリ 「気になる」しているかも取得
-          $seekings = Seeking::where('user_id', $profile_user->id)
-              ->with(['likes' => function ($query) {
-                $query->where('user_id', auth()->user()->id);
+          $seekings = Seeking::where('user_id', $profile_user_id)
+              ->with(['likes' => function ($query) use ($logged_in_user_id) {
+                $query->where(function ($query) use ($logged_in_user_id) {
+                    $query->where('like_from_user_id', $logged_in_user_id)
+                          ->orWhere('like_to_user_id', $logged_in_user_id);
+                });
               }])
               ->with('user')
               ->orderBy('created_at', 'desc')
               ->get();
         } else {
           // 該当するユーザーの募集を取得するクエリ
-          $seekings = Seeking::where('user_id', $profile_user->id)
+          $seekings = Seeking::where('user_id', $profile_user_id)
               ->orderBy('created_at', 'desc')
               ->get();
         }

@@ -20,14 +20,18 @@ class SeekingController extends Controller
         $man_seekings = [];
         $woman_seekings = [];
     
-        if (auth()->check()) {
+        if (Auth::check()) {
             $logged_in = true;
-            $registered_sns_flag = Auth::user()->registered_sns_flag;
+            $user = Auth::user();
+            $registered_sns_flag = $user->registered_sns_flag;
     
-            $seekings = Seeking::where('user_id', '!=', auth()->user()->id)
-                ->with(['likes' => function ($query) {
-                    $query->where('user_id', auth()->user()->id);
+            //自分以外の募集を取得
+            $seekings = Seeking::where('user_id', '!=', $user->id)
+                //自分が気になるしているlikesモデルを取得
+                ->with(['likes' => function ($query) use ($user){
+                    $query->where('like_from_user_id', $user->id);
                 }])
+                //募集しているユーザーを取得
                 ->with('user')
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -74,7 +78,7 @@ class SeekingController extends Controller
     public function store(SeekingRequest $request)
     {
       $seeking = new Seeking;
-      $seeking->user_id = auth()->user()->id;
+      $seeking->user_id = Auth::id();
       $seeking->title = $request->title;
       $seeking->content = $request->content;
 
@@ -109,9 +113,9 @@ class SeekingController extends Controller
       return redirect()->back()->with('success', '募集が作成されました！');
       }
 
-    public function show($id)
+    public function show($seeking_id)
     {
-        $seeking = Seeking::findOrFail($id);
+        $seeking = Seeking::findOrFail($seeking_id);
         $my_seeking = false;
         $my_like_check = false;
         $logged_in = false;
@@ -123,14 +127,13 @@ class SeekingController extends Controller
 
           //ユーザー取得
           $user = Auth::user();
-          $user_id = $user->id;
           $registered_sns_flag = $user->registered_sns_flag;
 
           //自分の募集かどうか
-          $my_seeking = ($seeking->user_id === $user_id) ? true : false;
+          $my_seeking = ($seeking->user->id === $user->id) ? true : false;
 
           //自分は気になるを押してある募集か判別
-          $my_like_check = (Like::where('seeking_id', $id)->where('user_id', $user->id)->count() > 0);
+          $my_like_check = (Like::where('like_to_seeking_id', $seeking_id)->where('like_from_user_id', $user->id)->exists());
 
           // created_atを相対時間表記に変換する
           $seeking->formatted_created_at = $seeking->created_at->diffForHumans();

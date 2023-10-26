@@ -28,16 +28,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function seekings()
     {
-        return $this->hasMany(Seeking::class);
+        return $this->hasMany(Seeking::class, 'user_id');
     }
 
-    public function likes()
+    public function likes_from_users()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Like::class, 'like_from_user_id');
     }
 
-    public function connections()
+    public function likes_to_users()
     {
-        return $this->hasMany(Connection::class, 'user_id_1')->orWhere('user_id_2', $this->id);
+        return $this->hasMany(Like::class, 'like_to_user_id');
     }
 }

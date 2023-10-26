@@ -11,17 +11,27 @@ class LikeController extends Controller
 {
   public function like(Request $request)
   {
-      $user_id = Auth::user()->id; //1.ログインユーザーのid取得
-      $seeking_id = $request->seeking_id; //2.投稿idの取得
-      $already_liked = Like::where('user_id', $user_id)->where('seeking_id', $seeking_id)->first(); //3.
+      //likeした人を取得
+      $like_from_user_id = Auth::id(); 
+      $seeking_id = $request->seeking_id;
+
+      //募集を作成したユーザーのidを取得
+      $seeking = Seeking::where('id', $seeking_id)->first();
+      $like_to_user_id = $seeking->user_id;
+      
+      //ユーザーが気になるしているか判断
+      $already_liked = Like::where('like_from_user_id', $like_from_user_id)->where('like_to_seeking_id', $seeking_id)->first();
   
-      if (!$already_liked) { //もしこのユーザーがこの投稿にまだいいねしてなかったら
-          $like = new Like; //4.Likeクラスのインスタンスを作成
-          $like->seeking_id = $seeking_id; //Likeインスタンスにreview_id,user_idをセット
-          $like->user_id = $user_id;
+      //ユーザーが気になるしていない場合
+      if (!$already_liked) { 
+          $like = new Like; 
+          $like->like_to_seeking_id = $seeking_id;
+          //likeした人と、likeされた人のidを入れる
+          $like->like_from_user_id = $like_from_user_id;
+          $like->like_to_user_id = $like_to_user_id;
           $like->save();
       } else { //もしこのユーザーがこの投稿に既にいいねしてたらdelete
-          Like::where('seeking_id', $seeking_id)->where('user_id', $user_id)->delete();
+          Like::where('like_to_seeking_id', $seeking_id)->where('like_from_user_id', $like_from_user_id)->delete();
       }
       return;
   }

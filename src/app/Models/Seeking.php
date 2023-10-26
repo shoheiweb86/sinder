@@ -22,13 +22,7 @@ class Seeking extends Model
     //気になるへのリレーション
     public function likes()
     {
-        return $this->hasMany(Like::class);
-    }
-
-    // Connectionへのリレーション
-    public function connections()
-    {
-        return $this->hasMany(Connection::class, 'seeking_id');
+        return $this->hasMany(Like::class, 'like_to_seeking_id');
     }
 }
 

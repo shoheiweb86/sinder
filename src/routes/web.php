@@ -37,8 +37,9 @@ Route::middleware('verified')->group(function () {
 Route::get('/policy', [PolicyController::class, 'index'])->name('policy.index');
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
 
-//いいねを付ける
+//気になるを付け外し
 Route::post('/like',[LikeController::class, 'like'])->name('like');
+Route::post('/match',[LikeController::class, 'match'])->name('match');
 
 //マッチ処理
 Route::post('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionController::class, 'create'])
