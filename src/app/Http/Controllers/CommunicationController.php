@@ -31,9 +31,11 @@ class CommunicationController extends Controller
 
       //気になるされた自分の募集を取得
       $liked_my_seekings = Seeking::where('user_id', $userId)
+      //likesリレーションで、検索条件にあるレコードを取得
       ->whereHas('likes', function ($query) use ($userId) {
           $query->where('user_id', '!=', $userId);
       })
+      //気になるしたユーザーも取得
       ->with(['likes' => function ($query) use ($userId) {
           $query->where('user_id', '!=', $userId);
       }, 'likes.user'])
@@ -41,6 +43,7 @@ class CommunicationController extends Controller
 
 
       // マッチしているユーザーを募集に紐づけて取得
+      //一旦、マッチしている募集を取得
       $connected_seekings = Seeking::whereHas('connections', function ($query) use ($userId) {
         $query->where(function ($q) use ($userId) {
             $q->where('user_id_1', $userId)
@@ -50,6 +53,10 @@ class CommunicationController extends Controller
       ->with('connections')
       ->get();
 
+      /* 
+        募集で回して、その中のconnectionで回して、ログインしているユーザー($userId)ではない方のユーザーを、
+        connected_usersにpushしている
+       */
       foreach ($connected_seekings as $connected_seeking) {
         $connected_users = collect();
 
