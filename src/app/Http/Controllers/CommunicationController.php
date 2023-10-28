@@ -28,16 +28,17 @@ class CommunicationController extends Controller
       ->with('user')
       ->get();
 
-      //気になるされた自分の募集を取得
+      //自分の募集を取得
       $liked_my_seekings = Seeking::where('user_id', $user_id)
-      //likesリレーションで、検索条件にあるレコードを取得
+      //自分に対して気になるされた募集に絞り込み
       ->whereHas('likes', function ($query) use ($user_id) {
-          $query->where('like_from_user_id', '!=', $user_id);
+          $query->where('like_to_user_id', $user_id);
       })
       //気になるしたユーザーも取得
       ->with(['likes' => function ($query) use ($user_id) {
+          //自分に対して気になるしているレコードに絞り込む
           $query->where('like_to_user_id', $user_id);
-      }, 'likes.likes_to_users'])
+      }, 'likes.likes_from_users'])
       ->get();
 
       // マッチしているユーザーを募集に紐づけて取得
