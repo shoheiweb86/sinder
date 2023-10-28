@@ -154,15 +154,13 @@
                 @foreach ($liked_seeking->likes as $like)
                   <div class="flex justify-between items-center py-2 px-4 border-b border-1 border-solid border-gray">
                     <div class="flex items-center">
-                      <img src="{{ Storage::disk('s3')->url('avatar/' . $like->user->avatar) }}"
+                      <img src="{{ Storage::disk('s3')->url('avatar/' . $like->likes_from_users->avatar) }}"
                         alt="趣味の友達募集や、サークルの募集などにも使用できる、新潟大学生限定マッチングアプリSinderのユーザー" class="w-9 h-9 rounded-full mr-2">
-                      <a href="{{ route('profile.show', ['user_name' => $like->user->name]) }}"
-                        class="text-xs font-bold">{{ $like->user->name }}
+                      <a href="{{ route('profile.show', ['user_name' => $like->likes_from_users->name]) }}"
+                        class="text-xs font-bold">{{ $like->likes_from_users->name }}
                       </a>
                     </div>
-                    <form
-                      action="{{ route('connection.create', ['seeking_id' => $liked_seeking->id, 'liked_user_id' => $like->user->id]) }}"
-                      method="POST">
+                      <form action="{{ route('match', ['like_id' => $like->id]) }}" method="POST">
                       @csrf
                       <button type="submit"
                         class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold">この人とマッチする</button>
@@ -184,7 +182,7 @@
         <ul class="px-3 pb-2">
           @foreach ($connected_seekings as $connected_seeking)
             <li class="rounded-lg bg-white mt-4 overflow-hidden">
-              <div class="flex border-b border-1 border-solid border-gray"
+              <a class="flex border-b border-1 border-solid border-gray"
                 href="{{ route('seeking.show', $connected_seeking->id) }}">
                 <div class="rounded-tl-lg rounded-tr-lg w-24 h-24 flex-shrink-0">
                   <img
@@ -197,7 +195,7 @@
                   <p class="text-xs mt-1 show-2-lines">{{ $connected_seeking->content }}</p>
                   <p class="text-xs text-main font-bold mt-1">マッチが成立しました</p>
                 </div>
-              </div>
+              </a>
 
               @foreach ($connected_seeking->connected_users as $connected_user)
                 <div
@@ -210,7 +208,7 @@
                     </a>
                   </div>
                   <div class="flex items-center">
-                    @foreach ($connected_seeking->connections as $connection)
+                    {{-- @foreach ($connected_seeking->connections as $connection)
                       @if ($connection->user1_id === $connected_user->id || $connection->user2_id === $connected_user->id)
                         <form action="{{ route('connection.delete', ['connection_id' => $connection->id]) }}"
                           method="POST">
@@ -221,7 +219,7 @@
                           </button>
                         </form>
                       @endif
-                    @endforeach
+                    @endforeach --}}
                     <a href="{{ route('profile.show', ['user_name' => $connected_user->name]) }}"
                       class="bg-vivid rounded-full text-white text-xs py-2 px-6 font-bold ml-2">
                       SNSで連絡する

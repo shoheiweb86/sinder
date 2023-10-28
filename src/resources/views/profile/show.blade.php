@@ -191,7 +191,6 @@
                         class="hover:underline text-xs">{{ $seeking->user->name }}</div>
                     </div>
 
-
                     {{-- ログインしているかどうか --}}
                     @if ($logged_in)
                       {{-- 他人の募集の場合 --}}

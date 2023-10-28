@@ -9,17 +9,23 @@ class Like extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'seeking_id'];
+    protected $fillable = ['like_from_user_id', 'like_to_user_id', 'like_to_seeking_id', 'connected_flag', 'connected_date'];
 
-    //ユーザーへのリレーション
-    public function user()
+    //「いいね！」をしたユーザーへのリレーション
+    public function likes_from_users()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class, 'like_from_user_id');
+    }
+
+    //「いいね！」をされたユーザーへのリレーション
+    public function likes_to_users()
+    {
+        return $this->belongsTo(User::class, 'like_to_user_id');
     }
 
     //募集へのリレーション
     public function seeking()
     {
-        return $this->belongsTo('App\Models\Seeking');
+        return $this->belongsTo(Seeking::class, 'like_to_seeking_id');
     }
 }

@@ -12,11 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('likes', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('seeking_id');
-            $table->foreign('seeking_id')->references('id')->on('seekings')->onDelete('cascade');
+            $table->foreignId('like_from_user_id')->constrained('users');
+            $table->foreignId('like_to_user_id')->constrained('users');
+            //seekingが削除されたら、likeのレコードも削除される
+            $table->foreignId('like_to_seeking_id')->constrained('seekings')->onDelete('cascade');
+            $table->boolean('connected_flag')->default(false);
+            $table->dateTime('connected_date')->nullable();
             $table->timestamps();
         });
     }
