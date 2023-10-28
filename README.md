@@ -74,6 +74,8 @@ https://sinder.jp/
 ## ER図
 <img width="700" alt="スクリーンショット 2023-10-28 17 11 48" src="https://github.com/shoheiweb86/sinder/assets/82988094/6a14ed8f-c96a-410c-acdd-19dffac6a395">
 
+<br>
+
 ## 工夫した点
 
 ### ビジネスサイド
