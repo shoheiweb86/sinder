@@ -39,7 +39,9 @@ Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('
 
 //気になるを付け外し
 Route::post('/like',[LikeController::class, 'like'])->name('like');
-Route::post('/match',[LikeController::class, 'match'])->name('match');
+Route::post('/match{like_id}',[LikeController::class, 'match'])
+    ->name('match')
+    ->middleware('auth', 'verified');
 
 //マッチ処理
 Route::post('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionController::class, 'create'])

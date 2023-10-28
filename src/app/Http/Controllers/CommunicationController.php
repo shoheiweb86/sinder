@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Connection;
 use App\Models\Seeking;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CommunicationController extends Controller
@@ -64,17 +63,25 @@ class CommunicationController extends Controller
         $connected_users = collect();
 
         //ログインユーザーのidではない方を、pushする
-        foreach ($connected_seeking->likes as $like) {
-            if ($like->like_from_user_id == $user_id) {
-                $connected_users->push($like->like_to_user_id);
-            }
-            if ($like->like_to_user_id == $user_id ) {
-                $connected_users->push($like->like_from_user_id);
-            }
+        foreach ($connected_seekings as $connected_seeking) {
+          $connected_users = collect();
+      
+          foreach ($connected_seeking->likes as $like) {
+              if ($like->like_from_user_id == $user_id) {
+                  $connected_user = User::find($like->like_to_user_id);
+                  if ($connected_user) {
+                      $connected_users->push($connected_user);
+                  }
+              } elseif ($like->like_to_user_id == $user_id) {
+                  $connected_user = User::find($like->like_from_user_id);
+                  if ($connected_user) {
+                      $connected_users->push($connected_user);
+                  }
+              }
           }
+        }
         $connected_seeking->connected_users = $connected_users;
       }
-
       return view('communication.communication', compact('seekings', 'liked_my_seekings', 'connected_seekings', 'registered_sns_flag'));
   }
 }

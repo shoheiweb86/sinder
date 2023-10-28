@@ -42,15 +42,20 @@ class ProfileController extends Controller
             if($profile_user_id === $logged_in_user_id) {
                 $my_profile = true;
             }
-            //マッチが成立しているレコードから、
-            //like_from_user_idとlike_to_user_idを配列で取得する
+
+            /* 
+              マッチが成立しているレコードから、
+              プロフィールユーザーが気になるを送っていた(from)の場合、
+              気になるを受け取った(to)のユーザーidを全て取得する 
+              逆も行う
+            */
             $connected_like_from_users_id = $profile_user->likes_from_users()
                   ->where('connected_flag', 1)
-                  ->pluck('like_from_user_id')
+                  ->pluck('like_to_user_id')
                   ->all();
             $connected_like_to_users_id = $profile_user->likes_to_users()
                     ->where('connected_flag', 1)
-                    ->pluck('like_to_user_id')
+                    ->pluck('like_from_user_id')
                     ->all();
 
             //ログインユーザーのidが、マッチしているユーザーのidと一致した場合flag立てる
@@ -58,7 +63,7 @@ class ProfileController extends Controller
                 || in_array($logged_in_user_id, $connected_like_to_users_id)) {
                 $connected_flag = true;
             }
-
+            
           // プロフィールユーザーの募集を取得するクエリ 「気になる」しているかも取得
           $seekings = Seeking::where('user_id', $profile_user_id)
               ->with(['likes' => function ($query) use ($logged_in_user_id) {

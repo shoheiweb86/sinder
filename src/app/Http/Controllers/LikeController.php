@@ -35,4 +35,18 @@ class LikeController extends Controller
       }
       return;
   }
+
+  public function match(Request $request)
+  {
+      $like_id = $request->like_id;
+      $like = Like::find($like_id);
+
+      //connected_flagを1に設定
+      if ($like) {
+        $like->connected_flag = 1; 
+        $like->save(); 
+
+        return redirect()->back()->with('success', 'マッチングしました！');
+    }
+  }
 }
