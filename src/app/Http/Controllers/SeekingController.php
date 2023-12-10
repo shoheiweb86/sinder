@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
+use App\Services\seekingService;
+
 class SeekingController extends Controller
 {
     public function index()
@@ -81,34 +83,20 @@ class SeekingController extends Controller
       $seeking->user_id = Auth::id();
       $seeking->title = $request->title;
       $seeking->content = $request->content;
-
+      //ファイルのパスを保存する処理
       if ($request->hasFile('seeking_thumbnail')) {
-          $seeking_thumbnail = $request->file('seeking_thumbnail');
-          $filename = time() . '.webp';
-
-          // Intervention Imageを使用して画像を圧縮する
-          $image = Image::make($seeking_thumbnail)
-            ->orientate()
-            ->resize(750, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->encode('webp')  // WebP形式に変換
-            ->stream(); // 圧縮した画像のデータを取得
-
-          try {
-              // 画像をS3にアップロード
-              Storage::disk('s3')->put('/seeking_thumbnail/' . $filename, (string) $image);
-          } catch (Exception $e) {
-              error_log('アップロードエラー: ' . $e->getMessage());
-          }
-          
-          $seeking->seeking_thumbnail = $filename;
+        $seeking->seeking_thumbnail =  time() . '.webp';
       } else {
-          $seeking->seeking_thumbnail = 'default-thumbnail.png';
+        $seeking->seeking_thumbnail = 'default-thumbnail.png';
       }
-
       $seeking->save();
+
+      //画像を圧縮して.webpに変換
+      $compressed_image  = seekingService::compressionImage($request->file('seeking_thumbnail'));
+
+      //S3に画像をアップロード
+      seekingService::uploadImageS3($compressed_image, "seeking_thumbnail");
+
 
       return redirect()->back()->with('success', '募集が作成されました！');
       }
