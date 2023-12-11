@@ -79,24 +79,14 @@ class SeekingController extends Controller
 
     public function store(SeekingRequest $request)
     {
-      $seeking = new Seeking;
-      $seeking->user_id = Auth::id();
-      $seeking->title = $request->title;
-      $seeking->content = $request->content;
-      //ファイルのパスを保存する処理
-      if ($request->hasFile('seeking_thumbnail')) {
-        $seeking->seeking_thumbnail =  time() . '.webp';
-      } else {
-        $seeking->seeking_thumbnail = 'default-thumbnail.png';
-      }
-      $seeking->save();
+      //募集をDBに保存
+      Seeking::createSeeking($request);
 
       //画像を圧縮して.webpに変換
       $compressed_image  = seekingService::compressionImage($request->file('seeking_thumbnail'));
 
       //S3に画像をアップロード
       seekingService::uploadImageS3($compressed_image, "seeking_thumbnail");
-
 
       return redirect()->back()->with('success', '募集が作成されました！');
       }
