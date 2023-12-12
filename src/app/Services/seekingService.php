@@ -1,11 +1,12 @@
 <?php
 namespace App\Services;
 
-
+use App\Models\Like;
+use App\Models\Seeking;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Exception;
-
+use Illuminate\Support\Facades\Auth;
 class seekingService
 {
   /**
@@ -45,5 +46,44 @@ class seekingService
     } catch (Exception $e) {
         error_log('アップロードエラー: ' . $e->getMessage());
     }
+  }
+
+  /**
+   * 自分の募集かチェックする
+   *
+   * @param int $seeking_id
+   * @param int $user_id
+   * @return boolean
+   */
+  public static function checkMySeeking($seeking_id, $user_id)
+  {
+    $seeking = Seeking::findOrFail($seeking_id);
+
+    //自分の募集かチェック
+    if ($seeking->user->id == $user_id) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * 募集に気になるしているかチェック
+   *
+   * @param int $seeking_id
+   * @param int $user_id
+   * @return boolean
+   */
+  public static function checkMyLike($seeking_id, $user_id)
+  {
+    //自分は気になるを押してある募集か判別
+    if (Like::where('like_to_seeking_id', $seeking_id)
+      ->where('like_from_user_id', $user_id)
+      ->exists()) 
+    {
+      return true;
+    }
+
+    return false;
   }
 }

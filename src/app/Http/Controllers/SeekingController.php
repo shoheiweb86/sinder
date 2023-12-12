@@ -6,13 +6,13 @@ use App\Models\Like;
 use App\Models\Seeking;
 use Illuminate\Http\Request;
 use App\Http\Requests\SeekingRequest;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
 use App\Services\seekingService;
-
 class SeekingController extends Controller
 {
     public function index()
@@ -93,74 +93,53 @@ class SeekingController extends Controller
 
     public function show($seeking_id)
     {
-        $seeking = Seeking::findOrFail($seeking_id);
-        $my_seeking = false;
-        $my_like_check = false;
+      //idから募集を取得
+      $seeking = Seeking::findOrFail($seeking_id);
+      //created_atを相対時間表記に変換する
+      $seeking->formatted_created_at = $seeking->formattedCreatedAt();
+
+      //ログインしているかチェック
+      if (Auth::check()) {
+        $logged_in = true;
+        $user_id = Auth::id();
+
+        //SNSが登録されているかチェック
+        $registered_sns_flag = User::getRegisteredSnsFlag($user_id);
+        //自分の募集かチェック
+        $my_seeking =  seekingService::checkMySeeking($seeking_id, $user_id);
+        //自分が気になるしているかチェック
+        $my_like_check = seekingService::checkMyLike($seeking, $user_id);
+      
+      //ログインしていない場合は、全てfalse
+      } else {
         $logged_in = false;
         $registered_sns_flag = false;
+        $my_seeking = false;
+        $my_like_check = false;
+      }
 
-        //ログインしている場合
-        if (Auth::check()) {
-          $logged_in = true;
-
-          //ユーザー取得
-          $user = Auth::user();
-          $registered_sns_flag = $user->registered_sns_flag;
-
-          //自分の募集かどうか
-          $my_seeking = ($seeking->user->id === $user->id) ? true : false;
-
-          //自分は気になるを押してある募集か判別
-          $my_like_check = (Like::where('like_to_seeking_id', $seeking_id)->where('like_from_user_id', $user->id)->exists());
-
-          // created_atを相対時間表記に変換する
-          $seeking->formatted_created_at = $seeking->created_at->diffForHumans();
-
-        }
-        return view('seeking.show', compact('seeking', 'logged_in', 'my_seeking', 'my_like_check', 'registered_sns_flag'));
+      return view('seeking.show', compact('seeking', 'logged_in', 'my_seeking', 'my_like_check', 'registered_sns_flag'));
     }
 
     public function edit($id)
     {
-        $seeking = Seeking::findOrFail($id);
+      $seeking = Seeking::findOrFail($id);
 
-        return view('seeking.edit', compact('seeking'));
+      return view('seeking.edit', compact('seeking'));
     }
 
-    public function update(Request $request, $id)
+    public function update(SeekingRequest $request, $seeking_id)
     {
-        $seeking = Seeking::findOrFail($id);
+      //募集をDBに保存
+      Seeking::updateSeeking($request, $seeking_id);
 
-        $seeking->title = $request->input('title');
-        $seeking->content = $request->input('content');
+      //画像を圧縮して.webpに変換
+      $compressed_image  = seekingService::compressionImage($request->file('seeking_thumbnail'));
 
-        if ($request->hasFile('seeking_thumbnail')) {
-            $seeking_thumbnail = $request->file('seeking_thumbnail');
-            $filename = time() . '.webp';
+      //S3に画像をアップロード
+      seekingService::uploadImageS3($compressed_image, "seeking_thumbnail");
 
-            // Intervention Imageを使用して画像を圧縮する
-            $image = Image::make($seeking_thumbnail)
-                ->orientate()
-                ->resize(750, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode('webp')  // WebP形式に変換
-                ->stream(); // 圧縮した画像のデータを取得
-
-            try {
-                // 画像をS3にアップロード
-                Storage::disk('s3')->put('/seeking_thumbnail/' . $filename, (string) $image);
-            } catch (Exception $e) {
-                error_log('アップロードエラー: ' . $e->getMessage());
-            }
-            
-            $seeking->seeking_thumbnail = $filename;
-        }
-
-        $seeking->save();
-
-        return redirect()->route('seeking.show', $seeking->id);
+      return redirect()->route('seeking.show', $seeking_id);
     }
 
     public function destroy($id)

@@ -45,10 +45,44 @@ class Seeking extends Model
       if ($request->hasFile('seeking_thumbnail')) {
         $seeking->seeking_thumbnail =  time() . '.webp';
       } else {
-        $seeking->seeking_thumbnail = 'default-thumbnail.png';
+        $seeking->seeking_thumbnail = 'default-thumbnail.webp';
       }
 
       $seeking->save();
+    }
+
+    /**
+     * 募集の情報を上書きする
+     *
+     * @param SeekingRequest $request
+     * @param int $seeking_id
+     * @return void
+     */
+    public static function updateSeeking(SeekingRequest $request, $seeking_id)
+    {
+      //idで特定の募集を取得する
+      $seeking = Seeking::findOrFail($seeking_id);
+      $seeking->title = $request->input('title');
+      $seeking->content = $request->input('content');
+
+      //サムネイルのパスを保存する処理
+      if ($request->hasFile('seeking_thumbnail')) {
+        $seeking->seeking_thumbnail =  time() . '.webp';
+      } else {
+        $seeking->seeking_thumbnail = 'default-thumbnail.webp';
+      }
+
+      $seeking->save();
+    }
+
+    /**
+     * 相対時間を取得する
+     *
+     * @return string
+     */
+    public function formattedCreatedAt()
+    {
+        return $this->created_at->diffForHumans();
     }
 }
 
