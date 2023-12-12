@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
+use App\Services\userService;
 use App\Services\seekingService;
 class SeekingController extends Controller
 {
@@ -62,19 +63,13 @@ class SeekingController extends Controller
     }
 
     public function create()
-    {
-        if (!Auth::check()) {
-          return redirect()->route('login')->with('message', '投稿するにはログインが必要です。');
-        }
+    { 
+      //ログインしていないユーザーをリダイレクト
+      userService::redirectToLoginIfNotLoggedIn('募集を作成するにはログインが必要です。');
+      //SNS登録していない場合リダイレクト
+      userService::redirectToLoginIfNotLSns('投稿するには連絡を受け取れるSNSを一つ登録してください。');
 
-        //SNS登録していない場合リダイレクト
-        $user = Auth::user();
-        if(!$user->registered_sns_flag) {
-          return redirect()->route('profile.edit')->with('message', '投稿するには連絡を受け取れるSNSを一つ登録してください。');
-        }
-      
-
-        return view('seeking.create');
+      return view('seeking.create');
     }
 
     public function store(SeekingRequest $request)
