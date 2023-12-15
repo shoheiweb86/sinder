@@ -103,7 +103,7 @@ DB改善の資料→https://vivacious-quiet-498.notion.site/DB-6d841833cc3947389
 - FatControllerになっていて可読性が低い<br>
 →Laravelのベストプラクティスに従って、モデルやサービスに処理を移す
 
-- FatControllerを解消したら、メソッド単位でテストを行っていきたい
+- FatControllerを解消したら、メソッド単位でテストを行っていきたい<br>
 →PHPUnitを使ってみる？？
 
 - デプロイを手動で行っていて、時間がかかりヒューマンエラーが起こりやすい<br>
