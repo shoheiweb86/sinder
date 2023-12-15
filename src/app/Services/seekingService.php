@@ -83,7 +83,7 @@ class seekingService
     {
       return true;
     }
-
     return false;
   }
+
 }

@@ -29,6 +29,16 @@ class Seeking extends Model
     }
 
     /**
+     * 相対時間を取得する
+     *
+     * @return string
+     */
+    public function formattedCreatedAt()
+    {
+      return $this->created_at->diffForHumans();
+    }
+
+    /**
      * 新規作成した募集をDBに保存する
      *
      * @param SeekingRequest $request
@@ -75,14 +85,22 @@ class Seeking extends Model
       $seeking->save();
     }
 
-    /**
-     * 相対時間を取得する
-     *
-     * @return string
-     */
-    public function formattedCreatedAt()
+
+    //自分以外の募集を
+    public static function getSeekingsWithLikesAndUser($user_id)
     {
-        return $this->created_at->diffForHumans();
+      //likeしているかを取得
+      $seekings = Seeking::with(['likes' => function ($query) use ($user_id){
+        $query->where('like_from_user_id', $user_id);
+      }])
+
+      //募集しているユーザーを取得
+      ->with('user')
+      //新しい順で取得
+      ->orderBy('created_at', 'desc')
+      ->get();
+
+      return $seekings;
     }
 }
 

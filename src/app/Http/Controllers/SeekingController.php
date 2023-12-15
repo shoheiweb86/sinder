@@ -26,18 +26,13 @@ class SeekingController extends Controller
         if (Auth::check()) {
             $logged_in = true;
             $user = Auth::user();
-            $registered_sns_flag = $user->registered_sns_flag;
+            $user_id = Auth::id();
+
+            //SNSが登録されているかチェック
+            $registered_sns_flag = User::getRegisteredSnsFlag($user_id);
     
             //自分以外の募集を取得
-            $seekings = Seeking::where('user_id', '!=', $user->id)
-                //自分が気になるしているlikesモデルを取得
-                ->with(['likes' => function ($query) use ($user){
-                    $query->where('like_from_user_id', $user->id);
-                }])
-                //募集しているユーザーを取得
-                ->with('user')
-                ->orderBy('created_at', 'desc')
-                ->get();
+            $seekings = Seeking::getSeekingsWithLikesAndUser($user_id);
     
             $man_seekings = $seekings->filter(function ($seeking) {
                 return $seeking->user->sex === '男性';
