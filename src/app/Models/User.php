@@ -45,11 +45,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * SNS登録済みフラグを取得
      *
      * @param int $user_id
-     * @return void
+     * @return bool
      */
     public static function getRegisteredSnsFlag($user_id)
     {
-      $user = Seeking::findOrFail($user_id);
+      $user = User::findOrFail($user_id);
       return $user->registered_sns_flag;
     }
 }

@@ -44,9 +44,28 @@ class seekingService
         // 画像をS3にアップロード
         Storage::disk('s3')->put($folder_name . '/' . $file_name, (string) $image_file);
     } catch (Exception $e) {
-        error_log('アップロードエラー: ' . $e->getMessage());
+        error_log('s3への画像アップロードでエラーが起きました' . $e->getMessage());
     }
   }
+  
+
+  /**
+   * S3の画像を削除
+   *
+   * @param string $folder_name "seeking_thumbnail" or "avatar"
+   * @param string $file_name
+   * @return void
+   */
+  public static function deleteImageS3($folder_name, $file_name)
+  {
+    try {
+      //S3の画像を削除
+      Storage::disk('s3')->delete($folder_name . '/' . $file_name);
+    } catch (Exception $e) {
+        error_log('s3の画像削除でエラーが起きました' . $e->getMessage());
+    }
+  }
+
 
   /**
    * 自分の募集かチェックする
