@@ -128,12 +128,12 @@ class SeekingController extends Controller
   {
     if (Auth::check()) 
     {
-      //募集をDBから削除
-      Seeking::deleteSeeking($seeking_id);
-
       //募集の画像をS3から削除
       $seeking = Seeking::getSeekingById($seeking_id);
       seekingService::deleteImageS3("seeking_thumbnail", $seeking->seeking_thumbnail);
+
+      //募集をDBから削除
+      Seeking::deleteSeeking($seeking_id);
 
       //ユーザーのプロフィールにリダイレクト
       $user_id = Auth::id();
