@@ -40,4 +40,16 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Like::class, 'like_to_user_id');
     }
+
+    /**
+     * SNS登録済みフラグを取得
+     *
+     * @param int $user_id
+     * @return bool
+     */
+    public static function getRegisteredSnsFlag($user_id)
+    {
+      $user = User::findOrFail($user_id);
+      return $user->registered_sns_flag;
+    }
 }

@@ -23,10 +23,11 @@ Route::middleware('verified')->group(function () {
 
 //募集ホーム以外メール認証必須
 Route::get('/', [SeekingController::class, 'index'])->name('seeking.index');
+Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seeking.show');
+
 Route::middleware('verified')->group(function () {
   Route::get('/seeking/create', [SeekingController::class, 'create'])->name('seeking.create');
   Route::post('/seeking/store', [SeekingController::class, 'store'])->name('seeking.store');
-  Route::get('/seeking/show/{id}', [SeekingController::class, 'show'])->name('seeking.show');
   Route::get('/seeking/edit/{id}', [SeekingController::class, 'edit'])->name('seeking.edit');
   Route::put('seeking/update/{id}', [SeekingController::class, 'update'])->name('seeking.update');
   Route::delete('/seeking/delete/{id}', [SeekingController::class, 'destroy'])->name('seeking.destroy');
