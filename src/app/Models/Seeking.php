@@ -136,6 +136,99 @@ class Seeking extends Model
   }
 
   /**
+   * ユーザーがlikeした募集を取得 
+   * likeとuserを紐づけて取得
+   *
+   * @param string $user_id
+   * @return Collection
+   */
+  public static function getLikedSeekingsByUser($user_id)
+  {
+    $user_liked_seekings = Seeking::whereHas('likes', function ($query) use ($user_id) {
+      $query->where('like_from_user_id', $user_id);
+    })
+    ->with('likes')
+    ->with('user')
+    ->get();
+
+    return $user_liked_seekings;
+  }
+
+  /**
+   * ユーザーのlikeされた募集を取得
+   *
+   * @param string $user_id
+   * @return Collection
+   */
+  public static function getReceivedLikesSeekings($user_id)
+  {
+    //ユーザーの募集に絞る
+    $received_likes_seekings = Seeking::where('user_id', $user_id)
+      //ユーザーに対してlikeされた募集に絞り込み
+      ->whereHas('likes', function ($query) use ($user_id) {
+          $query->where('like_to_user_id', $user_id);
+      })
+
+      //likeしたユーザーを取得
+      ->with(['likes' => function ($query) use ($user_id) {
+        //ユーザーに対してlikeしているレコードに絞り込む
+        $query->where('like_to_user_id', $user_id);
+      }, 'likes.likes_from_users'])
+
+      ->get();
+
+    return $received_likes_seekings;
+  }
+
+  /**
+   * マッチ済みの自分の募集を取得、マッチしたユーザーも紐づけて取得
+   *
+   * @param string $user_id
+   * @return Collection
+   */
+  public static function getConnectedMySeekings($user_id) 
+  {
+    $connected_my_seekings = Seeking::where('user_id', $user_id)
+      //ユーザーに対してlikeされた募集に絞り込み
+      ->whereHas('likes', function ($query) use ($user_id) {
+          $query->where('like_to_user_id', $user_id);
+      })
+
+      //likeしたユーザーを取得
+      ->with(['likes' => function ($query) use ($user_id) {
+        //ユーザーに対してlikeしているレコードに絞り込む
+        $query->where('like_to_user_id', $user_id)
+          ->where('connected_flag', 1);
+      }, 'likes.likes_from_users'])
+
+      ->get();
+
+    return $connected_my_seekings;
+  }
+
+  /**
+   * マッチ済みの他の人の募集を取得、マッチしたユーザーも紐づけて取得
+   *
+   * @param string $user_id
+   * @return Collection
+   */
+  public static function getConnectedOthersSeekings($user_id) 
+  {
+    //他の人の募集に絞る
+    $connected_others_seekings = Seeking::where('user_id', '!=', $user_id)
+      //マッチしていて、ユーザーがlikeした募集に絞り込み
+      ->whereHas('likes', function ($query) use ($user_id) {
+          $query->where('like_from_user_id', $user_id)
+            ->where('connected_flag', 1);
+      })
+      ->with('user')
+
+      ->get();
+
+    return $connected_others_seekings;
+  }
+
+  /**
    * 募集の情報を上書きする
    *
    * @param SeekingRequest $request
@@ -172,6 +265,4 @@ class Seeking extends Model
 
     $seeking->delete();
   }
-
-
 }
