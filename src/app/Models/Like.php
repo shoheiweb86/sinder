@@ -11,19 +11,19 @@ class Like extends Model
 
     protected $fillable = ['like_from_user_id', 'like_to_user_id', 'like_to_seeking_id', 'connected_flag', 'connected_date'];
 
-    //「いいね！」をしたユーザーへのリレーション
+    // likeしたユーザーを取得
     public function likes_from_users()
     {
         return $this->belongsTo(User::class, 'like_from_user_id');
     }
 
-    //「いいね！」をされたユーザーへのリレーション
+    // likeされたユーザーを取得
     public function likes_to_users()
     {
         return $this->belongsTo(User::class, 'like_to_user_id');
     }
 
-    //募集へのリレーション
+    // 募集へのリレーション
     public function seeking()
     {
         return $this->belongsTo(Seeking::class, 'like_to_seeking_id');
