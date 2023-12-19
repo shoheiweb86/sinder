@@ -179,7 +179,7 @@
     {{-- マッチ済み --}}
     <div class="js-connected-user">
       {{-- 自分の募集でマッチした人 --}}
-      <h2 class="text-sm font-bold show-1-lines">自分の募集でマッチした人</h2>
+      {{-- <h2 class="text-sm font-bold show-1-lines">自分の募集でマッチした人</h2> --}}
       @if ($connected_my_seekings->count() > 0)
         <ul class="px-3 pb-2">
           @foreach ($connected_my_seekings as $connected_my_seeking)
@@ -225,7 +225,7 @@
         <p class="mt-4 text-center">現在、マッチしている人はいません。</p>
       @endif
 
-      <h2 class="text-sm font-bold show-1-lines">他の人の募集でマッチした人</h2>
+      {{-- <h2 class="text-sm font-bold show-1-lines">他の人の募集でマッチした人</h2> --}}
       @if ($connected_others_seekings->count() > 0)
         <ul class="px-3 pb-2">
           @foreach ($connected_others_seekings as $connected_others_seeking)
@@ -245,7 +245,6 @@
                 </div>
               </a>
 
-              {{-- @foreach ($connected_others_seeking->likes as $like) --}}
                 <div
                   class="flex justify-between items-center py-2 px-2 border-b border-1 border-solid border-gray bg-main">
                   <div class="flex items-center">
@@ -262,8 +261,6 @@
                     </a>
                   </div>
                 </div>
-              {{-- @endforeach --}}
-
             </li>
           @endforeach
         </ul>
