@@ -66,7 +66,6 @@ class seekingService
     }
   }
 
-
   /**
    * 自分の募集かチェックする
    *
@@ -87,22 +86,16 @@ class seekingService
   }
 
   /**
-   * 募集に気になるしているかチェック
+   * 募集を作成したユーザーのidを取得
    *
    * @param int $seeking_id
-   * @param int $user_id
-   * @return boolean
+   * @return int
    */
-  public static function checkMyLike($seeking_id, $user_id)
+  public static function getCreatorUserId($seeking_id)
   {
-    //自分は気になるを押してある募集か判別
-    if (Like::where('like_to_seeking_id', $seeking_id)
-      ->where('like_from_user_id', $user_id)
-      ->exists()) 
-    {
-      return true;
-    }
-    return false;
-  }
+    $seeking = Seeking::findOrFail($seeking_id);
+    $user_id = $seeking->user_id;
 
+    return $user_id;
+  }
 }

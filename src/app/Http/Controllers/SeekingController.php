@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Services\userService;
 use App\Services\seekingService;
+use App\Services\likeService;
 class SeekingController extends Controller
 {
   public function index()
   {    
     //ログインしているかチェック
     if (Auth::check()) {
-      $logged_in = true;
       $user_id = Auth::id();
 
       //SNSが登録されているかチェック
@@ -32,8 +32,8 @@ class SeekingController extends Controller
 
     } else {
       //ログインしていない
-      $logged_in = false;
       $registered_sns_flag = false;
+      $user_id = null;
 
       //全ての募集を取得
       $seekings = Seeking::getSeekingsBySex("all");
@@ -44,7 +44,7 @@ class SeekingController extends Controller
       //女性の全ての募集を取得
       $woman_seekings = Seeking::getSeekingsBySex("woman");
     }
-    return view('seeking.seekings', compact('seekings', 'man_seekings', 'woman_seekings', 'logged_in', 'registered_sns_flag'));
+    return view('seeking.seekings', compact('user_id', 'seekings', 'man_seekings', 'woman_seekings', 'registered_sns_flag'));
   }
 
   public function create()
@@ -90,7 +90,7 @@ class SeekingController extends Controller
       //自分の募集かチェック
       $my_seeking =  seekingService::checkMySeeking($seeking_id, $user_id);
       //自分が気になるしているかチェック
-      $my_like_check = seekingService::checkMyLike($seeking, $user_id);
+      $my_like_check = LikeService::checkAlreadyLike($seeking, $user_id);
     
     //ログインしていない場合は、全てfalse
     } else {

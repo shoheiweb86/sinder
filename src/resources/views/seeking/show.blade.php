@@ -11,7 +11,7 @@
           {{-- SNSを登録しているか --}}
           @if ($registered_sns_flag)
             {{-- 募集に気になるしているかどうか --}}
-            @if ($my_like_check == 0)
+            @if ($my_like_check)
               <span class="likes absolute bottom-3 right-3 like-toggle"  data-seeking-id="{{ $seeking->id }}">
                 <i class="fas fa-heart  text-gray fa-3x twitter-like"></i>
                 <p class="text-white text-sm font-bold">気になる</p>

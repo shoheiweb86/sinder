@@ -2,14 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SeekingController;
 use App\Http\Controllers\CommunicationController;
 use App\Http\Controllers\LikeController;
-use App\Http\Controllers\ConnectionController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\PrivacyPolicyController;
-use PharIo\Manifest\Url;
 
 //プロフィールページ (スラッグがeditと競合してる)
 Route::get('/profile/show/{user_name}', [ProfileController::class, 'show'])->name('profile.show');
@@ -43,17 +40,6 @@ Route::post('/like',[LikeController::class, 'like'])->name('like');
 Route::post('/match{like_id}',[LikeController::class, 'match'])
     ->name('match')
     ->middleware('auth', 'verified');
-
-//マッチ処理
-Route::post('/connection/create/{seeking_id}/{liked_user_id}', [ConnectionController::class, 'create'])
-    ->name('connection.create')
-    ->middleware('auth', 'verified');
-
-Route::delete('/connection/{connection_id}', [ConnectionController::class, 'delete'])
-    ->name('connection.delete')
-    ->middleware('auth', 'verified');
-
-
 
 //コミュニケーションページ
 Route::middleware('verified')->group(function () {
