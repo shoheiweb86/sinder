@@ -25,4 +25,29 @@ class likeService
     }
     return false;
   }
+
+  /**
+   * 2人のユーザーがマッチしているか判定する
+   *
+   * @param int $user_1
+   * @param int $user_2
+   * @return bool
+   */
+  public static function checkConnected($user_1, $user_2) {
+    //マッチしているレコードを取得
+    $connected_likes =  Like::where('connected_flag', 1);
+
+    //マッチしているか判定
+    foreach ($connected_likes as $connected_like) {
+      if (($connected_like->like_to_user_id == $user_1 && 
+        $connected_like->like_from_user_id == $user_2) 
+        ||
+        $connected_like->like_to_user_id == $user_2 && 
+        $connected_like->like_from_user_id == $user_1) 
+      {
+        return true;
+      }
+    }
+    return false;
+  }
 }
