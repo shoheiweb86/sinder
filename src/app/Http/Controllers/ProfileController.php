@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Seeking;
 use App\Models\User;
+use App\Services\seekingService;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -86,93 +87,27 @@ class ProfileController extends Controller
         return view('profile.show', compact('profile_user', 'seekings', 'logged_in', 'my_profile', 'connected_flag', 'registered_sns_flag'));
     }
 
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request)
-    {
-        $user = Auth::user();
+  public function edit($user_id)
+  {
+    $user = User::getUserById($user_id);
 
-        //ログインしないで気になる押した場合
-        if($request->query('like_no_sns')) {
-            Session::flash('message', '「気になる」をするには連絡を取れるSNSを登録してください。');
-        }
-        return view('profile.edit', compact('user'));
-    }
+    return view('profile.edit', compact('user'));
+  }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        // ユーザーのインスタンスを取得
-        $user = $request->user();
+  public function update(ProfileUpdateRequest $request): RedirectResponse
+  {
+    //user_idを取得
+    $user_id = Auth::id();
 
-        // リクエストのデータでユーザーオブジェクトの属性を設定
-        $user->fill($request->validated());
+    //プロフィールを更新
+    User::updatedProfile($request, $user_id);
 
-        // メールアドレスを変更した場合に、認証時刻をnullにする
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+    //画像を圧縮して.webpに変換
+    $compressed_image  = seekingService::compressionImage($request->file('avatar'));
 
-        // ファイルが送信された場合、S3に保存する
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $filename = time() . '.webp';
+    //S3に画像をアップロード
+    seekingService::uploadImageS3($compressed_image, "avatar");
 
-            // Intervention Imageを使用して画像を圧縮
-            $image = Image::make($avatar)
-                ->orientate()
-                ->resize(750, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                })
-                ->encode('webp')  // WebP形式に変換
-                ->stream();  // 圧縮した画像のデータを取得
-
-            try {
-                // 画像をS3にアップロード
-                Storage::disk('s3')->put('/avatar/' . $filename, (string) $image);
-            } catch (Exception $e) {
-                error_log('アップロードエラー: ' . $e->getMessage());
-            }
-
-            // S3上の画像URLを保存
-            $user->avatar = $filename;
-        } else {
-            $user->avatar = 'default-avatar.png';
-        }
-
-        // SNSのリンク最低一つ登録されたらtrue
-        if ($user->line_link || $user->twitter_link || $user->instagram_link) {
-            $user->registered_sns_flag = true;
-        } else {
-            $user->registered_sns_flag = false;
-        }
-
-        // DBに保存
-        $user->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    //ユーザー削除（実装していない）
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
+    return Redirect::route('profile.edit')->with('status', 'profile-updated');
+  }
 }
