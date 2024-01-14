@@ -63,11 +63,13 @@ class SeekingController extends Controller
     //募集をDBに保存
     Seeking::createSeeking($request);
 
-    //画像を圧縮して.webpに変換
-    $compressed_image  = seekingService::compressionImage($request->file('seeking_thumbnail'));
-
-    //S3に画像をアップロード
-    seekingService::uploadImageS3($compressed_image, "seeking_thumbnail");
+    if ($request->hasFile('seeking_thumbnail')) {
+      //画像を圧縮して.webpに変換
+      $compressed_image  = seekingService::compressionImage($request->file('seeking_thumbnail'));
+  
+      //S3に画像をアップロード
+      seekingService::uploadImageS3($compressed_image, 'seeking_thumbnail');
+    }
 
     return redirect()->back()->with('success', '募集が作成されました！');
     }

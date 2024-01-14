@@ -32,10 +32,10 @@
       </ul>
 
 
-      {{-- 自分の募集は編集できる --}}
+      {{-- 自分のプロフィールは編集できる --}}
       @if ($logged_in && $my_profile)
         <div>
-          <a href="{{ route('profile.edit', $profile_user->id ) }}"
+          <a href="{{ route('profile.edit') }}"
             class="block text-center bg-dark-gray hover:bg-dark-gray text-white rounded-lg py-4 font-bold w-full mt-4 mx-auto">
             プロフィールを編集する
           </a>
@@ -43,7 +43,6 @@
       @endif
     </div>
     <div class="">
-
       <!-- SNSリンク マイプロフィールの表示 -->
       @if ($my_profile)
         <div class="px-4 py-2 bg-white mt-4">
@@ -86,17 +85,6 @@
           <img src="{{ asset('storage/materials/sns_lock.png') }}" alt="マッチ成立後SNSが解放されます" class="mt-4">
         @endif
       @endif
-      <!-- ログアウトボタン -->
-      {{-- <form method="POST" action="{{ route('logout') }}">
-          @csrf
-
-          <x-dropdown-link :href="route('logout')"
-            onclick="event.preventDefault();
-                                this.closest('form').submit();"
-            class="text-4xl">
-            {{ __('Log Out') }}
-          </x-dropdown-link>
-        </form> --}}
 
       <p class="bg-white py-2 px-4 mt-4 text-sm font-bold text-center">
         {{ $profile_user->name }}の募集一覧
@@ -123,49 +111,37 @@
                       <div href="{{ route('profile.show', ['user_name' => $seeking->user->name]) }}"
                         class="hover:underline text-xs">{{ $seeking->user->name }}</div>
                     </div>
-                    {{-- ログインしているかどうか --}}
-                    @if ($logged_in)
-                      {{-- 他人の募集の場合 --}}
-                      @if (!$my_profile)
-                        {{-- 募集に気になるしているかどうか --}}
+                    {{-- 自分の募集はlikeが表示されない --}}
+                    @if ($login_user->id != $seeking->user->id)
+                    {{-- ログインしている場合のみ気になるできる --}}
+                    @if ($login_user->id)
+                      {{-- SNSを登録しているか --}}
+                      @if ($registered_sns_flag)
+                        {{-- 気になるしてるかどうか --}}
                         @if ($seeking->likes->isEmpty())
-                          {{-- SNSを登録しているか --}}
-                          @if ($registered_sns_flag)
-                            <span class="likes absolute top-2 right-2 like-toggle" data-seeking-id="{{ $seeking->id }}">
-                              <i class="fas fa-heart text-bg fa-2x"></i>
-                            </span><!-- /.likes -->
-                          @else
-                            <span class="likes absolute top-2 right-2">
-                              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}"
-                                class="like-toggle">
-                                <i class="fas fa-heart text-bg fa-2x like-toggle"></i>
-                              </a>
-                            </span>
-                          @endif
+                          <span class="likes absolute top-2 right-2 like-toggle" data-seeking-id="{{ $seeking->id }}">
+                            <i class="fas fa-heart text-bg fa-2x"></i>
+                          </span><!-- /.likes -->
                         @else
-                          {{-- SNSを登録しているか --}}
-                          @if ($registered_sns_flag)
-                            <span class="likes absolute top-2 right-2 like-toggle" data-seeking-id="{{ $seeking->id }}">
-                              <i class="fas fa-heart text-bg fa-2x heart liked"></i>
-                            </span><!-- /.likes -->
-                          @else
-                            <span class="likes absolute top-2 right-2">
-                              <a href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}"
-                                class="like-toggle">
-                                <i class="fas fa-heart text-bg fa-2x like-toggle liked"></i>
-                              </a>
-                            </span>
-                          @endif
+                          <span class="likes absolute top-2 right-2 like-toggle" data-seeking-id="{{ $seeking->id }}">
+                            <i class="fas fa-heart text-bg fa-2x heart liked"></i>
+                          </span><!-- /.likes -->
                         @endif
+                      @else
+                        <span class="likes absolute top-2 right-2">
+                          <div href="{{ route('profile.edit', ['like_no_sns' => 'like_no_sns']) }}" class="like-toggle">
+                            <i class="fas fa-heart text-bg fa-2x"></i>
+                          </div>
+                        </span>
                       @endif
                     @else
-                      {{-- ログインページに遷移 --}}
                       <span class="likes absolute top-2 right-2">
-                        <a href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
-                          <i class="fas fa-heart"></i>
-                        </a>
+                        <div href="{{ route('login', ['like_no_login' => 'like_no_login']) }}" class="like-toggle">
+                          <i class="fas fa-heart text-bg fa-2x"></i>
+                        </div>
                       </span>
                     @endif
+                  @endif
                   </div>
                 </a>
               @endif

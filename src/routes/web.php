@@ -13,7 +13,8 @@ Route::get('/profile/show/{user_name}', [ProfileController::class, 'show'])->nam
 
 //プロフィールページ認証後
 Route::middleware('verified')->group(function () {
-    Route::get('/profile/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
+    //Route::get('/profile/edit/{id}', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 

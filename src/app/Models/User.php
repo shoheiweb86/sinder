@@ -55,6 +55,18 @@ class User extends Authenticatable implements MustVerifyEmail
   }
 
   /**
+   * ユーザー名でユーザーを取得
+   *
+   * @param int $user_name
+   * @return Collection
+   */
+  public static function getUserByName($user_name)
+  {
+    $user = User::where('name', $user_name)->first();
+    return $user;
+  }
+
+  /**
    * SNS登録済みフラグを取得
    *
    * @param int $user_id

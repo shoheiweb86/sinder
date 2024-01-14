@@ -75,6 +75,23 @@ class Seeking extends Model
   }
 
   /**
+   * ユーザーの募集をすべて取得
+   *
+   * @param int $user_id
+   * @return Collection
+   */
+  public static function getSeekingsByUserId($user_id)
+  {
+    // 該当するユーザーの募集を取得するクエリ
+    $seekings = Seeking::where('user_id', $user_id)
+    ->orderBy('created_at', 'desc')
+    ->get();
+
+    return $seekings;
+  }
+
+
+  /**
    * 募集を全て取得する 引数で性別を指定
    *
    * @param string $sex
@@ -132,6 +149,23 @@ class Seeking extends Model
     // クエリを実行
     $seekings = $query->get();
 
+    return $seekings;
+  }
+
+
+  // プロフィールユーザーの募集を取得するクエリ 「気になる」しているかも取得
+  public static function getProfileUserSeekingsWithLike($login_user_id, $profile_user_id) 
+  {
+    $seekings = Seeking::where('user_id', $profile_user_id)
+      ->with(['likes' => function ($query) use ($login_user_id) {
+        $query->where(function ($query) use ($login_user_id) {
+          $query->where('like_from_user_id', $login_user_id)
+                ->orWhere('like_to_user_id', $login_user_id);
+        });
+      }])
+      ->with('user')
+      ->orderBy('created_at', 'desc')
+      ->get();
     return $seekings;
   }
 
