@@ -239,8 +239,8 @@ class Seeking extends Model
   {
     //idで特定の募集を取得する
     $seeking = Seeking::findOrFail($seeking_id);
-    $seeking->title = $request->input('title');
-    $seeking->content = $request->input('content');
+    $seeking->title = $request->title;
+    $seeking->content = $request->content;
 
     //サムネイルのパスを保存する処理
     if ($request->hasFile('seeking_thumbnail')) {

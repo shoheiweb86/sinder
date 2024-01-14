@@ -44,7 +44,22 @@ class userService {
   {
     $user = User::findOrFail($user_id);
     $user_name = $user->name;
-
+    
     return redirect()->route('profile.show', ['user_name' => $user_name]);
+  }
+  
+  /**
+   * SNSのリンク最低一つ登録されたらtrueを返す
+   *
+   * @param int $user_id
+   * @return bool
+   */
+  public static function checkSNSLink($user_id) {
+    $user = User::findOrFail($user_id);
+    // SNSのリンク最低一つ登録されたらtrueを返す
+    if ($user->line_link || $user->twitter_link || $user->instagram_link) {
+      return true;
+    }
+    return false;
   }
 }

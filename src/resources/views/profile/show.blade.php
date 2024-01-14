@@ -35,7 +35,7 @@
       {{-- 自分の募集は編集できる --}}
       @if ($logged_in && $my_profile)
         <div>
-          <a href="{{ route('profile.edit') }}"
+          <a href="{{ route('profile.edit', $profile_user->id ) }}"
             class="block text-center bg-dark-gray hover:bg-dark-gray text-white rounded-lg py-4 font-bold w-full mt-4 mx-auto">
             プロフィールを編集する
           </a>
